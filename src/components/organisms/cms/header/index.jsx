@@ -8,14 +8,10 @@ const OrganismsCmsHeader = () => {
   return (
     <div className="o-cms-header">
       <Breadcrumb>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
+        <Breadcrumb.Item>Admin</Breadcrumb.Item>
         <Breadcrumb.Item>          
-          <Link to="/" >Application Center</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <Link to="/" >Application Center</Link>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>An Application</Breadcrumb.Item>
+          <Link to="/" >Dashboard</Link>
+        </Breadcrumb.Item>        
       </Breadcrumb>
     </div>
   )

@@ -10,7 +10,11 @@ const AdminDashboard = () => {
     {
       title: "Total Patient",
       total: "22.000"
-    },    
+    },
+    {
+      title: "Total Patient",
+      total: "22.000"
+    },
     {
       title: "Total Doctor",
       total: "22.000"
@@ -26,11 +30,14 @@ const AdminDashboard = () => {
     // eslint-disable-next-line
   }, [])
   const highlights = useSelector(state => state.admin?.highlight_data)
+  const activeMenu = {
+    key: 'dashboard',
+    openKey: '',
+  };
   console.log(highlights)
   return (
-    <LayoutsCms>
-      <div className='p-admin-dashboard'>
-        halo
+    <LayoutsCms activeMenu={activeMenu}>
+      <div className='p-admin-dashboard'>        
         <OrganismsDashboardCardGroup initialHighlightData={highlights} />
       </div>
     </LayoutsCms>

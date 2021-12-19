@@ -9,7 +9,7 @@ import '../assets/scss/index.scss'
 const Main = () => {   
   return (    
     <Router>
-      <Spin spinning={true}>
+      <Spin spinning={false}>
         <Switch>
           <Route exact path="/" component={AdminDashboard} />
         </Switch>

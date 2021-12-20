@@ -5,7 +5,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import './style.scss'
 import { Link } from 'react-router-dom';
 
-const OrganismsAdminDataDoctor = (props) => {
+const OrganismsWidgetList = (props) => {
   const { Search } = Input;
   const columns = [
     {
@@ -61,10 +61,10 @@ const OrganismsAdminDataDoctor = (props) => {
     console.log(dt)
   }    
   return (
-    <div className='o-admin-data-doctor'>
-      <div className="o-admin-data-doctor__header">
+    <div className='o-widget-list'>
+      <div className="o-widget-list__header">
         <h3>List Patient</h3>
-        <div className="o-admin-data-doctor__header-action">
+        <div className="o-widget-list__header-action">
           <Space size={15}>
             <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
             <Button 
@@ -82,4 +82,4 @@ const OrganismsAdminDataDoctor = (props) => {
   )
 }
 
-export default OrganismsAdminDataDoctor
+export default OrganismsWidgetList

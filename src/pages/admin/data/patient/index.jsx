@@ -1,14 +1,14 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import OrganismsAdminDataDoctor from '../../../../components/organisms/admin/data/doctor'
+import OrganismsWidgetList from '../../../../components/organisms/widget/list'
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
 
-const AdminDataDoctor = () => {
+const AdminDataPatient = () => {
   const history = useHistory();  
   const activeMenu = {
-    key: 'data-doctor',
+    key: 'data-patient',
     openKey: 'data',
   };
   const breadcrumb = [
@@ -18,24 +18,23 @@ const AdminDataDoctor = () => {
     },
     {
       label: 'Data',
-      url: '/admin/data/doctor',
+      url: '/admin/data/patient',
     },
     {
-      label: 'Doctor',
-      url: '/admin/data/doctor',
+      label: 'Patient',
+      url: '/admin/data/patient',
     },
   ];  
   const goToAddPatient = () => {
-    history.push("/admin/data/doctor/create")
+    history.push("/admin/data/patient/create")
   }
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-data-doctor">
-        <OrganismsAdminDataDoctor goToAddPatient={() => goToAddPatient()} />
-        
+        <OrganismsWidgetList goToAddPatient={() => goToAddPatient()} />        
       </div>      
     </LayoutsCms>
   )
 }
 
-export default AdminDataDoctor
+export default AdminDataPatient

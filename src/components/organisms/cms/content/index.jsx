@@ -3,10 +3,10 @@ import OrganismsCmsHeader from '../header'
 
 import './style.scss'
 
-const OrganismsCmsContent = ({ children }) => {
+const OrganismsCmsContent = ({ children, breadcrumb }) => {
   return (
     <div className="o-cms-content">
-      <OrganismsCmsHeader />
+      <OrganismsCmsHeader breadcrumb={breadcrumb} />
       <div className="o-cms-content__body">
         {children}
       </div>

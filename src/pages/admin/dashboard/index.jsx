@@ -6,6 +6,20 @@ import { put_data_admin } from '../../../redux/actions/admin'
 import './style.scss'
 
 const AdminDashboard = () => {
+  const breadcrumb = [
+    {
+      label: 'Admin',
+      url: '/admin',
+    },
+    {
+      label: 'Dashboard',
+      url: '/admin/data/doctor',
+    },    
+  ];
+  const activeMenu = {
+    key: 'dashboard',
+    openKey: '',
+  };
   const highlight_data = [
     {
       title: "Total Patient",
@@ -29,14 +43,10 @@ const AdminDashboard = () => {
     dispatch(put_data_admin("highlight_data", highlight_data))
     // eslint-disable-next-line
   }, [])
-  const highlights = useSelector(state => state.admin?.highlight_data)
-  const activeMenu = {
-    key: 'dashboard',
-    openKey: '',
-  };
+  const highlights = useSelector(state => state.admin?.highlight_data)  
   console.log(highlights)
   return (
-    <LayoutsCms activeMenu={activeMenu}>
+    <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className='p-admin-dashboard'>        
         <OrganismsDashboardCardGroup initialHighlightData={highlights} />
       </div>

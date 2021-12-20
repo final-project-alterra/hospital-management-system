@@ -4,14 +4,17 @@ import { Link } from 'react-router-dom';
 
 import './style.scss'
 
-const OrganismsCmsHeader = () => {
+const OrganismsCmsHeader = ({ breadcrumb }) => {
   return (
     <div className="o-cms-header">
       <Breadcrumb>
-        <Breadcrumb.Item>Admin</Breadcrumb.Item>
-        <Breadcrumb.Item>          
-          <Link to="/" >Dashboard</Link>
-        </Breadcrumb.Item>        
+        {
+          breadcrumb?.map((dt) => (            
+            <Breadcrumb.Item>          
+              <Link to={dt.url} >{ dt.label }</Link>
+            </Breadcrumb.Item>        
+          ))
+        }        
       </Breadcrumb>
     </div>
   )

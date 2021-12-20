@@ -73,7 +73,7 @@ const LayoutsCms = (props) => {
         handleOpenChange={handleOpenChange}
         list={list}
       />
-      <OrganismsCmsContent >
+      <OrganismsCmsContent breadcrumb={props.breadcrumb}>
         {props.children}
       </OrganismsCmsContent>
     </div>

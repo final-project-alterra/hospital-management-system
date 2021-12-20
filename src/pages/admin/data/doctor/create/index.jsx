@@ -2,6 +2,8 @@ import React from 'react'
 import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form'
 import LayoutsCms from '../../../../../layouts/cms';
 
+import './style.scss'
+
 const AdminDataDoctorCreate = () => {
   const activeMenu = {
     key: 'data-doctor',
@@ -11,11 +13,11 @@ const AdminDataDoctorCreate = () => {
     console.log(data)
   }  
   return (
-    <div className="o-admin-data-doctor-create">
-      <LayoutsCms activeMenu={activeMenu}>
+    <LayoutsCms activeMenu={activeMenu}>
+      <div className="o-admin-data-doctor-create">
         <OrganismsAdminDataDoctorForm handleCreate={(values) => handleCreate(values)} />
-      </LayoutsCms>
-    </div>
+      </div>
+    </LayoutsCms>
   )
 }
 

@@ -5,8 +5,12 @@ import LayoutsCms from '../../../../layouts/cms'
 import './style.scss'
 
 const AdminDataDoctor = () => {
+  const activeMenu = {
+    key: 'data-doctor',
+    openKey: 'data',
+  };
   return (
-    <LayoutsCms>
+    <LayoutsCms activeMenu={activeMenu}>
       <div className="p-admin-data-doctor">
         <OrganismsAdminDataDoctor />
       </div>      

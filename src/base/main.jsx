@@ -5,6 +5,7 @@ import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
 // PAGES
 import AdminDashboard from "../pages/admin/dashboard";
 import AdminDataDoctor from '../pages/admin/data/doctor';
+import AdminDataDoctorCreate from '../pages/admin/data/doctor/create';
 
 import '../assets/scss/index.scss'
 
@@ -15,6 +16,7 @@ const Main = () => {
         <Switch>
           <Route exact path="/" component={AdminDashboard} />
           <Route exact path="/admin/data/doctor" component={AdminDataDoctor} />
+          <Route exact path="/admin/data/doctor/create" component={AdminDataDoctorCreate} />
         </Switch>
       </Spin>
     </Router>

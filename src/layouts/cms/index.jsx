@@ -35,26 +35,27 @@ const LayoutsCms = (props) => {
     }
   }
   const checkMenu = async () => {    
-    let menuSelected = {};
-    const findMenu = await list.find((el) => {
-      let elm = {};
-      if(el.children) {
-        elm = el.children.find((elC) => elC.url === location.pathname)
-        console.log(elm)
-        return {
-          key: 'asadasdas'
-        }
-      } 
-      return el.url === location.pathname;
-    }) || {};    
-    if(findMenu.children) {
-      menuSelected = findMenu.children.find((el) => el.url === location.pathname)
-      setOpenMenu(findMenu.key)      
-    } else {
-      menuSelected = findMenu
-      setOpenMenu(false)
-    }    
-    setSelectedMenu([menuSelected.key || '']);
+    // let menuSelected = {};
+    // const findMenu = await list.find((el) => {
+    //   let elm = {};
+    //   if(el.children) {
+    //     elm = el.children.find((elC) => elC.url === location.pathname)
+    //     console.log(elm)
+    //     return {
+    //       key: 'asadasdas'
+    //     }
+    //   } 
+    //   return el.url === location.pathname;
+    // }) || {};    
+    // if(findMenu.children) {
+    //   menuSelected = findMenu.children.find((el) => el.url === location.pathname)
+    //   setOpenMenu(findMenu.key)      
+    // } else {
+    //   menuSelected = findMenu
+    //   setOpenMenu(false)
+    // }    
+    setSelectedMenu([props.activeMenu.key || '']);
+    setOpenMenu([props.activeMenu.openKey || '']);
   }  
   const goToMenu = (url) => {
     history.push(url)

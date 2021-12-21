@@ -14,11 +14,11 @@ Website made for Final Project Course in Alterra Academy as part of Studi Indepe
 
 #### Backend
 
-1. [Golang](https://hub.docker.com/_/golang/)
-2. [Echo](https://github.com/gin-gonic/gin)
-3. [MySQL](https://hub.docker.com/_/redis/)
-4. [AWS](https://hub.docker.com/_/postgres)
-5. [Docker](https://www.docker.com/)
+1. [Golang](https://hub.docker.com/_/golang/) 
+2. [Echo](https://github.com/gin-gonic/gin) (Golang Framework)
+3. [MySQL](https://hub.docker.com/_/redis/) (Database)
+4. [AWS](https://hub.docker.com/_/postgres) (Server)
+5. [Docker](https://www.docker.com/) (Container)
 
 ## Repository
 

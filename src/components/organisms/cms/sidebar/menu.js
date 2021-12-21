@@ -31,4 +31,10 @@ export const adminMenu = [
       },
     ],
   },
+  {
+    key: 'outpatient',
+    label: 'Manage Outpatient',
+    url: '/admin/outpatient',
+    icon: 'table',
+  },
 ];

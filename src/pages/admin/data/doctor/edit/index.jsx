@@ -6,7 +6,7 @@ import LayoutsCms from '../../../../../layouts/cms';
 
 import './style.scss'
 
-const AdminDataDoctorCreate = () => {
+const AdminDataDoctorEdit = () => {
   const history = useHistory();
   const activeMenu = {
     key: 'data-doctor',
@@ -27,20 +27,20 @@ const AdminDataDoctorCreate = () => {
     },
   ];
   const initialFormData = {
-    title: 'Create',
+    title: 'Edit',
     data: {
-      fullname: '',
-      phone: '',
-      age: '',
+      fullname: 'Alfi',
+      phone: '08123722821',
+      age: '32',
       gender: 'L',
       speciality: 'bedah',
-      address: '',
+      address: 'Jl. Megang Sana Megang Sini',
     }
   }
   const goBack = () => {
     history.push('/admin/data/doctor');
   }  
-  const handleCreate = (data) => {
+  const handleEdit = (data) => {
     console.log(data)
   }  
   return (
@@ -49,11 +49,11 @@ const AdminDataDoctorCreate = () => {
         <OrganismsAdminDataDoctorForm 
           goBack={goBack}
           initialFormData={initialFormData}
-          handleSubmit={(values) => handleCreate(values)} 
+          handleSubmit={(values) => handleEdit(values)} 
         />
       </div>
     </LayoutsCms>
   )
 }
 
-export default AdminDataDoctorCreate
+export default AdminDataDoctorEdit

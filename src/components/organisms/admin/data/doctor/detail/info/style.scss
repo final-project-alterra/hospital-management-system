@@ -1,0 +1,25 @@
+@import '../../../../../../../assets/scss/colors.scss';
+
+.o-admin-data-doctor-detail-info {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  margin-top: 2em;
+  &__group {
+    width: 50%;
+    &-item {
+      h5 {
+        font-size: 1.6em;
+      }
+      p {
+        font-size: 1.4em;
+        font-weight: 400;
+        color: $secondary-45-color;
+        padding-bottom: 0.5em;
+        border-bottom: 1px solid $neutral-5;
+      }
+    }
+  }
+}

@@ -1,7 +1,13 @@
 .o-admin-data-doctor-form {
   &__title {
+    display: flex;
+    align-items: center;
     font-size: 2em;
-    font-weight: bold;
+    h4 {
+      margin-left: 1em;
+      font-weight: bold;
+      margin-bottom: 0;
+    }
     margin-bottom: 3em;
   }
   &__input-group {

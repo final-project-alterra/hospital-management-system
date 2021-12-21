@@ -1,83 +1,54 @@
 import React from 'react'
-import { Table, Input, Space, Button } from 'antd';
+import { Table, Input, Select, Space, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const OrganismsWidgetList = (props) => {
-  const { Search } = Input;
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Phone Number',
-      dataIndex: 'phone',
-      key: 'phone',
-    },
-    {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: 'Gender',
-      dataIndex: 'gender',
-      key: 'gender',
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: () => (
-        <Space size="middle">
-          <Link to="/">Lihat Detail</Link>          
-          <Link to="/">Edit</Link>          
-          <p className="text-danger">Delete</p>
-        </Space>
-      ),
-    },
-  ];
-  const dataSource = [
-    {
-      key: '1',
-      name: 'Mike',
-      phone: "081212312322",
-      age: 32,
-      gender: '10 Downing Street',
-    },
-    {
-      key: '2',
-      name: 'John',
-      phone: "081212312322",
-      age: 42,
-      gender: '10 Downing Street',
-    },
-  ];
+  const { Search } = Input;  
+  const { Option } = Select;  
 
   const onSearch = (dt) => {
     console.log(dt)
   }    
+  const months = useSelector(state => state.main?.months)
   return (
     <div className='o-widget-list'>
-      <div className="o-widget-list__header">
-        <h3>List Patient</h3>
+      <div 
+        className="o-widget-list__header"
+        style={
+          props.list.title? {marginBottom: '6em'}:{marginBottom: '2em'}
+        }
+      >
+        <h3>{ props.list.title }</h3>        
         <div className="o-widget-list__header-action">
           <Space size={15}>
+            {
+              props.list.filterType && props.list.filterType === "month" &&
+              <div className="o-widget-list__header-action-filter">
+                <p>Month:</p>
+                <Select defaultValue="Januari">
+                  {
+                    months.map((month, key) => (
+                      <Option value={key+1}>{ month }</Option>
+                    ))
+                  }
+                </Select>
+              </div>
+            }
             <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
             <Button 
               type="primary" 
               icon={<PlusOutlined />}
-              onClick={props.goToAddPatient}
+              onClick={props.goToAddPage}
             >
-              Add Doctor
+              Add {props.list.title}
             </Button>
           </Space>
         </div>
       </div>
-      <Table dataSource={dataSource} columns={columns} />;
+      <Table dataSource={props.list.data} columns={props.list.columns} />;
     </div>
   )
 }

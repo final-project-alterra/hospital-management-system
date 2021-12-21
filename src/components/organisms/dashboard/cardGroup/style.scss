@@ -1,0 +1,29 @@
+@import '../../../../assets/scss/colors.scss';
+
+.o-dashboard-card-group {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  &__card {
+    flex-basis: 20%;
+    background-color: white;
+    padding: 1.5em;
+    padding-bottom: 2.5em;
+    &-title {
+      display: flex; 
+      align-items: center;
+      justify-content: space-between;      
+      h3 {
+        font-size: 1.6em;
+        color: $secondary-45-color;
+        margin-bottom: 0;
+      }
+      .anticon {
+        font-size: 1.4em;
+      }
+    }
+    &-total {
+      font-size: 3em;
+    }
+  }
+}

@@ -1,18 +1,30 @@
 import React from 'react'
-import { Space } from 'antd';
+import { Space, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import { ExclamationCircleOutlined   } from '@ant-design/icons';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms';
 
 import './style.scss'
 
 const AdminDataPatient = () => {
-  const history = useHistory();  
+  const history = useHistory();
+  const { confirm } = Modal;
   const activeMenu = {
     key: 'data-patient',
     openKey: 'data',
   };
+  const askToDelete = (id) => {
+    confirm({
+      title: 'Are you sure delete this patient?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'You can undo this change',
+      onOk() {
+        console.log('Delete id', id);
+      },      
+    });
+  }
   const breadcrumb = [
     {
       label: 'Admin',
@@ -26,10 +38,7 @@ const AdminDataPatient = () => {
       label: 'Patient',
       url: '/admin/data/patient',
     },
-  ];  
-  const goToAddPatient = () => {
-    history.push("/admin/data/patient/create")
-  }
+  ];    
   
   const listPatient = {
     title: "List Patient",
@@ -57,13 +66,20 @@ const AdminDataPatient = () => {
       {
         title: 'Action',
         key: 'action',
-        render: () => (
-          <Space size="middle">
-            <Link to="/admin/data/patient/detail">Lihat Detail</Link>          
-            <Link to="/">Edit</Link>          
-            <p className="text-danger">Delete</p>
-          </Space>
-        ),
+        render: (text, record) => {
+          return (
+            <Space size="middle">
+              <Link to={`/admin/data/patient/detail/${record.key}`}>Lihat Detail</Link>
+              <Link to={`/admin/data/patient/edit/${record.key}`}>Edit</Link>
+              <p 
+                className="text-danger" 
+                onClick={() => askToDelete(record.key)}
+              >
+                Delete
+              </p>
+            </Space>
+          )
+        },
       },
     ],
     data: [
@@ -83,12 +99,15 @@ const AdminDataPatient = () => {
       },
     ]
   };
+  const goToAddPatient = () => {
+    history.push("/admin/data/patient/create")
+  }
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-data-doctor">
         <OrganismsWidgetList 
           list={listPatient}
-          goToAddPatient={() => goToAddPatient()} 
+          goToAddPage={() => goToAddPatient()} 
         />
       </div>      
     </LayoutsCms>

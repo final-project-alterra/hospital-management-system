@@ -65,11 +65,11 @@ const AdminDataDoctor = () => {
       {
         title: 'Action',
         key: 'action',
-        render: (text, record) => {          
+        render: (text, record) => {
           return (
             <Space size="middle">
-              <Link to="/admin/data/doctor/detail">Lihat Detail</Link>          
-              <Link to={`/admin/data/doctor/edit/${record.key}`}>Edit</Link>          
+              <Link to={`/admin/data/doctor/detail/${record.key}`}>Lihat Detail</Link>
+              <Link to={`/admin/data/doctor/edit/${record.key}`}>Edit</Link>
               <p 
                 className="text-danger" 
                 onClick={() => askToDelete(record.key)}

@@ -1,5 +1,8 @@
-.o-admin-data-doctor-form {
-  margin-top: 2em;
+.o-admin-data-patient-form {
+  margin-top: 1em;
+  .ant-form-item-label>label {
+    font-weight: 500;
+  }
   &__title {
     display: flex;
     align-items: center;

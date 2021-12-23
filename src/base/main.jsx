@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Spin } from 'antd';
+import { useDispatch } from 'react-redux';
 import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
 
 // PAGES
@@ -15,8 +16,14 @@ import AdminDataPatientCreate from '../pages/admin/data/patient/create';
 import AdminDataPatientEdit from '../pages/admin/data/patient/edit';
 
 import '../assets/scss/index.scss'
+import { check_role } from '../redux/actions/main';
+import DoctorDashboard from '../pages/doctor/dashboard';
 
-const Main = () => {   
+const Main = () => { 
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(check_role())
+  }, [dispatch])
   return (    
     <Router>
       <Spin spinning={false}>
@@ -31,6 +38,7 @@ const Main = () => {
           <Route exact path="/admin/data/patient/create" component={AdminDataPatientCreate} />
           <Route exact path="/admin/data/patient/detail/:id" component={AdminDataPatientDetail} />
           <Route exact path="/admin/data/patient/edit/:id" component={AdminDataPatientEdit} />
+          <Route exact path="/doctor/dashboard" component={DoctorDashboard} />
         </Switch>
       </Spin> 
     </Router>

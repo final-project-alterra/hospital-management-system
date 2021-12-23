@@ -14,7 +14,8 @@ const main_state = {
     "October",
     "November",
     "December",
-  ]
+  ],
+  role: false,
 }
 
 const main = (state = main_state, action) => {

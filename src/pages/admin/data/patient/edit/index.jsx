@@ -1,19 +1,19 @@
 import React from 'react'
 import { Tabs } from 'antd';
 import { useHistory } from 'react-router-dom';
-import MoleculesGoBack from '../../../../../components/molecules/goBack';
 
-import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form'
+import OrganismsAdminDataPatientForm from '../../../../../components/organisms/admin/data/patient/form'
+import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
+import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import LayoutsCms from '../../../../../layouts/cms';
 
 import './style.scss'
-import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
 
-const AdminDataDoctorEdit = () => {
+const AdminDataPatientEdit = () => {
   const { TabPane } = Tabs;
   const history = useHistory();
   const activeMenu = {
-    key: 'data-doctor',
+    key: 'data-patient',
     openKey: 'data',
   };
   const breadcrumb = [
@@ -26,8 +26,12 @@ const AdminDataDoctorEdit = () => {
       url: '/admin/data/patient',
     },
     {
-      label: 'Doctor',
+      label: 'Patient',
       url: '/admin/data/patient',
+    },
+    {
+      label: 'Edit',
+      url: '/admin/data/patient/edit',
     },
   ];
   const initialFormData = {
@@ -42,18 +46,18 @@ const AdminDataDoctorEdit = () => {
     }
   }
   const goBack = () => {
-    history.push('/admin/data/doctor');
+    history.push('/admin/data/patient');
   }  
   const handleEdit = (data) => {
     console.log(data)
   }  
-  return (    
+  return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
-      <div className="o-admin-data-doctor-edit">
-        <MoleculesGoBack title={`${initialFormData.title} Doctor`} goBack={goBack} />        
+      <div className="o-admin-data-patient-edit">
+        <MoleculesGoBack title={`${initialFormData.title} Patient`} goBack={goBack} />
         <Tabs defaultActiveKey="1" >
           <TabPane tab="Informasi Pribadi" key="1">
-            <OrganismsAdminDataDoctorForm 
+            <OrganismsAdminDataPatientForm
               goBack={goBack}
               initialFormData={initialFormData}
               handleSubmit={(values) => handleEdit(values)} 
@@ -66,10 +70,10 @@ const AdminDataDoctorEdit = () => {
               handleSubmit={(values) => handleEdit(values)} 
             />
           </TabPane>          
-        </Tabs>  
+        </Tabs>        
       </div>
     </LayoutsCms>
   )
 }
 
-export default AdminDataDoctorEdit
+export default AdminDataPatientEdit

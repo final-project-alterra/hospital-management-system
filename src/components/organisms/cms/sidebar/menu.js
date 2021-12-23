@@ -38,3 +38,12 @@ export const adminMenu = [
     icon: 'table',
   },
 ];
+
+export const doctorMenu = [
+  {
+    key: 'dashboard',
+    label: 'Dashboard',
+    url: '/doctor/dashboard',
+    icon: 'home',
+  }
+]

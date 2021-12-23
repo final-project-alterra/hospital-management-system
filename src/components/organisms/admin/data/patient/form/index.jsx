@@ -4,10 +4,10 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminDataDoctorForm = ({ goBack, initialFormData, handleSubmit }) => {
+const OrganismsAdminDataPatientForm = ({ goBack, initialFormData, handleSubmit }) => {  
   const [form] = Form.useForm();
   return (
-    <div className="o-admin-data-doctor-form">      
+    <div className="o-admin-data-patient-form">      
       <Form 
         form={form} 
         layout="vertical" 
@@ -62,14 +62,7 @@ const OrganismsAdminDataDoctorForm = ({ goBack, initialFormData, handleSubmit })
               </Select>
             </Form.Item>
           </Col>
-          <Col span={12}>            
-            <Form.Item label="Speciality" name="speciality">
-              <Select>
-                <Select.Option value="bedah">Bedah</Select.Option>
-                <Select.Option value="saraf">Saraf</Select.Option>
-                <Select.Option value="gigi">Gigi</Select.Option>
-              </Select>
-            </Form.Item>
+          <Col span={12}>                        
             <Form.Item
               name="address"
               label="Address"
@@ -134,4 +127,4 @@ const OrganismsAdminDataDoctorForm = ({ goBack, initialFormData, handleSubmit })
   )
 }
 
-export default OrganismsAdminDataDoctorForm
+export default OrganismsAdminDataPatientForm

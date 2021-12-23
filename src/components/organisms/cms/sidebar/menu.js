@@ -45,5 +45,11 @@ export const doctorMenu = [
     label: 'Dashboard',
     url: '/doctor/dashboard',
     icon: 'home',
-  }
+  },
+  {
+    key: 'schedule',
+    label: 'Schedule',
+    url: '/doctor/schedule',
+    icon: 'home',
+  },
 ]

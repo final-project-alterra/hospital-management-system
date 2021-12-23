@@ -7,6 +7,7 @@ import {
 import { useHistory } from 'react-router-dom';
 
 import './style.scss'
+import { useSelector } from 'react-redux';
 
 const { SubMenu } = Menu;
 
@@ -15,13 +16,14 @@ const OrganismsCmsSidebar = (props) => {
   const goToMenu = (url) => {
     history.push(url)
   }  
+  const role = useSelector(state => state.main.role)
   return (
     <div className='o-cms-sidebar'>
       <div className="o-cms-sidebar__profile">
         <Avatar size={45}>U</Avatar>
         <div className="o-cms-sidebar__profile-info">
           <h4>Adi Wijaya</h4>
-          <p>Admin</p>
+          <p>{role}</p>
         </div>
       </div>
       <Menu                

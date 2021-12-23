@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Spin } from 'antd';
 import { useDispatch } from 'react-redux';
 import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
+import { check_role } from '../redux/actions/main';
 
 // PAGES
 import Login from "../pages/login";
@@ -14,13 +15,14 @@ import AdminDataDoctorDetail from '../pages/admin/data/doctor/detail';
 import AdminDataPatientDetail from '../pages/admin/data/patient/detail';
 import AdminDataPatientCreate from '../pages/admin/data/patient/create';
 import AdminDataPatientEdit from '../pages/admin/data/patient/edit';
+import DoctorDashboard from '../pages/doctor/dashboard';
+import DoctorSchedule from '../pages/doctor/schedule';
+import DoctorScheduleOutpatient from '../pages/doctor/schedule/outpatient';
 
 import '../assets/scss/index.scss'
-import { check_role } from '../redux/actions/main';
-import DoctorDashboard from '../pages/doctor/dashboard';
 
 const Main = () => { 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();  
   useEffect(() => {
     dispatch(check_role())
   }, [dispatch])
@@ -39,6 +41,8 @@ const Main = () => {
           <Route exact path="/admin/data/patient/detail/:id" component={AdminDataPatientDetail} />
           <Route exact path="/admin/data/patient/edit/:id" component={AdminDataPatientEdit} />
           <Route exact path="/doctor/dashboard" component={DoctorDashboard} />
+          <Route exact path="/doctor/schedule" component={DoctorSchedule} />
+          <Route exact path="/doctor/schedule/:id/outpatient" component={DoctorScheduleOutpatient} />
         </Switch>
       </Spin> 
     </Router>

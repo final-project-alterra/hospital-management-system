@@ -2,6 +2,7 @@ const admin_state = {
 	profile_data: false,
 	schedule_data: false,
 	schedule_outpatient_data: false,
+	outpatient_data: false,
 }
 
 const admin = (state = admin_state, action) => {

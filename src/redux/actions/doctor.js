@@ -70,3 +70,32 @@ export const get_schedule_outpatient_doctor = () => {
     dispatch(put_data_doctor("schedule_outpatient_data", initialScheduleOutpatientData))
   }
 }
+
+export const get_outpatient = () => {
+  return (dispatch) => {
+    console.log("masuk")
+    const initialOutpatientData = [
+      {
+        label: "Patient Name",
+        value: "Syifa Fauziah",
+      },      
+      {
+        label: "Age",
+        value: "12",
+      },
+      {
+        label: "Gender",
+        value: "12",
+      },
+      {
+        label: "Doctor Name",
+        value: "dr. Angga",
+      },
+      {
+        label: "Keluhan",
+        value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam accumsan vulputate pretium. Nullam suscipit, purus ac finibus dictum, est nisi egestas mauris, non mollis tortor quam id enim. Morbi est magna, maximus sed sodales eget, pharetra eget sapien. Nulla nunc ex, cursus ut rutrum nec, rutrum euismod orci. Aenean non semper augue.",
+      },
+    ];
+    dispatch(put_data_doctor("outpatient_data", initialOutpatientData))
+  }
+}

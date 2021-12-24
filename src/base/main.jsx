@@ -18,6 +18,7 @@ import AdminDataPatientEdit from '../pages/admin/data/patient/edit';
 import DoctorDashboard from '../pages/doctor/dashboard';
 import DoctorSchedule from '../pages/doctor/schedule';
 import DoctorScheduleOutpatient from '../pages/doctor/schedule/outpatient';
+import DoctorScheduleOutpatientExamine from '../pages/doctor/schedule/outpatient/examine';
 
 import '../assets/scss/index.scss'
 
@@ -43,6 +44,7 @@ const Main = () => {
           <Route exact path="/doctor/dashboard" component={DoctorDashboard} />
           <Route exact path="/doctor/schedule" component={DoctorSchedule} />
           <Route exact path="/doctor/schedule/:id/outpatient" component={DoctorScheduleOutpatient} />
+          <Route exact path="/doctor/schedule/:id/outpatient/examine" component={DoctorScheduleOutpatientExamine} />
         </Switch>
       </Spin> 
     </Router>

@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import MoleculesGoBack from '../../../../../components/molecules/goBack'
 import OrganismsDoctorCardPrescription from '../../../../../components/organisms/doctor/card/prescription';
+import OrganismsDoctorPrescriptionCreate from '../../../../../components/organisms/doctor/prescription/create';
 import OrganismsWidgetInfo from '../../../../../components/organisms/widget/info';
 import LayoutsCms from '../../../../../layouts/cms';
-import { get_outpatient } from '../../../../../redux/actions/doctor';
+import { get_outpatient, put_data_doctor } from '../../../../../redux/actions/doctor';
 
 import './style.scss'
 
 const DoctorScheduleOutpatientExamine = () => {
   const history = useHistory(); 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const activeMenu = {
     key: 'schedule',
     openKey: '',
@@ -36,11 +37,15 @@ const DoctorScheduleOutpatientExamine = () => {
   ];
   useEffect(() => {
     dispatch(get_outpatient())
+    // eslint-disable-next-line
   }, [])
   const initialOutpatientData = useSelector(state => state.doctor?.outpatient_data)
-  console.log(initialOutpatientData)
+  
   const goBack = () => {
     history.goBack()
+  }
+  const goToCreate = () => {
+    dispatch(put_data_doctor("modal_create_prescription", true))
   }
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
@@ -51,9 +56,10 @@ const DoctorScheduleOutpatientExamine = () => {
             <OrganismsWidgetInfo data={initialOutpatientData} />
           </div>
           <div className="o-doctor-schedule-outpatient-examine__content-right">
-            <OrganismsDoctorCardPrescription />
+            <OrganismsDoctorCardPrescription goToCreate={goToCreate} />
           </div>
         </div>
+        <OrganismsDoctorPrescriptionCreate />
       </div>
     </LayoutsCms>
   )

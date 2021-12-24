@@ -36,6 +36,8 @@ const AdminDataDoctorCreate = () => {
       gender: 'L',
       speciality: 'bedah',
       address: '',
+      email: '',
+      password: '',
     }
   }
   const goBack = () => {
@@ -50,7 +52,7 @@ const AdminDataDoctorCreate = () => {
         <MoleculesGoBack title={`${initialFormData.title} Doctor`} goBack={goBack} />
         <OrganismsAdminDataDoctorForm 
           goBack={goBack}
-          initialFormData={initialFormData}
+          initialFormData={initialFormData.data}
           handleSubmit={(values) => handleCreate(values)} 
         />
       </div>

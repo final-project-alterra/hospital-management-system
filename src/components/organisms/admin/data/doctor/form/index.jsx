@@ -5,13 +5,14 @@ import { PlusOutlined } from '@ant-design/icons';
 import './style.scss'
 
 const OrganismsAdminDataDoctorForm = ({ goBack, initialFormData, handleSubmit }) => {
+  console.log(initialFormData)
   const [form] = Form.useForm();
   return (
     <div className="o-admin-data-doctor-form">      
       <Form 
         form={form} 
         layout="vertical" 
-        initialValues={initialFormData.data}
+        initialValues={initialFormData}
         onFinish={handleSubmit}
       >
         <Row gutter={16}>
@@ -96,19 +97,22 @@ const OrganismsAdminDataDoctorForm = ({ goBack, initialFormData, handleSubmit })
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              label="Password"
-              name="password"
-              required={false}
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+            {
+              initialFormData.password === "" && 
+              <Form.Item
+                label="Password"
+                name="password"
+                required={false}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your password!",
+                  },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+            }
           </Col>
         </Row>  
         <Space size="middle">

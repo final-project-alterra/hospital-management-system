@@ -4,10 +4,7 @@ import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsDoctorCardPrescription = () => {
-  const goToAdd = () => {
-
-  }
+const OrganismsDoctorCardPrescription = ({ goToCreate }) => {  
   return (
     <div className="o-doctor-card-prescription">
       <div className="o-doctor-card-prescription__header">
@@ -15,7 +12,7 @@ const OrganismsDoctorCardPrescription = () => {
         <Button
           type="primary" 
           icon={<PlusOutlined />}
-          onClick={goToAdd}
+          onClick={goToCreate}
         >
           Add Prescription
         </Button>
@@ -36,8 +33,7 @@ const OrganismsDoctorCardPrescription = () => {
       </div>
       <Button
         type="primary" 
-        icon={<CheckOutlined />}
-        onClick={goToAdd}
+        icon={<CheckOutlined />}        
       >
         Examined
       </Button>

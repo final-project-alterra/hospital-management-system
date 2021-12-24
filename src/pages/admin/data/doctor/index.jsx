@@ -3,10 +3,10 @@ import { Space, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom'
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
-import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 
 const AdminDataDoctor = () => {
   const history = useHistory();
@@ -95,7 +95,7 @@ const AdminDataDoctor = () => {
         speciality: 'Dokter Gigi',
         phone: "081212312322",
         age: 42,
-      },
+      },      
     ]
   };
   const goToAddDoctor = () => {

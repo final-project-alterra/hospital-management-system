@@ -39,8 +39,9 @@ const AdminDataDoctorEdit = () => {
       gender: 'L',
       speciality: 'bedah',
       address: 'Jl. Megang Sana Megang Sini',
-    }
-  }
+      email: 'alfin@mail.com',
+    },
+  };
   const goBack = () => {
     history.push('/admin/data/doctor');
   }  
@@ -55,14 +56,14 @@ const AdminDataDoctorEdit = () => {
           <TabPane tab="Informasi Pribadi" key="1">
             <OrganismsAdminDataDoctorForm 
               goBack={goBack}
-              initialFormData={initialFormData}
+              initialFormData={initialFormData.data}
               handleSubmit={(values) => handleEdit(values)} 
             />
           </TabPane>
           <TabPane tab="Change Password" key="2">
             <OrganismsWidgetFormChangePassword
               goBack={goBack}
-              initialFormData={initialFormData}
+              initialFormData={initialFormData.data}
               handleSubmit={(values) => handleEdit(values)} 
             />
           </TabPane>          

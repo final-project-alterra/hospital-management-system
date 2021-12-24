@@ -1,0 +1,35 @@
+@import '../../../../../assets/scss/colors.scss';
+
+.o-doctor-card-prescription {
+  padding: 3em;
+  background-color: $neutral-4;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h5 {
+      font-size: 1.6em;
+      margin-bottom: 0;
+    }
+  }
+
+  &__list {
+    margin: 2em 0;
+    height: 70vh;
+    overflow-y: auto;
+    padding-right: 1em;
+    &-item {
+      padding: 2em;
+      background: white;
+      margin-bottom: 1.5em;
+      h4 {
+        font-size: 2em;      
+      }
+      p {
+        font-size: 1.2em;
+        font-weight: 500;        
+        color: $secondary-45-color;
+      }
+    }
+  }
+}

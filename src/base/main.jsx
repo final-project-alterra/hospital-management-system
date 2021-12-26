@@ -7,14 +7,19 @@ import { check_role } from '../redux/actions/main';
 // PAGES
 import Login from "../pages/login";
 import AdminDashboard from "../pages/admin/dashboard";
+
 import AdminDataDoctor from '../pages/admin/data/doctor';
-import AdminDataPatient from '../pages/admin/data/patient';
 import AdminDataDoctorCreate from '../pages/admin/data/doctor/create';
 import AdminDataDoctorEdit from '../pages/admin/data/doctor/edit';
 import AdminDataDoctorDetail from '../pages/admin/data/doctor/detail';
+
+import AdminDataPatient from '../pages/admin/data/patient';
 import AdminDataPatientDetail from '../pages/admin/data/patient/detail';
 import AdminDataPatientCreate from '../pages/admin/data/patient/create';
 import AdminDataPatientEdit from '../pages/admin/data/patient/edit';
+
+import AdminDataUtils from '../pages/admin/data/utils';
+
 import DoctorDashboard from '../pages/doctor/dashboard';
 import DoctorSchedule from '../pages/doctor/schedule';
 import DoctorScheduleOutpatient from '../pages/doctor/schedule/outpatient';
@@ -41,6 +46,7 @@ const Main = () => {
           <Route exact path="/admin/data/patient/create" component={AdminDataPatientCreate} />
           <Route exact path="/admin/data/patient/detail/:id" component={AdminDataPatientDetail} />
           <Route exact path="/admin/data/patient/edit/:id" component={AdminDataPatientEdit} />
+          <Route exact path="/admin/data/utils" component={AdminDataUtils} />
           <Route exact path="/doctor/dashboard" component={DoctorDashboard} />
           <Route exact path="/doctor/schedule" component={DoctorSchedule} />
           <Route exact path="/doctor/schedule/:id/outpatient" component={DoctorScheduleOutpatient} />

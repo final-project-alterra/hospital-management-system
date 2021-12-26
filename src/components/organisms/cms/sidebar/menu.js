@@ -29,6 +29,12 @@ export const adminMenu = [
         url: '/admin/data/admin',
         icon: '',
       },
+      {
+        key: 'data-utils',
+        label: 'Utils',
+        url: '/admin/data/utils',
+        icon: '',
+      },
     ],
   },
   {

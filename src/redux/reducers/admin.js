@@ -1,5 +1,7 @@
 const admin_state = {
 	highlight_data: [],
+  modal_form_utils_spealization: false,
+  modal_form_utils_room: false,
 }
 
 const admin = (state = admin_state, action) => {

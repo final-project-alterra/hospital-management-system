@@ -1,5 +1,8 @@
 const admin_state = {
 	highlight_data: [],
+  outpatient_data: false,
+  outpatient_list: [],
+  prescription_list: [],
   modal_form_utils_spealization: false,
   modal_form_utils_room: false,
 }

@@ -26,6 +26,10 @@ import DoctorScheduleOutpatient from '../pages/doctor/schedule/outpatient';
 import DoctorScheduleOutpatientExamine from '../pages/doctor/schedule/outpatient/examine';
 
 import '../assets/scss/index.scss'
+import AdminOutpatient from '../pages/admin/outpatient';
+import AdminOutpatientCreate from '../pages/admin/outpatient/create';
+import AdminOutpatientEdit from '../pages/admin/outpatient/edit';
+import AdminOutpatientDetail from '../pages/admin/outpatient/detail';
 
 const Main = () => { 
   const dispatch = useDispatch();  
@@ -47,6 +51,11 @@ const Main = () => {
           <Route exact path="/admin/data/patient/detail/:id" component={AdminDataPatientDetail} />
           <Route exact path="/admin/data/patient/edit/:id" component={AdminDataPatientEdit} />
           <Route exact path="/admin/data/utils" component={AdminDataUtils} />
+          <Route exact path="/admin/outpatient" component={AdminOutpatient} />
+          <Route exact path="/admin/outpatient/create" component={AdminOutpatientCreate} />
+          <Route exact path="/admin/outpatient/edit/:id" component={AdminOutpatientEdit} />
+          <Route exact path="/admin/outpatient/detail/:id" component={AdminOutpatientDetail} />
+
           <Route exact path="/doctor/dashboard" component={DoctorDashboard} />
           <Route exact path="/doctor/schedule" component={DoctorSchedule} />
           <Route exact path="/doctor/schedule/:id/outpatient" component={DoctorScheduleOutpatient} />

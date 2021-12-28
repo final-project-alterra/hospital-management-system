@@ -1,6 +1,6 @@
 import React from 'react'
 import { Table, Input, Select, Space, Button } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 
 import './style.scss'
 import { useSelector } from 'react-redux';
@@ -21,7 +21,13 @@ const OrganismsWidgetList = (props) => {
           props.list.title? {marginBottom: '6em'}:{marginBottom: '2em'}
         }
       >
-        <h3>{ props.list.title }</h3>        
+        <div className="o-widget-list__header-title">
+          {
+            props.goBack &&
+            <ArrowLeftOutlined onClick={props.goBack} />
+          }
+          <h3>{ props.list.title }</h3>        
+        </div>
         <div className="o-widget-list__header-action">
           <Space size={15}>
             {
@@ -37,14 +43,17 @@ const OrganismsWidgetList = (props) => {
                 </Select>
               </div>
             }
-            <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
-            <Button 
-              type="primary" 
-              icon={<PlusOutlined />}
-              onClick={props.goToAddPage}
-            >
-              Add {props.list.title}
-            </Button>
+            <Search placeholder="input search text" onSearch={onSearch}/>
+            {
+              props.goToAddPage && 
+              <Button 
+                type="primary" 
+                icon={<PlusOutlined />}
+                onClick={props.goToAddPage}
+              >
+                Add {props.list.title}
+              </Button>
+            }
           </Space>
         </div>
       </div>

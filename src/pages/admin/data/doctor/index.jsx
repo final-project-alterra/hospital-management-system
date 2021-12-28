@@ -3,10 +3,10 @@ import { Space, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom'
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
-import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 
 const AdminDataDoctor = () => {
   const history = useHistory();
@@ -65,11 +65,11 @@ const AdminDataDoctor = () => {
       {
         title: 'Action',
         key: 'action',
-        render: (text, record) => {          
+        render: (text, record) => {
           return (
             <Space size="middle">
-              <Link to="/admin/data/doctor/detail">Lihat Detail</Link>          
-              <Link to={`/admin/data/doctor/edit/${record.key}`}>Edit</Link>          
+              <Link to={`/admin/data/doctor/detail/${record.key}`}>Lihat Detail</Link>
+              <Link to={`/admin/data/doctor/edit/${record.key}`}>Edit</Link>
               <p 
                 className="text-danger" 
                 onClick={() => askToDelete(record.key)}
@@ -95,7 +95,7 @@ const AdminDataDoctor = () => {
         speciality: 'Dokter Gigi',
         phone: "081212312322",
         age: 42,
-      },
+      },      
     ]
   };
   const goToAddDoctor = () => {

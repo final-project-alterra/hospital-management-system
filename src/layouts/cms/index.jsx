@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import OrganismsCmsSidebar from '../../components/organisms/cms/sidebar'
 import OrganismsCmsContent from '../../components/organisms/cms/content'
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 
-import {
-  adminMenu,  
-} from '../../components/organisms/cms/sidebar/menu';
-
-import './style.scss'
-import { useHistory } from 'react-router-dom';
+import { adminMenu, doctorMenu } from '../../components/organisms/cms/sidebar/menu';
 
 import './style.scss' 
 
@@ -19,9 +15,9 @@ const LayoutsCms = (props) => {
   const [openMenu, setOpenMenu] = useState([])
   const location = useLocation();
   const history = useHistory();  
-
+  const role = useSelector(state => state.main.role)
   useEffect(() => {
-    getMenu("admin")
+    getMenu(role)
     // eslint-disable-next-line
   }, [location])
   useEffect(() => {
@@ -31,6 +27,9 @@ const LayoutsCms = (props) => {
   const getMenu = (menuMode) => {
     if (menuMode === 'admin') {      
       setList(adminMenu)
+      console.log(list)
+    } else if (menuMode === 'doctor') {      
+      setList(doctorMenu)
       console.log(list)
     }
   }

@@ -3,17 +3,16 @@ import { Form, Input, Button, Select, Row, Col, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
-import MoleculesGoBack from '../../../../../molecules/goBack';
 
 const OrganismsAdminDataDoctorForm = ({ goBack, initialFormData, handleSubmit }) => {
+  console.log(initialFormData)
   const [form] = Form.useForm();
   return (
-    <div className="o-admin-data-doctor-form">
-      <MoleculesGoBack title={`${initialFormData.title} Doctor`} goBack={goBack} />
+    <div className="o-admin-data-doctor-form">      
       <Form 
         form={form} 
         layout="vertical" 
-        initialValues={initialFormData.data}
+        initialValues={initialFormData}
         onFinish={handleSubmit}
       >
         <Row gutter={16}>
@@ -85,6 +84,35 @@ const OrganismsAdminDataDoctorForm = ({ goBack, initialFormData, handleSubmit })
             >
               <Input.TextArea showCount maxLength={100} />
             </Form.Item>
+            <Form.Item
+              label="Email"
+              name="email"
+              required={false}
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your Email!",
+                }            
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            {
+              initialFormData.password === "" && 
+              <Form.Item
+                label="Password"
+                name="password"
+                required={false}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your password!",
+                  },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+            }
           </Col>
         </Row>  
         <Space size="middle">

@@ -30,7 +30,7 @@ const AdminDataPatientDetail = () => {
 
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
-      <div className="p-admin-data-doctor-detail">
+      <div className="p-admin-data-patient-detail">
         <OrganismsAdminDataPatientDetailHeader />
         <OrganismsAdminDataPatientDetailProfile />
         <OrganismsAdminDataPatientDetailHistory />

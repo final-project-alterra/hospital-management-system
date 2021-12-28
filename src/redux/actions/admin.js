@@ -33,6 +33,70 @@ export const get_outpatient = () => {
   }
 }
 
+export const get_schedule = () => {
+  return (dispatch) => {
+    const initialScheduletList = [
+      {
+        key: '1',
+        jadwal: '12 Desember 2021',
+        doctorName: "dr Shang chi",
+        nurseName: "Shania",
+        rangeTime: '08.00 - 12.00',
+      },
+      {
+        key: '2',
+        jadwal: '12 Desember 2021',
+        doctorName: "dr Strange",
+        nurseName: "Wanda",
+        rangeTime: '08.00 - 12.00',
+      },
+      {
+        key: '3',
+        jadwal: '10 Desember 2021',
+        doctorName: "dr Octavius",
+        nurseName: "Kate",
+        rangeTime: '08.00 - 12.00',
+      },
+      {
+        key: '4',
+        jadwal: '09 Desember 2021',
+        doctorName: "dr Doom",
+        nurseName: "Natasha",
+        rangeTime: '08.00 - 12.00',
+      },
+    ];    
+    dispatch(put_data_admin("schedule_list", initialScheduletList));    
+  }
+}
+
+export const get_schedule_detail = () => {
+  return (dispatch) => {
+    const initialScheduleDetailList = [
+      {
+        key: '1',
+        patientName: 'Jessica Jones',
+        status: "OnProgress",
+      },
+      {
+        key: '2',
+        patientName: 'Luke Cage',
+        status: "Waiting",
+      },
+      {
+        key: '3',
+        patientName: 'Matt Murdock',
+        status: "Waiting",
+      },
+      {
+        key: '4',
+        patientName: 'Andy',
+        status: "Finished",
+      },
+    ];    
+    dispatch(put_data_admin("schedule_detail_list", initialScheduleDetailList));    
+  }
+}
+
 export const get_detail_outpatient = () => {
   return (dispatch) => {
     const initialOutpatientData = [

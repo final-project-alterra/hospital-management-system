@@ -7,8 +7,12 @@ import { check_role } from '../redux/actions/main';
 // PAGES
 import Login from "../pages/login";
 import AdminDashboard from "../pages/admin/dashboard";
+import AdminDataAdmin from "../pages/admin/data/admin";
 import AdminDataDoctor from '../pages/admin/data/doctor';
 import AdminDataPatient from '../pages/admin/data/patient';
+import AdminDataAdminCreate from '../pages/admin/data/admin/create';
+import AdminDataAdminEdit from '../pages/admin/data/admin/edit';
+import AdminDataAdminDetail from '../pages/admin/data/admin/detail';
 import AdminDataDoctorCreate from '../pages/admin/data/doctor/create';
 import AdminDataDoctorEdit from '../pages/admin/data/doctor/edit';
 import AdminDataDoctorDetail from '../pages/admin/data/doctor/detail';
@@ -33,6 +37,10 @@ const Main = () => {
         <Switch>
           <Route exact path="/" component={AdminDashboard} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/admin/data/admin" component={AdminDataAdmin} />
+          <Route exact path="/admin/data/admin/create" component={AdminDataAdminCreate} />
+          <Route exact path="/admin/data/admin/detail/:id" component={AdminDataAdminDetail} />
+          <Route exact path="/admin/data/admin/edit/:id" component={AdminDataAdminEdit} />
           <Route exact path="/admin/data/doctor" component={AdminDataDoctor} />
           <Route exact path="/admin/data/doctor/create" component={AdminDataDoctorCreate} />
           <Route exact path="/admin/data/doctor/detail/:id" component={AdminDataDoctorDetail} />

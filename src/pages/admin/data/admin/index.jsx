@@ -32,11 +32,11 @@ const AdminDataAdmin = () => {
     },
     {
       label: 'Data',
-      url: '/admin/data/doctor',
+      url: '/admin/data/admin',
     },
     {
-      label: 'Doctor',
-      url: '/admin/data/doctor',
+      label: 'Admin',
+      url: '/admin/data/admin',
     },
   ];
   const listAdmin = {

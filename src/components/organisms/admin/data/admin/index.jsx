@@ -63,7 +63,7 @@ const OrganismsAdminDataAdmin = (props) => {
   return (
     <div className='o-admin-data-admin'>
       <div className="o-admin-data-admin__header">
-        <h3>List Patient</h3>
+        <h3>List Admin</h3>
         <div className="o-admin-data-admin__header-action">
           <Space size={15}>
             <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />

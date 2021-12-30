@@ -16,7 +16,7 @@ const AdminDashboard = () => {
     },
     {
       label: 'Dashboard',
-      url: '/admin/data/doctor',
+      url: '/admin/data/admin',
     },    
   ];
   const activeMenu = {
@@ -43,24 +43,13 @@ const AdminDashboard = () => {
   ];
   const card_data = [
     {
-      title: "Doctor Data",
-      desc: "See Doctor’s Work Schedule to know date and time schedule in Hospital",
-      url: '/admin/data/doctor',
-      img_url: '',
-    },
-    {
-      title: "Patient Data",
-      desc: "See Doctor’s Work Schedule to know date and time schedule in Hospital",
-      url: '/admin/data/patient',
-      img_url: '',
-    },
-    {
-      title: "Patient Data",
-      desc: "See Doctor’s Work Schedule to know date and time schedule in Hospital",
-      url: '/data',
+      title: "Admin Data",
+      desc: "See Admin’s Work Schedule to know date and time schedule in Hospital",
+      url: '/admin/data/admin',
       img_url: '',
     },
   ];
+  
   const dispatch = useDispatch()  
   useEffect(() => {
     dispatch(put_data_admin("highlight_data", highlight_data))

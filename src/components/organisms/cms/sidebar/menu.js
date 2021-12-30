@@ -43,6 +43,12 @@ export const adminMenu = [
     url: '/admin/outpatient',
     icon: 'table',
   },
+  {
+    key: 'schedule',
+    label: 'Manage Schedule',
+    url: '/admin/schedule',
+    icon: 'table',
+  },
 ];
 
 export const doctorMenu = [

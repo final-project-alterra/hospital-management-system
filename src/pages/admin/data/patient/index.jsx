@@ -104,7 +104,7 @@ const AdminDataPatient = () => {
   }
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
-      <div className="p-admin-data-doctor">
+      <div className="p-admin-data-patient">
         <OrganismsWidgetList 
           list={listPatient}
           goToAddPage={() => goToAddPatient()} 

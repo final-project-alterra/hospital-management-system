@@ -29,12 +29,24 @@ export const adminMenu = [
         url: '/admin/data/admin',
         icon: '',
       },
+      {
+        key: 'data-utils',
+        label: 'Utils',
+        url: '/admin/data/utils',
+        icon: '',
+      },
     ],
   },
   {
     key: 'outpatient',
     label: 'Manage Outpatient',
     url: '/admin/outpatient',
+    icon: 'table',
+  },
+  {
+    key: 'schedule',
+    label: 'Manage Schedule',
+    url: '/admin/schedule',
     icon: 'table',
   },
 ];

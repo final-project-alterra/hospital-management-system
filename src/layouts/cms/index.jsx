@@ -5,7 +5,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import { useSelector } from 'react-redux';
 
 
-import { adminMenu, doctorMenu } from '../../components/organisms/cms/sidebar/menu';
+import { adminMenu, doctorMenu, nurseMenu } from '../../components/organisms/cms/sidebar/menu';
 
 import './style.scss' 
 
@@ -26,12 +26,13 @@ const LayoutsCms = (props) => {
   }, [list, location])
   const getMenu = (menuMode) => {
     if (menuMode === 'admin') {      
-      setList(adminMenu)
-      console.log(list)
-    } else if (menuMode === 'doctor') {      
-      setList(doctorMenu)
-      console.log(list)
+      setList(adminMenu)      
+    } else if (menuMode === 'doctor') {
+      setList(doctorMenu)      
+    } else if (menuMode === 'nurse') {
+      setList(nurseMenu)
     }
+    console.log(list)
   }
   const checkMenu = async () => {    
     // let menuSelected = {};

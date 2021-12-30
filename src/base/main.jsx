@@ -34,6 +34,7 @@ import AdminScheduleCreate from '../pages/admin/schedule/create';
 import AdminScheduleEdit from '../pages/admin/schedule/edit';
 
 import '../assets/scss/index.scss'
+import NurseDashboard from '../pages/nurse/dashboard';
 
 const Main = () => { 
   const dispatch = useDispatch();  
@@ -73,6 +74,7 @@ const Main = () => {
           <Route exact path="/doctor/schedule" component={DoctorSchedule} />
           <Route exact path="/doctor/schedule/:id/outpatient" component={DoctorScheduleOutpatient} />
           <Route exact path="/doctor/schedule/:id/outpatient/examine" component={DoctorScheduleOutpatientExamine} />
+          <Route exact path="/nurse/dashboard" component={NurseDashboard} />
         </Switch>
       </Spin> 
     </Router>

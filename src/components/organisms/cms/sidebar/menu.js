@@ -65,3 +65,18 @@ export const doctorMenu = [
     icon: 'home',
   },
 ]
+
+export const nurseMenu = [
+  {
+    key: 'dashboard',
+    label: 'Dashboard',
+    url: '/nurse/dashboard',
+    icon: 'home',
+  },
+  {
+    key: 'schedule',
+    label: 'Schedule',
+    url: '/doctor/schedule',
+    icon: 'home',
+  },
+]

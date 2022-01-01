@@ -4,11 +4,11 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminDataDoctorForm = ({ goBack, initialFormData, handleSubmit }) => {
+const OrganismsAdminDataNurseForm = ({ goBack, initialFormData, handleSubmit }) => {
   console.log(initialFormData)
   const [form] = Form.useForm();
   return (
-    <div className="o-admin-data-doctor-form">      
+    <div className="o-admin-data-nurse-form">      
       <Form 
         form={form} 
         layout="vertical" 
@@ -64,11 +64,11 @@ const OrganismsAdminDataDoctorForm = ({ goBack, initialFormData, handleSubmit })
             </Form.Item>
           </Col>
           <Col span={12}>            
-            <Form.Item label="Speciality" name="speciality">
+            <Form.Item label="Doctor" name="doctor">
               <Select>
-                <Select.Option value="bedah">Bedah</Select.Option>
-                <Select.Option value="saraf">Saraf</Select.Option>
-                <Select.Option value="gigi">Gigi</Select.Option>
+                <Select.Option value="dr mike">Dr Mike</Select.Option>
+                <Select.Option value="dr ika">Dr Ika</Select.Option>
+                <Select.Option value="dr hana">Dr Hana</Select.Option>
               </Select>
             </Form.Item>
             <Form.Item
@@ -123,7 +123,7 @@ const OrganismsAdminDataDoctorForm = ({ goBack, initialFormData, handleSubmit })
                 htmlType="submit"
                 icon={<PlusOutlined />}
               >
-                Add Doctor
+                Add Nurse
               </Button>
             )}
           </Form.Item>
@@ -138,4 +138,4 @@ const OrganismsAdminDataDoctorForm = ({ goBack, initialFormData, handleSubmit })
   )
 }
 
-export default OrganismsAdminDataDoctorForm
+export default OrganismsAdminDataNurseForm

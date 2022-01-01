@@ -5,7 +5,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import './style.scss'
 import { Link } from 'react-router-dom';
 
-const OrganismsAdminDataDoctor = (props) => {
+const OrganismsAdminDataNurse = (props) => {
   const { Search } = Input;
   const columns = [
     {
@@ -29,9 +29,9 @@ const OrganismsAdminDataDoctor = (props) => {
       key: 'gender',
     },
     {
-      title: 'Speciality',
-      dataIndex: 'speciality',
-      key: 'speciality'
+      title: 'Doctor',
+      dataIndex: 'doctor',
+      key: 'doctor'
     },
     {
       title: 'Action',
@@ -52,7 +52,7 @@ const OrganismsAdminDataDoctor = (props) => {
       phone: "081212312322",
       age: 32,
       gender: '10 Downing Street',
-      speciality: 'bedah',
+      doctor: 'Dr Ika',
     },
     {
       key: '2',
@@ -60,7 +60,7 @@ const OrganismsAdminDataDoctor = (props) => {
       phone: "081212312322",
       age: 42,
       gender: '10 Downing Street',
-      speciality: 'kandungan',
+      doctor: 'Dr Hana',
     },
   ];
 
@@ -68,18 +68,18 @@ const OrganismsAdminDataDoctor = (props) => {
     console.log(dt)
   }    
   return (
-    <div className='o-admin-data-doctor'>
-      <div className="o-admin-data-doctor__header">
-        <h3>List Doctor</h3>
-        <div className="o-admin-data-doctor__header-action">
+    <div className='o-admin-data-nurse'>
+      <div className="o-admin-data-nurse__header">
+        <h3>List Nurse</h3>
+        <div className="o-admin-data-nurse__header-action">
           <Space size={15}>
             <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />
             <Button 
               type="primary" 
               icon={<PlusOutlined />}
-              onClick={props.goToAddPatient}
+              onClick={props.goToAddNurse}
             >
-              Add Doctor
+              Add Nurse
             </Button>
           </Space>
         </div>
@@ -89,4 +89,4 @@ const OrganismsAdminDataDoctor = (props) => {
   )
 }
 
-export default OrganismsAdminDataDoctor
+export default OrganismsAdminDataNurse

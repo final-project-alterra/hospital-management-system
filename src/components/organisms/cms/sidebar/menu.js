@@ -76,7 +76,7 @@ export const nurseMenu = [
   {
     key: 'schedule',
     label: 'Schedule',
-    url: '/doctor/schedule',
+    url: '/nurse/schedule',
     icon: 'home',
   },
 ]

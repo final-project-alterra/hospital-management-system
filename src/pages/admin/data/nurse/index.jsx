@@ -68,7 +68,7 @@ const AdminDataNurse = () => {
         render: (text, record) => {
           return (
             <Space size="middle">
-              <Link to={`/admin/data/murse/detail/${record.key}`}>Lihat Detail</Link>
+              <Link to={`/admin/data/nurse/detail/${record.key}`}>Lihat Detail</Link>
               <Link to={`/admin/data/nurse/edit/${record.key}`}>Edit</Link>
               <p 
                 className="text-danger" 

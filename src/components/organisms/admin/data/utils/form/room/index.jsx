@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux'
 import { put_data_admin } from '../../../../../../../redux/actions/admin';
 
 const OrganismsAdminDataUtilsFormRoom = ({ initialFormData, handleSubmit }) => {
   const [form] = Form.useForm();
+  useEffect(() => form.resetFields(), [initialFormData, form]);
   const dispatch = useDispatch();
   const modal_form_utils_room = useSelector(state => state.admin?.modal_form_utils_room);
   console.log(modal_form_utils_room)
@@ -37,17 +38,25 @@ const OrganismsAdminDataUtilsFormRoom = ({ initialFormData, handleSubmit }) => {
         <Form 
           form={form} 
           layout="vertical"
-          initialValues={initialFormData.title}
+          initialValues={initialFormData.data}
           onFinish={handleOk}
         >                      
           <Form.Item
-            label="Name"
+            label="Name Room"
             name="name"
             required={false}            
-            rules={[{ required: true, message: 'Please input your spealization name!' }]}
+            rules={[{ required: true, message: 'Please input your room name!' }]}
           >
             <Input block />
-          </Form.Item>          
+          </Form.Item>
+          <Form.Item
+            label="Floor Room"
+            name="floor"
+            required={false}            
+            rules={[{ required: true, message: 'Please input your floor room !' }]}
+          >
+            <Input block />
+          </Form.Item>
         </Form>
       </Modal>
     </div>

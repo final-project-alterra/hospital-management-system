@@ -19,16 +19,12 @@ const AdminOutpatientCreate = () => {
       url: '/admin',
     },
     {
-      label: 'Data',
-      url: '/admin/data/patient',
-    },
-    {
-      label: 'Patient',
-      url: '/admin/data/patient',
+      label: 'Outpatient',
+      url: '/admin/outpatient',
     },
     {
       label: 'Create',
-      url: '/admin/data/patient/create',
+      url: '/admin/outpatient/create',
     },
   ];
   const initialFormData = {

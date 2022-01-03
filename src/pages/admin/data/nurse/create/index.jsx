@@ -1,16 +1,16 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom';
 
-import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form'
+import OrganismsAdminDataNurseForm from '../../../../../components/organisms/admin/data/nurse/form'
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import LayoutsCms from '../../../../../layouts/cms';
 
 import './style.scss'
 
-const AdminDataDoctorCreate = () => {
+const AdminDataNurseCreate = () => {
   const history = useHistory();
   const activeMenu = {
-    key: 'data-doctor',
+    key: 'data-nurse',
     openKey: 'data',
   };
   const breadcrumb = [
@@ -20,11 +20,11 @@ const AdminDataDoctorCreate = () => {
     },
     {
       label: 'Data',
-      url: '/admin/data/doctor',
+      url: '/admin/data/nurse',
     },
     {
-      label: 'Doctor',
-      url: '/admin/data/doctor',
+      label: 'Nurse',
+      url: '/admin/data/nurse',
     },
   ];
   const initialFormData = {
@@ -34,23 +34,23 @@ const AdminDataDoctorCreate = () => {
       phone: '',
       age: '',
       gender: 'L',
-      speciality: 'bedah',
       address: '',
+      doctor: 'Dr Ika',
       email: '',
       password: '',
     }
   }
   const goBack = () => {
-    history.push('/admin/data/doctor');
+    history.push('/admin/data/nurse');
   }  
   const handleCreate = (data) => {
     console.log(data)
   }  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
-      <div className="o-admin-data-doctor-create">
-        <MoleculesGoBack title={`${initialFormData.title} Doctor`} goBack={goBack} />
-        <OrganismsAdminDataDoctorForm 
+      <div className="o-admin-data-nurse-create">
+        <MoleculesGoBack title={`${initialFormData.title} Nurse`} goBack={goBack} />
+        <OrganismsAdminDataNurseForm 
           goBack={goBack}
           initialFormData={initialFormData.data}
           handleSubmit={(values) => handleCreate(values)} 
@@ -60,4 +60,4 @@ const AdminDataDoctorCreate = () => {
   )
 }
 
-export default AdminDataDoctorCreate
+export default AdminDataNurseCreate

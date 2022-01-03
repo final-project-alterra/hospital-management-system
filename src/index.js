@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import Main from './base/main';
+import axios from 'axios';
 
 // STYLES
 import './index.css';
@@ -20,6 +21,9 @@ import { PersistGate } from "redux-persist/integration/react"
 // SET REDUX STORE
 const store = createStore(rootReducer, applyMiddleware(thunk))
 const persistor = persistStore(store)
+
+// SET DEFAULT AXIOS
+axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
 
 ReactDOM.render(
   <Provider store={store}>

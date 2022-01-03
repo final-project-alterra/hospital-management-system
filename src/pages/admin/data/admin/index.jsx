@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Space, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom'
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
+import { get_data } from '../../../../redux/actions/admin';
 
 const AdminDataAdmin = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const { confirm } = Modal;  
   const askToDelete = (id) => {
@@ -39,6 +42,13 @@ const AdminDataAdmin = () => {
       url: '/admin/data/admin',
     },
   ];
+
+  useEffect(() => {
+    dispatch(get_data('admins', 'admin_list'));
+  }, [dispatch]);
+  const data = useSelector(state => state.admin?.admin_list)
+  console.log(data)
+
   const listAdmin = {
     title: "List Admin",
     columns: [
@@ -76,20 +86,7 @@ const AdminDataAdmin = () => {
         },
       },
     ],
-    data: [
-      {
-        key: '1',
-        name: 'dr. Mike',
-        phone: "081212312322",
-        age: 32,
-      },
-      {
-        key: '2',
-        name: 'dr. Angga',
-        phone: "081212312322",
-        age: 42,
-      },      
-    ]
+    data
   };
   const goToAddAdmin = () => {
     history.push("/admin/data/admin/create")

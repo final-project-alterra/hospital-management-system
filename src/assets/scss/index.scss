@@ -14,3 +14,8 @@ h1, h2, h3, h4, h5, h6, p, label, span {
 .text-link {
   color: $blue-6;
 }
+
+.ant-spin-nested-loading > div > .ant-spin {
+  max-height: 100vh !important;
+  position: fixed !important;
+}

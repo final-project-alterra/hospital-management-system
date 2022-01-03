@@ -8,6 +8,7 @@ const admin_state = {
   admin_list: [],
   doctor_data: false,
   patient_data: false,
+  admin_data: false,
   schedule_detail_list: [],
   prescription_list: [],
   modal_form_utils_spealization: false,

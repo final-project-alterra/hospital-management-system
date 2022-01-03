@@ -1,5 +1,7 @@
 const auth_state = {
-	user: {},  
+	user_jwt_data: false,
+  user_token: false,
+  isAuthenticated: false,
 }
 
 const auth = (state = auth_state, action) => {

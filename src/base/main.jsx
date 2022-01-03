@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Spin } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
 import { check_role } from '../redux/actions/main';
 
@@ -50,19 +50,23 @@ import NurseDashboard from '../pages/nurse/dashboard';
 import NurseSchedule from '../pages/nurse/schedule';
 import NurseScheduleOutpatient from '../pages/nurse/schedule/outpatient';
 import NurseScheduleOutpatientExamine from '../pages/nurse/schedule/outpatient/examine';
+import PrivateRoute from '../components/organisms/privateRouter';
 
 const Main = () => { 
   const dispatch = useDispatch();  
   useEffect(() => {
     dispatch(check_role())
-  }, [dispatch])
-  return (    
+  }, [dispatch]);
+  const { loader } = useSelector(state => state.main)
+  return (
     <Router>
-      <Spin spinning={false}>
+      <Spin spinning={loader}>
         <Switch>
-          <Route exact path="/" component={AdminDashboard} />
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/" component={Login} />
           
+          {/* <Route exact path="/admin/dashboard" component={AdminDashboard} /> */}          
+          <PrivateRoute path="/admin/dashboard" component={AdminDashboard} />
+
           <Route exact path="/admin/data/admin" component={AdminDataAdmin} />
           <Route exact path="/admin/data/admin/create" component={AdminDataAdminCreate} />
           <Route exact path="/admin/data/admin/detail/:id" component={AdminDataAdminDetail} />

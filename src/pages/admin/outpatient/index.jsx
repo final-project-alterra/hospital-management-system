@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
 import OrganismsWidgetList from '../../../components/organisms/widget/list';
 import LayoutsCms from '../../../layouts/cms';
@@ -11,8 +10,7 @@ import './style.scss'
 import { get_outpatient } from '../../../redux/actions/admin';
 
 const AdminOutpatient = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const dispatch = useDispatch();  
   const { confirm } = Modal;
   const activeMenu = {
     key: 'outpatient',
@@ -89,15 +87,11 @@ const AdminOutpatient = () => {
   }, [])
   initialListOutpatient.data = useSelector(state => state.admin?.outpatient_list)
 
-  const goToAddPatient = () => {
-    history.push("/admin/outpatient/create")
-  }
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-outpatient">
         <OrganismsWidgetList 
-          list={initialListOutpatient}
-          goToAddPage={() => goToAddPatient()} 
+          list={initialListOutpatient}          
         />
       </div>      
     </LayoutsCms>

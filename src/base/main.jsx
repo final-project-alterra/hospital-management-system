@@ -68,7 +68,7 @@ const Main = () => {
           <Route exact path="/admin/data/patient/detail/:id" component={AdminDataPatientDetail} />
           <Route exact path="/admin/data/patient/edit/:id" component={AdminDataPatientEdit} />
           
-          <Route exact path="/admin/data/utils" component={AdminDataUtils} />
+          <Route exact path="/admin/data/utils" component={AdminDataUtils} />          
 
           <Route exact path="/admin/outpatient" component={AdminOutpatient} />
           <Route exact path="/admin/outpatient/create" component={AdminOutpatientCreate} />

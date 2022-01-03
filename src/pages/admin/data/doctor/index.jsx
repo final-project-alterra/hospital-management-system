@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Space, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
+import { get_list_doctors } from '../../../../redux/actions/admin';
 
 const AdminDataDoctor = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const { confirm } = Modal;  
   const askToDelete = (id) => {
@@ -39,6 +42,13 @@ const AdminDataDoctor = () => {
       url: '/admin/data/doctor',
     },
   ];
+
+  useEffect(() => {
+    dispatch(get_list_doctors());
+  }, [dispatch]);
+  const initialPatientList = useSelector(state => state.admin?.doctor_list)
+  console.log(initialPatientList)
+
   const listDoctor = {
     title: "List Doctor",
     columns: [
@@ -81,22 +91,7 @@ const AdminDataDoctor = () => {
         },
       },
     ],
-    data: [
-      {
-        key: '1',
-        name: 'dr. Mike',
-        speciality: 'Dokter Saraf dan Otak',
-        phone: "081212312322",
-        age: 32,
-      },
-      {
-        key: '2',
-        name: 'dr. Angga',
-        speciality: 'Dokter Gigi',
-        phone: "081212312322",
-        age: 42,
-      },      
-    ]
+    data: initialPatientList,
   };
   const goToAddDoctor = () => {
     history.push("/admin/data/doctor/create")

@@ -80,22 +80,19 @@ const AdminDataUtilsRoom = () => {
       },     
     ]
   };
-  const [initialFormDataRoom, setInitialFormDataRoom] = useState({
-    title: 'Create',
-    data: {
-      id: 0,
-      name: '',
-      floor: '',
-    }
-  })  
+  const [initialFormDataRoom, setInitialFormDataRoom] = useState({})
 
-  const goToAdd = () => {    
+  const goToAdd = () => {
+    setInitialFormDataRoom({ ...initialFormDataRoom,  
+      title: "Create",
+      data: { id: 0, name: '', floor: '' }
+    })
     dispatch(put_data_admin("modal_form_utils_room", true))
   }
   const goToEdit = (id) => {
     setInitialFormDataRoom({ ...initialFormDataRoom,  
       title: "Edit",
-      data: { id, name: "Bedah" }
+      data: { id, name: "A2000", floor: '2' }
     })
     dispatch(put_data_admin("modal_form_utils_room", true))
   }

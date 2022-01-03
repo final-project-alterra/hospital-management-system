@@ -32,7 +32,7 @@ const AdminDataUtils = () => {
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-data-utils">
         <Tabs defaultActiveKey="1" >
-          <TabPane tab="Spealicity" key="1">
+          <TabPane tab="Spealization" key="1">
             <AdminDataUtilsSpealization />
           </TabPane>
           <TabPane tab="Room" key="2">

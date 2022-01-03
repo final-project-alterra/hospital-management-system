@@ -18,20 +18,16 @@ const AdminOutpatientDetail = () => {
   };
   const breadcrumb = [
     {
-      label: 'Doctor',
-      url: '/doctor',
-    },
-    {
-      label: 'Schedule',
-      url: '/doctor/schedule',
+      label: 'Admin',
+      url: '/admin',
     },
     {
       label: 'Outpatient',
-      url: '/doctor/schedule/outpatient',
+      url: '/admin/outpatient',
     },
     {
-      label: 'Examine',
-      url: '/doctor/schedule/outpatient/examine',
+      label: 'Detail',
+      url: '/admin/outpatient/detail',
     },
   ];
   useEffect(() => {

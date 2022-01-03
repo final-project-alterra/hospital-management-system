@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
 import { Space, Modal } from 'antd';
 import { useDispatch } from 'react-redux';
-
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
 
-import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
 import { put_data_admin } from '../../../../../redux/actions/admin';
+import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
 import OrganismsAdminDataUtilsFormSpealization from '../../../../../components/organisms/admin/data/utils/form/spealization';
 
 const AdminDataUtilsSpealization = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();  
   const { confirm } = Modal;
   const askToDelete = (id) => {
     confirm({
@@ -82,9 +81,10 @@ const AdminDataUtilsSpealization = () => {
   const goToAdd = () => {
     console.log("adsdahjnbds")
     setInitialFormDataSpealization({ ...initialFormDataSpealization,  
-      title: "Edit",
+      title: "Create",
       data: { id: 0, name: "" }
     })
+    // history.push("/admin/data/utils/spealization/create")
     dispatch(put_data_admin("modal_form_utils_spealization", true));
   }
   const goToEdit = (id) => {

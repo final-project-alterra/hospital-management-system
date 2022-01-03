@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import OrganismsCmsSidebar from '../../components/organisms/cms/sidebar'
 import OrganismsCmsContent from '../../components/organisms/cms/content'
 import { useLocation, useHistory } from "react-router-dom";
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 
-import { adminMenu, doctorMenu } from '../../components/organisms/cms/sidebar/menu';
+import { adminMenu, doctorMenu, nurseMenu } from '../../components/organisms/cms/sidebar/menu';
 
 import './style.scss' 
 
@@ -15,7 +15,9 @@ const LayoutsCms = (props) => {
   const [openMenu, setOpenMenu] = useState([])
   const location = useLocation();
   const history = useHistory();  
-  const role = useSelector(state => state.main.role)
+  // const role = useSelector(state => state.main.role)
+  const role = location.pathname.split("/")[1];
+  console.log("location: ",role)
   useEffect(() => {
     getMenu(role)
     // eslint-disable-next-line
@@ -26,12 +28,13 @@ const LayoutsCms = (props) => {
   }, [list, location])
   const getMenu = (menuMode) => {
     if (menuMode === 'admin') {      
-      setList(adminMenu)
-      console.log(list)
-    } else if (menuMode === 'doctor') {      
-      setList(doctorMenu)
-      console.log(list)
+      setList(adminMenu)      
+    } else if (menuMode === 'doctor') {
+      setList(doctorMenu)      
+    } else if (menuMode === 'nurse') {
+      setList(nurseMenu)
     }
+    console.log(list)
   }
   const checkMenu = async () => {    
     // let menuSelected = {};
@@ -66,6 +69,7 @@ const LayoutsCms = (props) => {
   return (
     <div className="l-cms">
       <OrganismsCmsSidebar 
+        role={role}
         activeMenu={selectedMenu}
         openSubMenu={openMenu}
         goToMenu={goToMenu}

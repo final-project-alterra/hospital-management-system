@@ -21,33 +21,21 @@ const OrganismsAdminOutpatientForm = ({ goBack, initialFormData, handleSubmit })
               name="doctorName"              
               required={false}              
             >
-              <Input />
+              <Input disabled={true} />
             </Form.Item>            
             <Form.Item
               label="Outpatient Date"
               name="date"
-              required={false}
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Phone Number!",
-                }            
-              ]}
+              required={false}              
             >
-              <Input />
+              <Input disabled={true} />
             </Form.Item>            
             <Form.Item
               label="Doctor Schedule Time"
               name="schedule"
-              required={false}
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Phone Number!",
-                }            
-              ]}
+              required={false}              
             >
-              <Input />
+              <Input disabled={true} />
             </Form.Item>            
           </Col>
           <Col span={12}>

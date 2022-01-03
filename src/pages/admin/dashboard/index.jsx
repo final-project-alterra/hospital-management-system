@@ -48,6 +48,18 @@ const AdminDashboard = () => {
       url: '/admin/data/admin',
       img_url: '',
     },
+    {
+      title: "Admin Outpatient",
+      desc: "See Admin’s outpatient to see list outpatient in Hospital",
+      url: '/admin/outpatient',
+      img_url: '',
+    },
+    {
+      title: "Manage Schedule",
+      desc: "See schedule to see list schedule and create outpatient from schedule in Hospital",
+      url: '/admin/schedule',
+      img_url: '',
+    },
   ];
   
   const dispatch = useDispatch()  

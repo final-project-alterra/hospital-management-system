@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Space, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms';
 
 import './style.scss'
+import { get_data } from '../../../../redux/actions/admin';
 
 const AdminDataPatient = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const { confirm } = Modal;
   const activeMenu = {
@@ -38,7 +41,13 @@ const AdminDataPatient = () => {
       label: 'Patient',
       url: '/admin/data/patient',
     },
-  ];    
+  ];  
+  
+  useEffect(() => {
+    dispatch(get_data('patients', 'patient_list'));
+  }, [dispatch]);
+  const initialPatientList = useSelector(state => state.admin?.patient_list)
+  console.log(initialPatientList)
   
   const listPatient = {
     title: "List Patient",
@@ -82,22 +91,7 @@ const AdminDataPatient = () => {
         },
       },
     ],
-    data: [
-      {
-        key: '1',
-        name: 'Mike',
-        phone: "081212312322",
-        age: 32,
-        gender: 'Laki-laki',
-      },
-      {
-        key: '2',
-        name: 'John',
-        phone: "081212312322",
-        age: 42,
-        gender: 'Laki-laki',
-      },
-    ]
+    data: initialPatientList,
   };
   const goToAddPatient = () => {
     history.push("/admin/data/patient/create")

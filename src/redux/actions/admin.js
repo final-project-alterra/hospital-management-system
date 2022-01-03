@@ -1,8 +1,91 @@
+import axios from 'axios';
+
 export const put_data_admin = (key, data) => ({
 	type: "PUT_DATA_ADMIN",
 	key,
 	data,
 })
+
+export const get_data = (url, state_key) => {
+  return (dispatch) => {
+    // dispatch(toggle_loader(true))            
+    axios
+      .get(url)
+      .then((resp) => {
+        let respData = resp.data.data.map((dt) => {
+          return {
+            ...dt,
+            key: dt.id
+          }
+        })
+        console.log("coba: ", respData)
+        dispatch(put_data_admin(state_key, respData))
+      })
+      .catch((err) => {      
+        // dispatch(error(err?.response?.data))
+        console.log(err);
+      })
+      .then(() => {
+        // dispatch(toggle_loader(false))
+      });
+  }
+}
+
+export const get_list_doctors = () => {
+  return (dispatch) => {
+    // dispatch(toggle_loader(true))            
+    axios
+      .get('doctors')
+      .then((resp) => {        
+        let aa = resp.data.data.map((dt) => {
+          return {
+            id: dt.id,
+            key: dt.id,
+            name: dt.name,
+            speciality: dt.speciality.name,
+            phone: dt.phone,
+            age: dt.age,
+          }
+        })
+        console.log("Masuk: ", aa)
+        dispatch(put_data_admin("doctor_list", aa))
+      })
+      .catch((err) => {      
+        // dispatch(error(err?.response?.data))
+        console.log(err);
+      })
+      .then(() => {
+        // dispatch(toggle_loader(false))
+      });
+  }
+}
+export const get_data_doctor = (id) => {
+  return (dispatch) => {
+    // dispatch(toggle_loader(true))            
+    axios
+      .get(`doctors`)
+      .then((resp) => {
+        let newData = resp.data.data.map((dt) => {
+          return {
+            id: dt.id,
+            name: dt.name,
+            speciality: dt.speciality.name,
+            phone: dt.phone,
+            age: dt.age,
+          }
+        })
+        console.log("Masuk: ", newData)
+        dispatch(put_data_admin("doctor_data", newData))
+      })
+      .catch((err) => {      
+        // dispatch(error(err?.response?.data))
+        console.log(err);
+      })
+      .then(() => {
+        // dispatch(toggle_loader(false))
+      });
+  }
+}
 
 export const get_outpatient = () => {
   return (dispatch) => {

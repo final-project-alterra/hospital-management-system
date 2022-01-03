@@ -1,5 +1,6 @@
-import React from 'react'
-import { Link, useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Tabs, Space } from 'antd';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import LayoutsCms from '../../../../../layouts/cms';
@@ -7,10 +8,12 @@ import OrganismsAdminDataDoctorDetailInfo from '../../../../../components/organi
 
 import './style.scss'
 import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
+import { get_data } from '../../../../../redux/actions/admin';
 
 const { TabPane } = Tabs;
 
 const AdminDataDoctorDetail = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const activeMenu = {
     key: 'data-doctor',
@@ -35,30 +38,38 @@ const AdminDataDoctorDetail = () => {
     },
   ];
 
+  let { id } = useParams();
+  console.log("id: ", id)
+  useEffect(() => {
+    dispatch(get_data(`doctors/${id}`, 'doctor_data'));
+  }, [dispatch, id]);
+  const doctorData = useSelector(state => state.admin?.doctor_data)
+  console.log(doctorData)
+
   const initialDoctorData = [
     {
       label: "Fullname",
-      value: "dr. Alifia Shafira",
+      value: doctorData?.name,
     },
     {
       label: "Phone Number",
-      value: "081272022711",
+      value: doctorData?.phone,
     },
     {
       label: "Age",
-      value: "12",
+      value: doctorData?.age,
     },
     {
       label: "Gender",
-      value: "12",
+      value: doctorData?.gender,
     },
     {
       label: "Spealicity",
-      value: "Dokter Gigi",
+      value: doctorData?.speciality?.name,
     },
     {
       label: "Address",
-      value: "Jl. Menuju Surga",
+      value: doctorData?.address,
     },
   ];
   const listSchedule = {

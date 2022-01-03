@@ -3,10 +3,10 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminDataPatientDetailHeader = () => {
+const OrganismsAdminDataPatientDetailHeader = ({ goBack }) => {
   return (
     <div className="o-admin-data-doctor-detail-header">
-      <ArrowLeftOutlined />
+      <ArrowLeftOutlined onClick={goBack} />
       <h4>Detail Patient</h4>
     </div>
   )

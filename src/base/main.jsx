@@ -38,6 +38,10 @@ import AdminScheduleCreate from '../pages/admin/schedule/create';
 import AdminScheduleEdit from '../pages/admin/schedule/edit';
 
 import '../assets/scss/index.scss'
+import NurseDashboard from '../pages/nurse/dashboard';
+import NurseSchedule from '../pages/nurse/schedule';
+import NurseScheduleOutpatient from '../pages/nurse/schedule/outpatient';
+import NurseScheduleOutpatientExamine from '../pages/nurse/schedule/outpatient/examine';
 
 const Main = () => { 
   const dispatch = useDispatch();  
@@ -64,7 +68,7 @@ const Main = () => {
           <Route exact path="/admin/data/patient/detail/:id" component={AdminDataPatientDetail} />
           <Route exact path="/admin/data/patient/edit/:id" component={AdminDataPatientEdit} />
           
-          <Route exact path="/admin/data/utils" component={AdminDataUtils} />
+          <Route exact path="/admin/data/utils" component={AdminDataUtils} />          
 
           <Route exact path="/admin/outpatient" component={AdminOutpatient} />
           <Route exact path="/admin/outpatient/create" component={AdminOutpatientCreate} />
@@ -80,6 +84,11 @@ const Main = () => {
           <Route exact path="/doctor/schedule" component={DoctorSchedule} />
           <Route exact path="/doctor/schedule/:id/outpatient" component={DoctorScheduleOutpatient} />
           <Route exact path="/doctor/schedule/:id/outpatient/examine" component={DoctorScheduleOutpatientExamine} />
+          
+          <Route exact path="/nurse/dashboard" component={NurseDashboard} />
+          <Route exact path="/nurse/schedule" component={NurseSchedule} />
+          <Route exact path="/nurse/schedule/:id/outpatient" component={NurseScheduleOutpatient} />
+          <Route exact path="/nurse/schedule/:id/outpatient/:idPatient" component={NurseScheduleOutpatientExamine} />
         </Switch>
       </Spin> 
     </Router>

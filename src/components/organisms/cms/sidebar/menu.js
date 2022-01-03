@@ -30,6 +30,12 @@ export const adminMenu = [
         icon: '',
       },
       {
+        key: 'data-nurse',
+        label: 'Nurse',
+        url: '/admin/data/nurse',
+        icon: '',
+      },
+      {
         key: 'data-utils',
         label: 'Utils',
         url: '/admin/data/utils',

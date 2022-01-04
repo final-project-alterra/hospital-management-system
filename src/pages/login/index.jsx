@@ -11,15 +11,15 @@ const Login = () => {
   const location = useLocation();
   const dispatch = useDispatch();  
   const history = useHistory();
-  const { isAuthenticated, user_jwt_data } = useSelector(state => state.auth); 
-  console.log(isAuthenticated, user_jwt_data)
-  if (isAuthenticated && user_jwt_data) {
-    if(!(Date.now() >= user_jwt_data.exp * 1000)) {
-      console.log("state: ", user_jwt_data)
-      const { from } = location.state || { from: { pathname: `/${user_jwt_data.role}/dashboard` } };
+  const { isAuthenticated, userJWTData } = useSelector(state => state.auth); 
+  console.log(isAuthenticated, userJWTData)
+  if (isAuthenticated && userJWTData) {
+    if(!(Date.now() >= userJWTData.exp * 1000)) {
+      console.log("state: ", userJWTData)
+      const { from } = location.state || { from: { pathname: `/${userJWTData.role}/dashboard` } };
       history.replace(from)
     } else {
-      dispatch(put_data_auth("user_jwt_data", false));
+      dispatch(put_data_auth("userJWTData", false));
       dispatch(put_data_auth("isAuthenticated", false));
       dispatch(put_data("user_data", false));
     }
@@ -29,7 +29,7 @@ const Login = () => {
     console.log(values)
     dispatch(auth_login(values, history))
   }
-  console.log("userrr: ", user_jwt_data)
+  console.log("userrr: ", userJWTData)
   return (
     <div className='p-login'>
       <div className='p-login__cover'>

@@ -21,7 +21,7 @@ export const auth_login = (payload, history) => {
         
         window.localStorage.setItem('token', resp.data.data.token);
         setAxios();
-        dispatch(put_data_auth("user_jwt_data", decoded));
+        dispatch(put_data_auth("userJWTData", decoded));
         dispatch(put_data_auth("isAuthenticated", true));
         history.push(`/${decoded.role}/dashboard`);
       })

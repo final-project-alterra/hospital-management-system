@@ -20,15 +20,16 @@ const LayoutsCms = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { user_jwt_data } = useSelector(state => state.auth); 
+  const { userJWTData } = useSelector(state => state.auth); 
+  console.log("user jwt", userJWTData)
   useEffect(() => {
-    if(user_jwt_data?.role) {
-      dispatch(get_profile_data(`${user_jwt_data.role}s/${user_jwt_data.userId}`))
+    if(userJWTData?.role) {
+      dispatch(get_profile_data(`${userJWTData.role}s/${userJWTData.userId}`))
     }
-  }, [dispatch, user_jwt_data]);
+  }, [dispatch, userJWTData]);
 
   const { user_data } = useSelector(state => state.main);   
-  const role = user_jwt_data?.role || location.pathname.split("/")[1];
+  const role = userJWTData?.role || location.pathname.split("/")[1];
   
   useEffect(() => {
     getMenu(role)
@@ -60,7 +61,7 @@ const LayoutsCms = (props) => {
     setOpenMenu(key)
   }
   const handleLogout = () => {
-    dispatch(put_data_auth("user_jwt_data", false));
+    dispatch(put_data_auth("userJWTData", false));
     dispatch(put_data_auth("isAuthenticated", false));
     dispatch(put_data("user_data", false));
     history.push('/');

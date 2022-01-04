@@ -6,13 +6,13 @@ const PrivateRoute = (props) => {
   const location = useLocation();
   const auth = useSelector(state => state.auth); // get auth state  
   
-  const { isAuthenticated, user_jwt_data } = auth;
+  const { isAuthenticated, userJWTData } = auth;
   
-  let isExpired = false;
-  if(user_jwt_data)  {
-    isExpired = Date.now() >= user_jwt_data.exp * 1000;
+  let isExpired = true;
+  if(userJWTData)  {
+    isExpired = Date.now() >= userJWTData.exp * 1000;
   }
-  console.log("Masuk private", isExpired)  
+  console.log("Masuk private", isAuthenticated)  
 
   return isAuthenticated && isExpired === false  ? (
     <Route {...props} />

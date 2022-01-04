@@ -1,6 +1,5 @@
 const auth_state = {
-	user_jwt_data: false,
-  user_token: false,
+	userJWTData: false,  
   isAuthenticated: false,
 }
 

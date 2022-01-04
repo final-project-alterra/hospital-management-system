@@ -18,7 +18,7 @@ const Login = () => {
       console.log("state: ", userJWTData)
       const { from } = location.state || { from: { pathname: `/${userJWTData.role}/dashboard` } };
       history.replace(from)
-    } else {
+    } else { 
       dispatch(put_data_auth("userJWTData", false));
       dispatch(put_data_auth("isAuthenticated", false));
       dispatch(put_data("user_data", false));

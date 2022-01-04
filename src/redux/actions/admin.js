@@ -26,11 +26,72 @@ export const get_data = (url, state_key) => {
         dispatch(put_data_admin(state_key, data))
       })
       .catch((err) => {      
-        // dispatch(error(err?.response?.data))
+        dispatch(main.error(err?.response?.data?.error?.message));
         console.log(err);
       })
       .then(() => {
         dispatch(main.toggle_loader(false));
+      });
+  }
+}
+
+export const post_admin_data = (url, payload, history, nextPage) => {
+  return (dispatch) => {
+    dispatch(main.toggle_loader(true));
+    axios
+      .post(url, payload)
+      .then((resp) => {
+        console.log("post: ", resp.data)
+        history.push(nextPage);
+      })
+      .catch((err) => {      
+        dispatch(main.error(err?.response?.data?.error?.message));
+        console.log(err);
+      })
+      .then(() => {
+        dispatch(main.toggle_loader(false));
+      });
+  }
+}
+
+export const put_admin_data = (url, payload, history, nextPage) => {
+  return (dispatch) => {
+    dispatch(main.toggle_loader(true));
+    axios
+      .put(url, payload)
+      .then((resp) => {
+        console.log("post: ", resp.data)
+        history.push(nextPage);
+      })
+      .catch((err) => {      
+        dispatch(main.error(err?.response?.data?.message));
+        console.log(err);
+      })
+      .then(() => {
+        dispatch(main.toggle_loader(false));
+      });
+  }
+}
+
+export const delete_admin_data = (url, id, state_key) => {
+  return (dispatch) => {
+    dispatch(main.toggle_loader(true));
+    axios
+      .delete(`${url}/${id}`)
+      .then((resp) => {
+        console.log("post: ", resp.data)        
+      })
+      .catch((err) => {      
+        dispatch(main.error(err?.response?.data?.message));
+        console.log(err);
+      })
+      .then(() => {
+        dispatch(main.toggle_loader(false));
+        if(url === "doctors") {
+          dispatch(get_list_doctors())
+        } else {
+          dispatch(get_data(url, state_key))
+        }
       });
   }
 }

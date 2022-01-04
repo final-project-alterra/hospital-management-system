@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Tabs } from 'antd';
-import { useHistory } from 'react-router-dom';
-import MoleculesGoBack from '../../../../../components/molecules/goBack';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
+import { get_data, put_admin_data } from '../../../../../redux/actions/admin';
+import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form'
 import LayoutsCms from '../../../../../layouts/cms';
 
@@ -11,7 +13,9 @@ import OrganismsWidgetFormChangePassword from '../../../../../components/organis
 
 const AdminDataDoctorEdit = () => {
   const { TabPane } = Tabs;
+  const dispatch = useDispatch();
   const history = useHistory();
+  const { id } = useParams();
   const activeMenu = {
     key: 'data-doctor',
     openKey: 'data',
@@ -30,23 +34,41 @@ const AdminDataDoctorEdit = () => {
       url: '/admin/data/patient',
     },
   ];
+  
+  useEffect(() => {
+    dispatch(get_data(`doctors/${id}`, 'doctor_data'));
+    dispatch(get_data('specialities', 'speciality_list'));
+    dispatch(get_data('rooms', 'room_list'));
+  }, [dispatch, id]);
+  const doctorData = useSelector(state => state.admin?.doctor_data);
+  const { speciality_list, room_list } = useSelector(state => state.admin);  
+  console.log(doctorData);
+
   const initialFormData = {
     title: 'Edit',
     data: {
-      fullname: 'Alfi',
-      phone: '08123722821',
-      age: '32',
-      gender: 'L',
-      speciality: 'bedah',
-      address: 'Jl. Megang Sana Megang Sini',
-      email: 'alfin@mail.com',
+      name: doctorData?.name,
+      phone: doctorData?.phone,
+      age: doctorData?.age,
+      gender: doctorData?.gender,
+      specialityId: doctorData?.speciality?.id,
+      roomId: doctorData?.room?.id,
+      address: doctorData?.address,
+      email: doctorData?.email,
+      password: doctorData?.password,
     },
   };
+
   const goBack = () => {
     history.push('/admin/data/doctor');
   }  
-  const handleEdit = (data) => {
-    console.log(data)
+  const handleEdit = (dataEdit) => {
+    dataEdit = {
+      ...dataEdit,
+      id: parseInt(id)
+    }
+    console.log(dataEdit)
+    dispatch(put_admin_data(`doctors`, dataEdit, history, '/admin/data/doctor'));
   }  
   return (    
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
@@ -57,13 +79,15 @@ const AdminDataDoctorEdit = () => {
             <OrganismsAdminDataDoctorForm 
               goBack={goBack}
               initialFormData={initialFormData.data}
+              initialSpecialityList={speciality_list}
+              initialRoomList={room_list}
               handleSubmit={(values) => handleEdit(values)} 
             />
           </TabPane>
           <TabPane tab="Change Password" key="2">
             <OrganismsWidgetFormChangePassword
               goBack={goBack}
-              initialFormData={initialFormData.data}
+              initialFormData={initialFormData.data}              
               handleSubmit={(values) => handleEdit(values)} 
             />
           </TabPane>          

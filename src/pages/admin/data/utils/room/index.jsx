@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Space, Modal } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
 
 import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
-import { put_data_admin } from '../../../../../redux/actions/admin';
+import { get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
 import OrganismsAdminDataUtilsFormRoom from '../../../../../components/organisms/admin/data/utils/form/room';
+import { useHistory } from 'react-router-dom';
 
 const AdminDataUtilsRoom = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { confirm } = Modal;
   const askToDelete = (id) => {
     confirm({
@@ -20,14 +22,23 @@ const AdminDataUtilsRoom = () => {
         console.log('Delete id', id);
       },      
     });
-  }
+  };
+
+  const adminState = useSelector(state => state.admin)
+  const showModal = adminState?.modal_form_utils_room
+
+  useEffect(() => {
+    dispatch(get_data('rooms', 'room_list'));
+  }, [dispatch, showModal]);
+
+  const initialRoomList = adminState?.room_list;  
   const listRoom = {
     title: "List Room",
     columns: [
       {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
+        title: 'Code',
+        dataIndex: 'code',
+        key: 'code',
       },
       {
         title: 'Floor',
@@ -42,7 +53,7 @@ const AdminDataUtilsRoom = () => {
             <Space size="middle">              
               <p
                 className="text-link" 
-                onClick={() => goToEdit(record.key)}
+                onClick={() => goToEdit(record)}
               >
                 Edit
               </p>
@@ -57,47 +68,34 @@ const AdminDataUtilsRoom = () => {
         },
       },
     ],
-    data: [
-      {
-        key: '1',
-        name: 'A2000',
-        floor: "2",
-      },     
-      {
-        key: '2',
-        name: 'A2000',
-        floor: "2",
-      },     
-      {
-        key: '3',
-        name: 'A2000',
-        floor: "2",
-      },     
-      {
-        key: '4',
-        name: 'A2000',
-        floor: "2",
-      },     
-    ]
+    data: initialRoomList
   };
-  const [initialFormDataRoom, setInitialFormDataRoom] = useState({})
+  const [initialFormDataRoom, setInitialFormDataRoom] = useState({})  
 
   const goToAdd = () => {
     setInitialFormDataRoom({ ...initialFormDataRoom,  
       title: "Create",
-      data: { id: 0, name: '', floor: '' }
+      data: { id: 0, code: '', floor: '' }
     })
     dispatch(put_data_admin("modal_form_utils_room", true))
   }
-  const goToEdit = (id) => {
-    setInitialFormDataRoom({ ...initialFormDataRoom,  
+  const goToEdit = (data) => {
+    // dispatch(get_data(`rooms/${id}`, 'room_data'));
+    setInitialFormDataRoom({
       title: "Edit",
-      data: { id, name: "A2000", floor: '2' }
+      data
     })
     dispatch(put_data_admin("modal_form_utils_room", true))
   }
-  const handleSubmit = (value) => {
-    console.log(value)    
+  const handleSubmit = (value) => {    
+    if(value.id === 0) {
+      value = { code: value.code, floor: value.floor }
+      console.log(value);
+      dispatch(post_admin_data("rooms", value, history, '/admin/data/utils'));
+    } else {
+      console.log(value);
+      dispatch(put_admin_data("rooms", value, history, '/admin/data/utils'));
+    }
   }
 
   return (

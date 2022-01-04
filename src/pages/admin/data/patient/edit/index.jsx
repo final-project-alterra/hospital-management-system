@@ -1,17 +1,18 @@
-import React from 'react'
-import { Tabs } from 'antd';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
 import OrganismsAdminDataPatientForm from '../../../../../components/organisms/admin/data/patient/form'
-import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import LayoutsCms from '../../../../../layouts/cms';
 
 import './style.scss'
+import { get_data, put_admin_data } from '../../../../../redux/actions/admin';
 
-const AdminDataPatientEdit = () => {
-  const { TabPane } = Tabs;
+const AdminDataPatientEdit = () => {  
   const history = useHistory();
+  const { id } =useParams();
+  const dispatch = useDispatch();
   const activeMenu = {
     key: 'data-patient',
     openKey: 'data',
@@ -33,44 +34,37 @@ const AdminDataPatientEdit = () => {
       label: 'Edit',
       url: '/admin/data/patient/edit',
     },
-  ];
+  ];  
+  useEffect(() => {
+    dispatch(get_data(`patients/${id}`, 'patient_data'));
+  }, [dispatch, id]);
+  const patientData = useSelector(state => state.admin?.patient_data)
+  console.log(patientData)
+
   const initialFormData = {
     title: 'Edit',
-    data: {
-      fullname: 'Alfi',
-      phone: '08123722821',
-      age: '32',
-      gender: 'L',
-      speciality: 'bedah',
-      address: 'Jl. Megang Sana Megang Sini',
-    }
+    data: patientData,
   }
   const goBack = () => {
     history.push('/admin/data/patient');
   }  
-  const handleEdit = (data) => {
+  const handleEdit = (data) => {        
+    data = {
+      ...data,
+      id: parseInt(id)
+    }
     console.log(data)
+    dispatch(put_admin_data(`patients`, data, history, '/admin/data/patient'));    
   }  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
       <div className="o-admin-data-patient-edit">
         <MoleculesGoBack title={`${initialFormData.title} Patient`} goBack={goBack} />
-        <Tabs defaultActiveKey="1" >
-          <TabPane tab="Informasi Pribadi" key="1">
-            <OrganismsAdminDataPatientForm
-              goBack={goBack}
-              initialFormData={initialFormData}
-              handleSubmit={(values) => handleEdit(values)} 
-            />
-          </TabPane>
-          <TabPane tab="Change Password" key="2">
-            <OrganismsWidgetFormChangePassword
-              goBack={goBack}
-              initialFormData={initialFormData}
-              handleSubmit={(values) => handleEdit(values)} 
-            />
-          </TabPane>          
-        </Tabs>        
+        <OrganismsAdminDataPatientForm
+          goBack={goBack}
+          initialFormData={initialFormData}
+          handleSubmit={(values) => handleEdit(values)} 
+        />
       </div>
     </LayoutsCms>
   )

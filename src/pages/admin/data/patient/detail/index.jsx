@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useHistory, useParams } from 'react-router-dom';
+
+import LayoutsCms from '../../../../../layouts/cms';
 import OrganismsAdminDataPatientDetailHeader from '../../../../../components/organisms/admin/data/patient/detail/header';
 import OrganismsAdminDataPatientDetailHistory from '../../../../../components/organisms/admin/data/patient/detail/history';
 import OrganismsAdminDataPatientDetailProfile from '../../../../../components/organisms/admin/data/patient/detail/profile';
-import LayoutsCms from '../../../../../layouts/cms';
+import { useDispatch, useSelector } from 'react-redux';
+import { get_data } from '../../../../../redux/actions/admin';
 
 const AdminDataPatientDetail = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const activeMenu = {
     key: 'data-patient',
     openKey: 'data',
@@ -27,12 +33,23 @@ const AdminDataPatientDetail = () => {
       url: '/admin/data/patient/detail',
     },
   ];
+  let { id } = useParams();
+  console.log("id: ", id)
+  useEffect(() => {
+    dispatch(get_data(`patients/${id}`, 'patient_data'));
+  }, [dispatch, id]);
+  const initialPatientData = useSelector(state => state.admin?.patient_data)
+  console.log(initialPatientData)
+
+  const goBack = () => {
+    history.push('/admin/data/patient');
+  }
 
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
-      <div className="p-admin-data-doctor-detail">
-        <OrganismsAdminDataPatientDetailHeader />
-        <OrganismsAdminDataPatientDetailProfile />
+      <div className="p-admin-data-patient-detail">
+        <OrganismsAdminDataPatientDetailHeader goBack={goBack} />
+        <OrganismsAdminDataPatientDetailProfile data={initialPatientData} />
         <OrganismsAdminDataPatientDetailHistory />
       </div>
     </LayoutsCms>

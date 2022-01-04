@@ -9,8 +9,8 @@ const OrganismsCmsHeader = ({ breadcrumb }) => {
     <div className="o-cms-header">
       <Breadcrumb>
         {
-          breadcrumb?.map((dt) => (            
-            <Breadcrumb.Item>          
+          breadcrumb?.map((dt, key) => (            
+            <Breadcrumb.Item key={key}>
               <Link to={dt.url} >{ dt.label }</Link>
             </Breadcrumb.Item>        
           ))

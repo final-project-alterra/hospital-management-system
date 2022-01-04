@@ -1,18 +1,33 @@
-import React from 'react'
-import { Space } from 'antd';
+import React, { useEffect } from 'react'
+import { Space, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms';
 
 import './style.scss'
+import { get_data } from '../../../../redux/actions/admin';
 
 const AdminDataPatient = () => {
-  const history = useHistory();  
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { confirm } = Modal;
   const activeMenu = {
     key: 'data-patient',
     openKey: 'data',
   };
+  const askToDelete = (id) => {
+    confirm({
+      title: 'Are you sure delete this patient?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'You can undo this change',
+      onOk() {
+        console.log('Delete id', id);
+      },      
+    });
+  }
   const breadcrumb = [
     {
       label: 'Admin',
@@ -27,9 +42,12 @@ const AdminDataPatient = () => {
       url: '/admin/data/patient',
     },
   ];  
-  const goToAddPatient = () => {
-    history.push("/admin/data/patient/create")
-  }
+  
+  useEffect(() => {
+    dispatch(get_data('patients', 'patient_list'));
+  }, [dispatch]);
+  const initialPatientList = useSelector(state => state.admin?.patient_list)
+  console.log(initialPatientList)
   
   const listPatient = {
     title: "List Patient",
@@ -57,38 +75,33 @@ const AdminDataPatient = () => {
       {
         title: 'Action',
         key: 'action',
-        render: () => (
-          <Space size="middle">
-            <Link to="/admin/data/patient/detail">Lihat Detail</Link>          
-            <Link to="/">Edit</Link>          
-            <p className="text-danger">Delete</p>
-          </Space>
-        ),
+        render: (text, record) => {
+          return (
+            <Space size="middle">
+              <Link to={`/admin/data/patient/detail/${record.key}`}>Lihat Detail</Link>
+              <Link to={`/admin/data/patient/edit/${record.key}`}>Edit</Link>
+              <p 
+                className="text-danger" 
+                onClick={() => askToDelete(record.key)}
+              >
+                Delete
+              </p>
+            </Space>
+          )
+        },
       },
     ],
-    data: [
-      {
-        key: '1',
-        name: 'Mike',
-        phone: "081212312322",
-        age: 32,
-        gender: 'Laki-laki',
-      },
-      {
-        key: '2',
-        name: 'John',
-        phone: "081212312322",
-        age: 42,
-        gender: 'Laki-laki',
-      },
-    ]
+    data: initialPatientList,
   };
+  const goToAddPatient = () => {
+    history.push("/admin/data/patient/create")
+  }
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
-      <div className="p-admin-data-doctor">
+      <div className="p-admin-data-patient">
         <OrganismsWidgetList 
           list={listPatient}
-          goToAddPatient={() => goToAddPatient()} 
+          goToAddPage={() => goToAddPatient()} 
         />
       </div>      
     </LayoutsCms>

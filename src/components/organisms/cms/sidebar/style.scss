@@ -3,11 +3,13 @@
 .o-cms-sidebar {
   background-color: white;
   flex-basis: 20%;
-  width: 100%;
+  width: 100%;  
+  height: 100vh;
   &__profile {
+    height: 15%;
     display: flex;
     align-items: center;
-    padding: 2.5em 2em 4em;
+    padding: 0 2em;
     &-info {      
       margin-left: 1em;
       h4 {
@@ -17,12 +19,35 @@
       p {
         margin-bottom: 0;
         font-size: 1.4em;
+        text-transform: capitalize;
         color: $secondary-45-color;
+      }
+    }
+  }
+  &__menu {
+    height: 83%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;    
+    &-logout {
+      cursor: pointer;
+      color: $danger;
+      margin-top: 2em;      
+      padding: 0.8em 0 0.8em 24px;  
+      font-size: 1.4em;
+      display: flex;
+      align-items: center;
+      p {
+        margin-left: 10px;
+        margin-bottom: 0;
+      }
+      &:hover {
+        background-color: $danger;
+        color: white;
       }
     }
   }
   ul {
     width: 100%;
-  }
-  height: 100vh;
+  }  
 }

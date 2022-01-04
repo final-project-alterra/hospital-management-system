@@ -29,6 +29,11 @@ const OrganismsAdminDataDoctor = (props) => {
       key: 'gender',
     },
     {
+      title: 'Speciality',
+      dataIndex: 'speciality',
+      key: 'speciality'
+    },
+    {
       title: 'Action',
       key: 'action',
       render: () => (
@@ -47,6 +52,7 @@ const OrganismsAdminDataDoctor = (props) => {
       phone: "081212312322",
       age: 32,
       gender: '10 Downing Street',
+      speciality: 'bedah',
     },
     {
       key: '2',
@@ -54,6 +60,7 @@ const OrganismsAdminDataDoctor = (props) => {
       phone: "081212312322",
       age: 42,
       gender: '10 Downing Street',
+      speciality: 'kandungan',
     },
   ];
 
@@ -63,7 +70,7 @@ const OrganismsAdminDataDoctor = (props) => {
   return (
     <div className='o-admin-data-doctor'>
       <div className="o-admin-data-doctor__header">
-        <h3>List Patient</h3>
+        <h3>List Doctor</h3>
         <div className="o-admin-data-doctor__header-action">
           <Space size={15}>
             <Search placeholder="input search text" onSearch={onSearch} style={{ width: 200 }} />

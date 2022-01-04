@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import OrganismsCmsSidebar from '../../components/organisms/cms/sidebar'
 import OrganismsCmsContent from '../../components/organisms/cms/content'
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
+// import { useSelector } from 'react-redux';
 
 
-import {
-  adminMenu,  
-} from '../../components/organisms/cms/sidebar/menu';
-
-import './style.scss'
-import { useHistory } from 'react-router-dom';
+import { adminMenu, doctorMenu, nurseMenu } from '../../components/organisms/cms/sidebar/menu';
 
 import './style.scss' 
+import { get_profile_data, modal_success, put_data } from '../../redux/actions/main';
+import { put_data_auth } from '../../redux/actions/auth';
 
 const LayoutsCms = (props) => {  
   const [list, setList] = useState([])
   const [selectedMenu, setSelectedMenu] = useState([])
   const [openMenu, setOpenMenu] = useState([])
   const location = useLocation();
-  const history = useHistory();  
+  const history = useHistory();
+  const dispatch = useDispatch();
 
+  const { userJWTData } = useSelector(state => state.auth); 
+  console.log("user jwt", userJWTData)
   useEffect(() => {
-    getMenu("admin")
+    if(userJWTData?.role) {
+      dispatch(get_profile_data(`${userJWTData.role}s/${userJWTData.userId}`))
+    }
+  }, [dispatch, userJWTData]);
+
+  const { user_data } = useSelector(state => state.main);   
+  const role = userJWTData?.role || location.pathname.split("/")[1];
+  
+  useEffect(() => {
+    getMenu(role)
     // eslint-disable-next-line
   }, [location])
   useEffect(() => {
@@ -30,30 +41,15 @@ const LayoutsCms = (props) => {
   }, [list, location])
   const getMenu = (menuMode) => {
     if (menuMode === 'admin') {      
-      setList(adminMenu)
-      console.log(list)
+      setList(adminMenu)      
+    } else if (menuMode === 'doctor') {
+      setList(doctorMenu)      
+    } else if (menuMode === 'nurse') {
+      setList(nurseMenu)
     }
+    console.log(list)
   }
-  const checkMenu = async () => {    
-    // let menuSelected = {};
-    // const findMenu = await list.find((el) => {
-    //   let elm = {};
-    //   if(el.children) {
-    //     elm = el.children.find((elC) => elC.url === location.pathname)
-    //     console.log(elm)
-    //     return {
-    //       key: 'asadasdas'
-    //     }
-    //   } 
-    //   return el.url === location.pathname;
-    // }) || {};    
-    // if(findMenu.children) {
-    //   menuSelected = findMenu.children.find((el) => el.url === location.pathname)
-    //   setOpenMenu(findMenu.key)      
-    // } else {
-    //   menuSelected = findMenu
-    //   setOpenMenu(false)
-    // }    
+  const checkMenu = async () => {
     setSelectedMenu([props.activeMenu.key || '']);
     setOpenMenu([props.activeMenu.openKey || '']);
   }  
@@ -64,13 +60,23 @@ const LayoutsCms = (props) => {
     console.log(key)
     setOpenMenu(key)
   }
+  const handleLogout = () => {
+    dispatch(put_data_auth("userJWTData", false));
+    dispatch(put_data_auth("isAuthenticated", false));
+    dispatch(put_data("user_data", false));
+    history.push('/');
+    dispatch(modal_success("Berhasil Logout"));
+  }
   return (
     <div className="l-cms">
       <OrganismsCmsSidebar 
+        role={role}
+        profileData={user_data}
         activeMenu={selectedMenu}
         openSubMenu={openMenu}
         goToMenu={goToMenu}
         handleOpenChange={handleOpenChange}
+        handleLogout={handleLogout}
         list={list}
       />
       <OrganismsCmsContent breadcrumb={props.breadcrumb}>

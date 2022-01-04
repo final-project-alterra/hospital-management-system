@@ -2,6 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom';
 
 import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form'
+import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import LayoutsCms from '../../../../../layouts/cms';
 
 import './style.scss'
@@ -19,11 +20,11 @@ const AdminDataDoctorCreate = () => {
     },
     {
       label: 'Data',
-      url: '/admin/data/patient',
+      url: '/admin/data/doctor',
     },
     {
       label: 'Doctor',
-      url: '/admin/data/patient',
+      url: '/admin/data/doctor',
     },
   ];
   const initialFormData = {
@@ -35,6 +36,8 @@ const AdminDataDoctorCreate = () => {
       gender: 'L',
       speciality: 'bedah',
       address: '',
+      email: '',
+      password: '',
     }
   }
   const goBack = () => {
@@ -46,9 +49,10 @@ const AdminDataDoctorCreate = () => {
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
       <div className="o-admin-data-doctor-create">
+        <MoleculesGoBack title={`${initialFormData.title} Doctor`} goBack={goBack} />
         <OrganismsAdminDataDoctorForm 
           goBack={goBack}
-          initialFormData={initialFormData}
+          initialFormData={initialFormData.data}
           handleSubmit={(values) => handleCreate(values)} 
         />
       </div>

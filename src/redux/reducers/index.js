@@ -7,7 +7,7 @@ import main from './main';
 import auth from './auth';
 import doctor from './doctor';
 
-const rootPersistConfig = {
+const rootPersistConfig = { 
   key: 'root',
   storage,
   whitelist: [''],

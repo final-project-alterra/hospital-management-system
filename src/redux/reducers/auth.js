@@ -1,5 +1,6 @@
 const auth_state = {
-	user: {},  
+	userJWTData: false,  
+  isAuthenticated: false,
 }
 
 const auth = (state = auth_state, action) => {

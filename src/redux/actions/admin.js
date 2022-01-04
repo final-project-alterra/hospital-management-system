@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as main from './main';
 
 export const put_data_admin = (key, data) => ({
 	type: "PUT_DATA_ADMIN",
@@ -8,32 +9,35 @@ export const put_data_admin = (key, data) => ({
 
 export const get_data = (url, state_key) => {
   return (dispatch) => {
-    // dispatch(toggle_loader(true))            
+    dispatch(main.toggle_loader(true));
     axios
       .get(url)
       .then((resp) => {
-        let respData = resp.data.data.map((dt) => {
-          return {
-            ...dt,
-            key: dt.id
-          }
-        })
-        console.log("coba: ", respData)
-        dispatch(put_data_admin(state_key, respData))
+        console.log("coba: ", resp.data)
+        let data = resp.data.data;
+        if(Array.isArray(data)) {
+          data = data.map((dt) => {
+            return {
+              ...dt,
+              key: dt.id
+            }
+          })
+        }
+        dispatch(put_data_admin(state_key, data))
       })
       .catch((err) => {      
         // dispatch(error(err?.response?.data))
         console.log(err);
       })
       .then(() => {
-        // dispatch(toggle_loader(false))
+        dispatch(main.toggle_loader(false));
       });
   }
 }
 
 export const get_list_doctors = () => {
   return (dispatch) => {
-    // dispatch(toggle_loader(true))            
+    dispatch(main.toggle_loader(true));
     axios
       .get('doctors')
       .then((resp) => {        
@@ -55,13 +59,13 @@ export const get_list_doctors = () => {
         console.log(err);
       })
       .then(() => {
-        // dispatch(toggle_loader(false))
+        dispatch(main.toggle_loader(false));
       });
   }
 }
 export const get_data_doctor = (id) => {
   return (dispatch) => {
-    // dispatch(toggle_loader(true))            
+    dispatch(main.toggle_loader(true));
     axios
       .get(`doctors`)
       .then((resp) => {
@@ -82,7 +86,7 @@ export const get_data_doctor = (id) => {
         console.log(err);
       })
       .then(() => {
-        // dispatch(toggle_loader(false))
+        dispatch(main.toggle_loader(false));
       });
   }
 }

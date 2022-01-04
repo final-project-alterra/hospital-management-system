@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import Main from './base/main';
-import axios from 'axios';
+import * as defaults from "./helper/defaults"
 
 // STYLES
 import './index.css';
@@ -23,7 +23,8 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 const persistor = persistStore(store)
 
 // SET DEFAULT AXIOS
-axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
+// axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT;
+defaults.setAxios();
 
 ReactDOM.render(
   <Provider store={store}>

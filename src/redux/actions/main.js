@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Modal } from 'antd';
 
 export const put_data = (key, data) => ({
 	type: "PUT_DATA",
@@ -10,6 +11,15 @@ export const toggle_loader = (bool) => ({
   type: 'TOGGLE_LOADER',
   bool
 })
+
+export const modal_success = (msg) => {
+  return () => {
+    Modal.success({
+      content: msg,
+      centered: true,
+    });
+  }
+}
 
 export const check_role = () => {
   return (dispatch) => {
@@ -34,5 +44,15 @@ export const get_profile_data = (url) => {
       .then(() => {
         dispatch(toggle_loader(false));
       });
+  }
+}
+
+export const error = (msg) => {
+  return () => {
+    Modal.error({
+      title: 'Error!!',
+      content: msg,
+      centered: true,
+    });
   }
 }

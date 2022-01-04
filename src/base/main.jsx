@@ -67,10 +67,10 @@ const Main = () => {
           {/* <Route exact path="/admin/dashboard" component={AdminDashboard} /> */}          
           <PrivateRoute path="/admin/dashboard" component={AdminDashboard} />
 
-          <Route exact path="/admin/data/admin" component={AdminDataAdmin} />
-          <Route exact path="/admin/data/admin/create" component={AdminDataAdminCreate} />
-          <Route exact path="/admin/data/admin/detail/:id" component={AdminDataAdminDetail} />
-          <Route exact path="/admin/data/admin/edit/:id" component={AdminDataAdminEdit} />
+          <PrivateRoute exact path="/admin/data/admin" component={AdminDataAdmin} />
+          <PrivateRoute exact path="/admin/data/admin/create" component={AdminDataAdminCreate} />
+          <PrivateRoute exact path="/admin/data/admin/detail/:id" component={AdminDataAdminDetail} />
+          <PrivateRoute exact path="/admin/data/admin/edit/:id" component={AdminDataAdminEdit} />
 
           <Route exact path="/admin/data/doctor" component={AdminDataDoctor} />
           <Route exact path="/admin/data/doctor/create" component={AdminDataDoctorCreate} />

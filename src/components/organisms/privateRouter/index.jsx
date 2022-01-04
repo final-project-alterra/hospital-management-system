@@ -4,12 +4,17 @@ import { useSelector } from 'react-redux';
 
 const PrivateRoute = (props) => {
   const location = useLocation();
-  const auth = useSelector(state => state.auth); // get auth state
+  const auth = useSelector(state => state.auth); // get auth state  
   
-  const { isAuthenticated } = auth;
-  console.log("Masuk private", isAuthenticated)  
+  const { isAuthenticated, user_jwt_data } = auth;
+  
+  let isExpired = false;
+  if(user_jwt_data)  {
+    isExpired = Date.now() >= user_jwt_data.exp * 1000;
+  }
+  console.log("Masuk private", isExpired)  
 
-  return isAuthenticated ? (
+  return isAuthenticated && isExpired === false  ? (
     <Route {...props} />
   ) : (
     <Redirect

@@ -9,7 +9,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import { adminMenu, doctorMenu, nurseMenu } from '../../components/organisms/cms/sidebar/menu';
 
 import './style.scss' 
-import { get_profile_data, put_data } from '../../redux/actions/main';
+import { get_profile_data, modal_success, put_data } from '../../redux/actions/main';
 import { put_data_auth } from '../../redux/actions/auth';
 
 const LayoutsCms = (props) => {  
@@ -64,6 +64,7 @@ const LayoutsCms = (props) => {
     dispatch(put_data_auth("isAuthenticated", false));
     dispatch(put_data("user_data", false));
     history.push('/');
+    dispatch(modal_success("Berhasil Logout"));
   }
   return (
     <div className="l-cms">

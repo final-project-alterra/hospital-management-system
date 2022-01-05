@@ -79,7 +79,7 @@ const OrganismsAdminDataAdminForm = ({ goBack, initialFormData, handleSubmit }) 
               <Input.TextArea showCount maxLength={100} />
             </Form.Item>            
             {
-              initialFormData.data.password && 
+              initialFormData.data.email === '' && 
               <>
                 <Form.Item
                   label="Email"

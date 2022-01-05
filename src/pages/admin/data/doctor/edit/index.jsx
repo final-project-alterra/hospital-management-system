@@ -70,6 +70,15 @@ const AdminDataDoctorEdit = () => {
     console.log(dataEdit)
     dispatch(put_admin_data(`doctors`, dataEdit, history, '/admin/data/doctor'));
   }  
+  const handleEditPassword = (dataEdit) => {    
+    dataEdit = {
+      ...dataEdit,
+      id: parseInt(id)
+    }
+    console.log(dataEdit)
+    dispatch(put_admin_data(`doctors/password`, dataEdit, history, '/admin/data/doctor'));
+  };
+
   return (    
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
       <div className="o-admin-data-doctor-edit">
@@ -78,7 +87,7 @@ const AdminDataDoctorEdit = () => {
           <TabPane tab="Informasi Pribadi" key="1">
             <OrganismsAdminDataDoctorForm 
               goBack={goBack}
-              initialFormData={initialFormData.data}
+              initialFormData={initialFormData}
               initialSpecialityList={speciality_list}
               initialRoomList={room_list}
               handleSubmit={(values) => handleEdit(values)} 
@@ -87,8 +96,8 @@ const AdminDataDoctorEdit = () => {
           <TabPane tab="Change Password" key="2">
             <OrganismsWidgetFormChangePassword
               goBack={goBack}
-              initialFormData={initialFormData.data}              
-              handleSubmit={(values) => handleEdit(values)} 
+              initialFormData={initialFormData}              
+              handleSubmit={(values) => handleEditPassword(values)} 
             />
           </TabPane>          
         </Tabs>  

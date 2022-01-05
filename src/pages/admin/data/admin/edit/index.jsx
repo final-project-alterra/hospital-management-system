@@ -57,7 +57,17 @@ const AdminDataAdminEdit = () => {
     }
     console.log(dataEdit)
     dispatch(put_admin_data(`admins`, dataEdit, history, '/admin/data/admin'));
-  }  
+  };
+
+  const handleEditPassword = (dataEdit) => {    
+    dataEdit = {
+      ...dataEdit,
+      id: parseInt(id)
+    }
+    console.log(dataEdit)
+    dispatch(put_admin_data(`admins/password`, dataEdit, history, '/admin/data/admin'));
+  };
+
   return (    
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
       <div className="o-admin-data-admin-edit">
@@ -74,7 +84,7 @@ const AdminDataAdminEdit = () => {
             <OrganismsWidgetFormChangePassword
               goBack={goBack}
               initialFormData={initialFormData.data}
-              handleSubmit={(values) => handleEdit(values)} 
+              handleSubmit={(values) => handleEditPassword(values)} 
             />
           </TabPane>          
         </Tabs>  

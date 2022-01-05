@@ -55,7 +55,7 @@ const AdminDataAdminCreate = () => {
         <MoleculesGoBack title={`${initialFormData.title} Admin`} goBack={goBack} />
         <OrganismsAdminDataAdminForm 
           goBack={goBack}
-          initialFormData={initialFormData.data}
+          initialFormData={initialFormData}
           handleSubmit={(values) => handleCreate(values)} 
         />
       </div>

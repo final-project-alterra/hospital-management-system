@@ -63,8 +63,9 @@ export const put_admin_data = (url, payload, history, nextPage) => {
         console.log("post: ", resp.data)
         history.push(nextPage);
       })
-      .catch((err) => {      
-        dispatch(main.error(err?.response?.data?.message));
+      .catch((err) => {     
+        let msgErr = err?.response?.data?.message || err?.response?.data?.error?.message;        
+        dispatch(main.error(msgErr));
         console.log(err);
       })
       .then(() => {

@@ -13,7 +13,7 @@ const OrganismsAdminDataDoctorForm = ({ initialSpecialityList, initialRoomList, 
       <Form 
         form={form} 
         layout="vertical" 
-        initialValues={initialFormData}
+        initialValues={initialFormData.data}
         onFinish={handleSubmit}
       >
         <Row gutter={16}>
@@ -111,7 +111,7 @@ const OrganismsAdminDataDoctorForm = ({ initialSpecialityList, initialRoomList, 
               </Select>
             </Form.Item>                        
             {
-              initialFormData.password === "" &&
+              initialFormData.data.email === '' &&
               <>
                 <Form.Item
                   label="Email"
@@ -155,7 +155,7 @@ const OrganismsAdminDataDoctorForm = ({ initialSpecialityList, initialRoomList, 
                 htmlType="submit"
                 icon={<PlusOutlined />}
               >
-                Add Doctor
+                { initialFormData.title } Doctor
               </Button>
             )}
           </Form.Item>

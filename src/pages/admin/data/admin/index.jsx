@@ -56,21 +56,22 @@ const AdminDataAdmin = () => {
       {
         title: 'Name',
         dataIndex: 'name',
-        key: 'name',
+        key: 'name',        
       },
       {
         title: 'Phone Number',
         dataIndex: 'phone',
-        key: 'phone',
+        key: 'phone',        
       },
       {
         title: 'Age',
         dataIndex: 'age',
-        key: 'age',
-      },      
+        key: 'age',        
+      },
       {
         title: 'Action',
         key: 'action',
+        align:'center',
         render: (text, record) => {
           return (
             <Space size="middle">

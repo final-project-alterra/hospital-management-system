@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Tabs } from 'antd';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 
 import OrganismsAdminDataAdminForm from '../../../../../components/organisms/admin/data/admin/form'
@@ -8,10 +8,15 @@ import LayoutsCms from '../../../../../layouts/cms';
 
 import './style.scss'
 import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
+import { useDispatch, useSelector } from 'react-redux';
+import { get_data, put_admin_data } from '../../../../../redux/actions/admin';
 
 const AdminDataAdminEdit = () => {
   const { TabPane } = Tabs;
+  const dispatch = useDispatch();
   const history = useHistory();
+  const { id } = useParams();
+
   const activeMenu = {
     key: 'data-admin',
     openKey: 'data',
@@ -30,22 +35,28 @@ const AdminDataAdminEdit = () => {
       url: '/admin/data/admin',
     },
   ];
+
+  useEffect(() => {
+    dispatch(get_data(`admins/${id}`, 'admin_data'));
+  }, [dispatch, id]);
+  const adminData = useSelector(state => state.admin?.admin_data)
+  console.log(adminData);
+
   const initialFormData = {
     title: 'Edit',
-    data: {
-      fullname: 'Alfi',
-      phone: '08123722821',
-      age: '32',
-      gender: 'L',
-      address: 'Jl. Megang Sana Megang Sini',
-      email: 'alfin@mail.com',
-    },
+    data: adminData
   };
   const goBack = () => {
     history.push('/admin/data/admin');
   }  
-  const handleEdit = (data) => {
-    console.log(data)
+  const handleEdit = (dataEdit) => {
+    delete dataEdit['email']    
+    dataEdit = {
+      ...dataEdit,
+      id: parseInt(id)
+    }
+    console.log(dataEdit)
+    dispatch(put_admin_data(`admins`, dataEdit, history, '/admin/data/admin'));
   }  
   return (    
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
@@ -55,7 +66,7 @@ const AdminDataAdminEdit = () => {
           <TabPane tab="Informasi Pribadi" key="1">
             <OrganismsAdminDataAdminForm 
               goBack={goBack}
-              initialFormData={initialFormData.data}
+              initialFormData={initialFormData}
               handleSubmit={(values) => handleEdit(values)} 
             />
           </TabPane>

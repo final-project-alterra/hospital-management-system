@@ -109,39 +109,41 @@ const OrganismsAdminDataDoctorForm = ({ initialSpecialityList, initialRoomList, 
                   )
                 }
               </Select>
-            </Form.Item>            
-            <Form.Item
-              label="Email"
-              name="email"
-              required={false}
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Email!",
-                },
-                {
-                  type: 'email',
-                  message: "Email is not valid!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+            </Form.Item>                        
             {
-              initialFormData.password === "" && 
-              <Form.Item
-                label="Password"
-                name="password"
-                required={false}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
+              initialFormData.password === "" &&
+              <>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  required={false}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Email!",
+                    },
+                    {
+                      type: 'email',
+                      message: "Email is not valid!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Password"
+                  name="password"
+                  required={false}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your password!",
+                    },
+                  ]}
+                >
+                  <Input.Password />
+                </Form.Item>
+              </>
             }
           </Col>
         </Row>  

@@ -1,25 +1,26 @@
-import React from 'react'
-import { Form, Input, Button, Select, Row, Col, Space } from 'antd';
+import React, { useEffect } from 'react'
+import { Form, Input, InputNumber, Button, Select, Row, Col, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminDataAdminForm = ({ goBack, initialFormData, handleSubmit }) => {
-  console.log(initialFormData)
+const OrganismsAdminDataAdminForm = ({ goBack, initialFormData, handleSubmit }) => {  
   const [form] = Form.useForm();
+  useEffect(() => form.resetFields(), [initialFormData, form]);  
+
   return (
     <div className="o-admin-data-admin-form">      
       <Form 
         form={form} 
         layout="vertical" 
-        initialValues={initialFormData}
+        initialValues={initialFormData.data}
         onFinish={handleSubmit}
       >
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item
               label="Fullname"
-              name="fullname"              
+              name="name"              
               required={false}
               rules={[
                 {
@@ -54,7 +55,7 @@ const OrganismsAdminDataAdminForm = ({ goBack, initialFormData, handleSubmit }) 
                 }            
               ]}
             >
-              <Input />
+              <InputNumber />
             </Form.Item>
             <Form.Item label="Gender" name="gender">
               <Select>
@@ -76,35 +77,41 @@ const OrganismsAdminDataAdminForm = ({ goBack, initialFormData, handleSubmit }) 
               ]}
             >
               <Input.TextArea showCount maxLength={100} />
-            </Form.Item>
-            <Form.Item
-              label="Email"
-              name="email"
-              required={false}
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Email!",
-                }            
-              ]}
-            >
-              <Input />
-            </Form.Item>
+            </Form.Item>            
             {
-              initialFormData.password === "" && 
-              <Form.Item
-                label="Password"
-                name="password"
-                required={false}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
+              initialFormData.data.password && 
+              <>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  required={false}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Email!",
+                    },
+                    {
+                      type: 'email',
+                      message: "Email is not valid!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Password"
+                  name="password"
+                  required={false}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your password!",
+                    },
+                  ]}
+                >
+                  <Input.Password />
+                </Form.Item>
+              </>
             }
           </Col>
         </Row>  
@@ -116,7 +123,7 @@ const OrganismsAdminDataAdminForm = ({ goBack, initialFormData, handleSubmit }) 
                 htmlType="submit"
                 icon={<PlusOutlined />}
               >
-                Add Admin
+                { initialFormData.title } Admin
               </Button>
             )}
           </Form.Item>

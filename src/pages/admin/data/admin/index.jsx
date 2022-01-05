@@ -8,7 +8,7 @@ import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
-import { get_data } from '../../../../redux/actions/admin';
+import { delete_admin_data, get_data } from '../../../../redux/actions/admin';
 
 const AdminDataAdmin = () => {
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ const AdminDataAdmin = () => {
       content: 'You can undo this change',
       onOk() {
         console.log('Delete id', id);
+        dispatch(delete_admin_data(`admins`, id, 'admin_list'));
       },      
     });
   }

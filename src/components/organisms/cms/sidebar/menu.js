@@ -3,13 +3,13 @@ export const adminMenu = [
     key: 'dashboard',
     label: 'Dashboard',
     url: '/',
-    icon: 'table',
+    icon: 'HomeOutlined',
   },
   {
     key: 'data',
     label: 'Manage Data',
     url: '/admin/data',
-    icon: 'unordered-list',
+    icon: 'UnorderedListOutlined',
     children: [
       {
         key: 'data-doctor',
@@ -47,13 +47,13 @@ export const adminMenu = [
     key: 'outpatient',
     label: 'Manage Outpatient',
     url: '/admin/outpatient',
-    icon: 'table',
+    icon: 'FormOutlined',
   },
   {
     key: 'schedule',
     label: 'Manage Schedule',
     url: '/admin/schedule',
-    icon: 'table',
+    icon: 'ScheduleOutlined',
   },
 ];
 
@@ -62,13 +62,13 @@ export const doctorMenu = [
     key: 'dashboard',
     label: 'Dashboard',
     url: '/doctor/dashboard',
-    icon: 'home',
+    icon: 'HomeOutlined',
   },
   {
     key: 'schedule',
     label: 'Schedule',
     url: '/doctor/schedule',
-    icon: 'home',
+    icon: 'ScheduleOutlined',
   },
 ]
 

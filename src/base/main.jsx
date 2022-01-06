@@ -72,32 +72,32 @@ const Main = () => {
           <PrivateRoute exact path="/admin/data/admin/detail/:id" component={AdminDataAdminDetail} />
           <PrivateRoute exact path="/admin/data/admin/edit/:id" component={AdminDataAdminEdit} />
 
-          <Route exact path="/admin/data/doctor" component={AdminDataDoctor} />
-          <Route exact path="/admin/data/doctor/create" component={AdminDataDoctorCreate} />
-          <Route exact path="/admin/data/doctor/detail/:id" component={AdminDataDoctorDetail} />
-          <Route exact path="/admin/data/doctor/edit/:id" component={AdminDataDoctorEdit} />
+          <PrivateRoute exact path="/admin/data/doctor" component={AdminDataDoctor} />
+          <PrivateRoute exact path="/admin/data/doctor/create" component={AdminDataDoctorCreate} />
+          <PrivateRoute exact path="/admin/data/doctor/detail/:id" component={AdminDataDoctorDetail} />
+          <PrivateRoute exact path="/admin/data/doctor/edit/:id" component={AdminDataDoctorEdit} />
 
-          <Route exact path="/admin/data/nurse" component={AdminDataNurse} />
-          <Route exact path="/admin/data/nurse/create" component={AdminDataNurseCreate} />
-          <Route exact path="/admin/data/nurse/detail/:id" component={AdminDataNurseDetail} />
-          <Route exact path="/admin/data/nurse/edit/:id" component={AdminDataNurseEdit} />
+          <PrivateRoute exact path="/admin/data/nurse" component={AdminDataNurse} />
+          <PrivateRoute exact path="/admin/data/nurse/create" component={AdminDataNurseCreate} />
+          <PrivateRoute exact path="/admin/data/nurse/detail/:id" component={AdminDataNurseDetail} />
+          <PrivateRoute exact path="/admin/data/nurse/edit/:id" component={AdminDataNurseEdit} />
 
-          <Route exact path="/admin/data/patient" component={AdminDataPatient} />
-          <Route exact path="/admin/data/patient/create" component={AdminDataPatientCreate} />
-          <Route exact path="/admin/data/patient/detail/:id" component={AdminDataPatientDetail} />
-          <Route exact path="/admin/data/patient/edit/:id" component={AdminDataPatientEdit} />
+          <PrivateRoute exact path="/admin/data/patient" component={AdminDataPatient} />
+          <PrivateRoute exact path="/admin/data/patient/create" component={AdminDataPatientCreate} />
+          <PrivateRoute exact path="/admin/data/patient/detail/:id" component={AdminDataPatientDetail} />
+          <PrivateRoute exact path="/admin/data/patient/edit/:id" component={AdminDataPatientEdit} />
           
-          <Route exact path="/admin/data/utils" component={AdminDataUtils} />          
+          <PrivateRoute exact path="/admin/data/utils" component={AdminDataUtils} />          
 
-          <Route exact path="/admin/outpatient" component={AdminOutpatient} />
-          <Route exact path="/admin/outpatient/create" component={AdminOutpatientCreate} />
-          <Route exact path="/admin/outpatient/edit/:id" component={AdminOutpatientEdit} />
-          <Route exact path="/admin/outpatient/detail/:id" component={AdminOutpatientDetail} />
+          <PrivateRoute exact path="/admin/outpatient" component={AdminOutpatient} />
+          <PrivateRoute exact path="/admin/outpatient/create" component={AdminOutpatientCreate} />
+          <PrivateRoute exact path="/admin/outpatient/edit/:id" component={AdminOutpatientEdit} />
+          <PrivateRoute exact path="/admin/outpatient/detail/:id" component={AdminOutpatientDetail} />
 
-          <Route exact path="/admin/schedule" component={AdminSchedule} />
-          <Route exact path="/admin/schedule/create" component={AdminScheduleCreate} />
-          <Route exact path="/admin/schedule/edit/:id" component={AdminScheduleEdit} />
-          <Route exact path="/admin/schedule/detail/:id" component={AdminScheduleDetail} />
+          <PrivateRoute exact path="/admin/schedule" component={AdminSchedule} />
+          <PrivateRoute exact path="/admin/schedule/create" component={AdminScheduleCreate} />
+          <PrivateRoute exact path="/admin/schedule/edit/:id" component={AdminScheduleEdit} />
+          <PrivateRoute exact path="/admin/schedule/detail/:id" component={AdminScheduleDetail} />
 
           <Route exact path="/doctor/dashboard" component={DoctorDashboard} />
           <Route exact path="/doctor/schedule" component={DoctorSchedule} />

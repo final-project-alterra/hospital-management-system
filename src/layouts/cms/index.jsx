@@ -22,13 +22,14 @@ const LayoutsCms = (props) => {
 
   const { userJWTData } = useSelector(state => state.auth); 
   console.log("user jwt", userJWTData)
+  const { user_data } = useSelector(state => state.main);   
+  
   useEffect(() => {
-    if(userJWTData?.role) {
+    if(userJWTData?.role && !user_data) {
       dispatch(get_profile_data(`${userJWTData.role}s/${userJWTData.userId}`))
     }
-  }, [dispatch, userJWTData]);
+  }, [dispatch, userJWTData, user_data]);
 
-  const { user_data } = useSelector(state => state.main);   
   const role = userJWTData?.role || location.pathname.split("/")[1];
   
   useEffect(() => {

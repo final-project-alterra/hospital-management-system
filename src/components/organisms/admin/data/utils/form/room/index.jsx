@@ -11,10 +11,10 @@ const OrganismsAdminDataUtilsFormRoom = ({ initialFormData, handleSubmit }) => {
   console.log(modal_form_utils_room)
 
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const handleOk = (value) => {    
+  const handleOk = async (value) => {    
     console.log("form: ", value);
     setConfirmLoading(true);
-    handleSubmit(value);
+    await handleSubmit(value);
     setTimeout(() => {
       dispatch(put_data_admin("modal_form_utils_room", false));
       setConfirmLoading(false);
@@ -42,8 +42,8 @@ const OrganismsAdminDataUtilsFormRoom = ({ initialFormData, handleSubmit }) => {
           onFinish={handleOk}
         >                      
           <Form.Item
-            label="Name Room"
-            name="name"
+            label="Code Room"
+            name="code"
             required={false}            
             rules={[{ required: true, message: 'Please input your room name!' }]}
           >
@@ -56,6 +56,11 @@ const OrganismsAdminDataUtilsFormRoom = ({ initialFormData, handleSubmit }) => {
             rules={[{ required: true, message: 'Please input your floor room !' }]}
           >
             <Input block />
+          </Form.Item>
+          <Form.Item
+            name="id"
+            hidden={true}
+          >
           </Form.Item>
         </Form>
       </Modal>

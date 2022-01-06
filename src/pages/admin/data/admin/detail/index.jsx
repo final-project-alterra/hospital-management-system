@@ -1,13 +1,18 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { useHistory, useParams } from 'react-router-dom';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import LayoutsCms from '../../../../../layouts/cms';
 import OrganismsAdminDataAdminDetailInfo from '../../../../../components/organisms/admin/data/admin/detail/info';
 
 import './style.scss'
+import { useDispatch, useSelector } from 'react-redux';
+import { get_data } from '../../../../../redux/actions/admin';
 
 const AdminDataAdminDetail = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
+  let { id } = useParams();
+
   const activeMenu = {
     key: 'data-admin',
     openKey: 'data',
@@ -31,26 +36,32 @@ const AdminDataAdminDetail = () => {
     },
   ];
 
+  useEffect(() => {
+    dispatch(get_data(`admins/${id}`, 'admin_data'));
+  }, [dispatch, id]);
+  const adminData = useSelector(state => state.admin?.admin_data)
+  console.log(adminData);
+
   const initialAdminData = [
     {
       label: "Fullname",
-      value: "dr. Alifia Shafira",
+      value: adminData?.name,
     },
     {
       label: "Phone Number",
-      value: "081272022711",
+      value: adminData?.phone,
     },
     {
       label: "Age",
-      value: "12",
+      value: adminData?.age,
     },
     {
       label: "Gender",
-      value: "12",
+      value: adminData?.gender === 'L'? "Laki-Laki": "Perempuan",
     },
     {
       label: "Address",
-      value: "Jl. Menuju Surga",
+      value: adminData?.address,
     },
   ];  
 

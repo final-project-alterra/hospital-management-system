@@ -6,8 +6,11 @@ import LayoutsCms from '../../../../../layouts/cms';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 
 import './style.scss'
+import { useDispatch } from 'react-redux';
+import { post_admin_data } from '../../../../../redux/actions/admin';
 
-const AdminDataPatientCreate = () => {  
+const AdminDataPatientCreate = () => {
+  const dispatch = useDispatch()
   const history = useHistory();
   const activeMenu = {
     key: 'data-patient',
@@ -34,11 +37,11 @@ const AdminDataPatientCreate = () => {
   const initialFormData = {
     title: 'Create',
     data: {
-      fullname: '',
+      nik: '',
+      name: '',
       phone: '',
       age: '',
-      gender: 'L',
-      speciality: 'bedah',
+      gender: 'L',      
       address: '',
     }
   }
@@ -47,6 +50,7 @@ const AdminDataPatientCreate = () => {
   }  
   const handleCreate = (data) => {
     console.log(data)
+    dispatch(post_admin_data("patients", data, history, '/admin/data/patient'));    
   }  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >

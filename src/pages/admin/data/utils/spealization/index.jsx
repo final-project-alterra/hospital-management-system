@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Space, Modal } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
 
-import { put_data_admin } from '../../../../../redux/actions/admin';
+import { get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
 import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
 import OrganismsAdminDataUtilsFormSpealization from '../../../../../components/organisms/admin/data/utils/form/spealization';
+import { useHistory } from 'react-router-dom';
 
 const AdminDataUtilsSpealization = () => {
-  const dispatch = useDispatch();  
+  const dispatch = useDispatch();
+  const history = useHistory();
   const { confirm } = Modal;
+
   const askToDelete = (id) => {
     confirm({
       title: 'Are you sure delete this spealization?',
@@ -19,7 +22,21 @@ const AdminDataUtilsSpealization = () => {
         console.log('Delete id', id);
       },      
     });
-  }
+  };
+
+  const adminState = useSelector(state => state.admin)
+  const showModal = adminState?.modal_form_utils_spealization
+
+  useEffect(() => {
+    if(!showModal) {
+      dispatch(get_data('specialities', 'speciality_list'));
+    }
+  }, [dispatch, showModal]);
+
+  const initialSpecialityList = adminState?.speciality_list
+  // const initialSpecialityData = adminState?.speciality_data
+  console.log(initialSpecialityList)
+
   const listSpealization = {
     title: "List Spealization",
     columns: [
@@ -36,7 +53,7 @@ const AdminDataUtilsSpealization = () => {
             <Space size="middle">              
               <p
                 className="text-link" 
-                onClick={() => goToEdit(record.key)}
+                onClick={() => goToEdit(record)}
               >
                 Edit
               </p>
@@ -51,51 +68,47 @@ const AdminDataUtilsSpealization = () => {
         },
       },
     ],
-    data: [
-      {
-        key: '1',
-        name: 'Bedah',        
-      },      
-      {
-        key: '2',
-        name: 'Gigi',        
-      },      
-      {
-        key: '3',
-        name: 'Saraf dan Otak',        
-      },      
-      {
-        key: '4',
-        name: 'Kandunga',        
-      },      
-    ]
+    data: initialSpecialityList
   };
-  const [initialFormDataSpealization, setInitialFormDataSpealization] = useState({
-    title: 'Create',
-    data: {
-      id: 0,
-      name: '',
-    }
-  })  
+
+  const [initialFormDataSpealization, setInitialFormDataSpealization] = useState({}) ;
+  
+  // useEffect(() => {    
+  //   if(initialSpecialityData) {
+  //     setInitialFormDataSpealization({
+  //       title: "Edit",
+  //       data: initialSpecialityData
+  //     })
+  //     dispatch(put_data_admin("modal_form_utils_spealization", true))
+  //   }
+  // }, [initialSpecialityData]);
 
   const goToAdd = () => {
     console.log("adsdahjnbds")
     setInitialFormDataSpealization({ ...initialFormDataSpealization,  
       title: "Create",
       data: { id: 0, name: "" }
-    })
-    // history.push("/admin/data/utils/spealization/create")
+    })    
     dispatch(put_data_admin("modal_form_utils_spealization", true));
   }
-  const goToEdit = (id) => {
-    setInitialFormDataSpealization({ ...initialFormDataSpealization,  
+  const goToEdit = (data) => {
+    // dispatch(get_data(`specialities/${id}`, 'speciality_data'));
+    setInitialFormDataSpealization({
       title: "Edit",
-      data: { id, name: "Bedah" }
+      data
     })
     dispatch(put_data_admin("modal_form_utils_spealization", true))
   }
-  const handleSubmit = (value) => {
-    console.log(value)    
+
+  const handleSubmit = (value) => {    
+    if(value.id === 0) {
+      value = { name: value.name }
+      dispatch(post_admin_data("specialities", value, history, '/admin/data/utils'));
+      console.log(value);
+    } else {
+      console.log(value);
+      dispatch(put_admin_data("specialities", value, history, '/admin/data/utils'));
+    }
   }
 
   return (

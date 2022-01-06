@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsWidgetFormChangePassword = ({ goBack, initialFormData, handleSubmit }) => {  
+const OrganismsWidgetFormChangePassword = ({ initialFormData, handleSubmit }) => {  
   const [form] = Form.useForm();
   return (
     <div className="o-widget-form-change-password">      
@@ -17,7 +17,7 @@ const OrganismsWidgetFormChangePassword = ({ goBack, initialFormData, handleSubm
         >
           <Form.Item
             label="Old Password"
-            name="password"
+            name="oldPassword"
             required={false}
             rules={[
               {
@@ -49,7 +49,7 @@ const OrganismsWidgetFormChangePassword = ({ goBack, initialFormData, handleSubm
                   htmlType="submit"
                   icon={<PlusOutlined />}
                 >
-                  Add Patient
+                  Change Password
                 </Button>
               )}
             </Form.Item>

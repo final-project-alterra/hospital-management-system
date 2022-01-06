@@ -15,6 +15,8 @@ const { TabPane } = Tabs;
 const AdminDataDoctorDetail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  let { id } = useParams();
+  
   const activeMenu = {
     key: 'data-doctor',
     openKey: 'data',
@@ -37,9 +39,7 @@ const AdminDataDoctorDetail = () => {
       url: '/admin/data/doctor/detail',
     },
   ];
-
-  let { id } = useParams();
-  console.log("id: ", id)
+    
   useEffect(() => {
     dispatch(get_data(`doctors/${id}`, 'doctor_data'));
   }, [dispatch, id]);
@@ -76,25 +76,20 @@ const AdminDataDoctorDetail = () => {
     filterType: "Month",    
     columns: [
       {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
+        title: 'Jadwal',
+        dataIndex: 'jadwal',
+        key: 'jadwal',
       },
       {
-        title: 'Speciality',
-        dataIndex: 'speciality',
-        key: 'speciality',
+        title: 'Nurse',
+        dataIndex: 'nurse',
+        key: 'nurse',
       },
       {
-        title: 'Phone Number',
-        dataIndex: 'phone',
-        key: 'phone',
+        title: 'Range Waktu',
+        dataIndex: 'range',
+        key: 'range',
       },
-      {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-      },      
       {
         title: 'Action',
         key: 'action',
@@ -109,17 +104,15 @@ const AdminDataDoctorDetail = () => {
     data: [
       {
         key: '1',
-        name: 'dr. Mike',
-        speciality: 'Dokter Saraf dan Otak',
-        phone: "081212312322",
-        age: 32,
+        jadwal: '12 Desember',
+        nurse: 'Risa',
+        range: "08.00 - 14.30",
       },
       {
         key: '2',
-        name: 'dr. Angga',
-        speciality: 'Dokter Gigi',
-        phone: "081212312322",
-        age: 42,
+        jadwal: '12 Desember',
+        nurse: 'Risa',
+        range: "08.00 - 14.30",
       },
     ]
   };

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Avatar } from 'antd';
-import { MailOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import Icon, { HomeOutlined, ProfileOutlined, UserOutlined, UnorderedListOutlined, FormOutlined, ScheduleOutlined, LogoutOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
 
 import './style.scss'
@@ -10,7 +10,14 @@ const { SubMenu } = Menu;
 
 const OrganismsCmsSidebar = (props) => {    
   const history = useHistory();  
-  
+  const getIconTag = (tag) => {
+    if (tag === "HomeOutlined") return HomeOutlined
+    else if (tag === "ProfileOutlined") return ProfileOutlined
+    else if (tag === "UserOutlined") return UserOutlined
+    else if (tag === "UnorderedListOutlined") return UnorderedListOutlined
+    else if (tag === "FormOutlined") return FormOutlined
+    else if (tag === "ScheduleOutlined") return ScheduleOutlined
+  }
   const goToMenu = (url) => {
     history.push(url)
   }  
@@ -38,7 +45,13 @@ const OrganismsCmsSidebar = (props) => {
           {
             props.list.map((menu) => (                                  
               menu.children && menu.children.length?
-              <SubMenu key={menu.key} icon={<SettingOutlined />} title={menu.label}>
+              <SubMenu 
+                key={menu.key} 
+                icon={
+                  <Icon component={getIconTag(menu.icon)} />
+                } 
+                title={menu.label}
+              >
                 {
                   menu.children.map((childMenu) => (
                     <Menu.Item 
@@ -53,9 +66,12 @@ const OrganismsCmsSidebar = (props) => {
               :
               <Menu.Item 
                 key={menu.key} 
-                icon={<MailOutlined />}
+                icon={
+                  <Icon component={getIconTag(menu.icon)} />
+                }
                 onClick={() => goToMenu(menu.url)}
               >
+
                 {menu.label}
               </Menu.Item>            
             ))

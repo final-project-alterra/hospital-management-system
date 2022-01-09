@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Space, Modal } from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Space, Modal, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,9 +10,11 @@ import LayoutsCms from '../../../../layouts/cms'
 import './style.scss'
 import { delete_admin_data, get_list_doctors } from '../../../../redux/actions/admin';
 
+
 const AdminDataDoctor = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [initialDoctorList, setInitialDoctorList] = useState(false)
   const { confirm } = Modal;  
   const askToDelete = (id) => {
     confirm({
@@ -47,8 +49,16 @@ const AdminDataDoctor = () => {
   useEffect(() => {
     dispatch(get_list_doctors());
   }, [dispatch]);
-  const initialPatientList = useSelector(state => state.admin?.doctor_list)
-  console.log(initialPatientList)
+  let doctorList = useSelector(state => state.admin?.doctor_list)
+  console.log(doctorList)
+  useEffect(() => {
+    setInitialDoctorList(doctorList)
+  }, [doctorList]);
+
+  const handleSearch = (key) => {
+    console.log("key:", key)    
+    setInitialDoctorList(doctorList?.filter((dt) => dt.name.includes(key)))    
+  }
 
   const listDoctor = {
     title: "List Doctor",
@@ -75,34 +85,44 @@ const AdminDataDoctor = () => {
       },      
       {
         title: 'Action',
-        key: 'action',
+        key: 'action',        
         render: (text, record) => {
           return (
             <Space size="middle">
-              <Link to={`/admin/data/doctor/detail/${record.key}`}>Lihat Detail</Link>
-              <Link to={`/admin/data/doctor/edit/${record.key}`}>Edit</Link>
-              <p 
-                className="text-danger" 
+              <Link to={`/admin/data/doctor/detail/${record.key}`}>
+                <Button type="primary" size="small" ghost>Lihat Detail</Button>
+              </Link>
+              <Link to={`/admin/data/doctor/edit/${record.key}`}>
+                <Button type="primary" size="small" ghost>Edit</Button>
+              </Link>
+              <Button 
+                type="primary" 
+                size="small" 
+                danger 
+                ghost
                 onClick={() => askToDelete(record.key)}
               >
                 Delete
-              </p>
+              </Button>              
             </Space>
           )
         },
       },
     ],
-    data: initialPatientList,
+    data: initialDoctorList,
   };
+
   const goToAddDoctor = () => {
     history.push("/admin/data/doctor/create")
   }
+  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-data-doctor">
         <OrganismsWidgetList 
-          goToAddPage={() => goToAddDoctor()} 
           list={listDoctor}
+          goToAddPage={() => goToAddDoctor()} 
+          handleSearch={handleSearch}
         />
         
       </div>      

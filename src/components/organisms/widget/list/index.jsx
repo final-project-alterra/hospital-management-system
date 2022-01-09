@@ -9,9 +9,6 @@ const OrganismsWidgetList = (props) => {
   const { Search } = Input;  
   const { Option } = Select;  
 
-  const onSearch = (dt) => {
-    console.log(dt)
-  }    
   const months = useSelector(state => state.main?.months)
   return (
     <div className='o-widget-list'>
@@ -43,7 +40,7 @@ const OrganismsWidgetList = (props) => {
                 </Select>
               </div>
             }
-            <Search placeholder="input search text" onSearch={onSearch}/>
+            <Search placeholder="input search text" onSearch={props.handleSearch}/>
             {
               props.goToAddPage && 
               <Button 

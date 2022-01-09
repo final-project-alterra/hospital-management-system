@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Space, Modal } from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Space, Modal, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
@@ -11,9 +11,11 @@ import './style.scss'
 import { delete_admin_data, get_data } from '../../../../redux/actions/admin';
 
 const AdminDataPatient = () => {
+  const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
-  const { confirm } = Modal;
+  const [initialPatientList, setInitialPatientList] = useState([])
+
   const activeMenu = {
     key: 'data-patient',
     openKey: 'data',
@@ -47,8 +49,16 @@ const AdminDataPatient = () => {
   useEffect(() => {
     dispatch(get_data('patients', 'patient_list'));
   }, [dispatch]);
-  const initialPatientList = useSelector(state => state.admin?.patient_list)
-  console.log(initialPatientList)
+  const patientList = useSelector(state => state.admin?.patient_list)
+  console.log(patientList)
+  useEffect(() => {
+    setInitialPatientList(patientList)
+  }, [patientList]);
+
+  const handleSearch = (key) => {
+    console.log("key:", key)    
+    setInitialPatientList(patientList?.filter((dt) => dt.name.includes(key)))    
+  }
   
   const listPatient = {
     title: "List Patient",
@@ -79,14 +89,21 @@ const AdminDataPatient = () => {
         render: (text, record) => {
           return (
             <Space size="middle">
-              <Link to={`/admin/data/patient/detail/${record.key}`}>Lihat Detail</Link>
-              <Link to={`/admin/data/patient/edit/${record.key}`}>Edit</Link>
-              <p 
-                className="text-danger" 
+              <Link to={`/admin/data/patient/detail/${record.key}`}>
+                <Button type="primary" size="small" ghost>Lihat Detail</Button>
+              </Link>
+              <Link to={`/admin/data/patient/edit/${record.key}`}>
+                <Button type="primary" size="small" ghost>Edit</Button>
+              </Link>
+              <Button
+                type="primary" 
+                size="small" 
+                danger 
+                ghost
                 onClick={() => askToDelete(record.key)}
               >
                 Delete
-              </p>
+              </Button>
             </Space>
           )
         },
@@ -103,6 +120,7 @@ const AdminDataPatient = () => {
         <OrganismsWidgetList 
           list={listPatient}
           goToAddPage={() => goToAddPatient()} 
+          handleSearch={handleSearch}
         />
       </div>      
     </LayoutsCms>

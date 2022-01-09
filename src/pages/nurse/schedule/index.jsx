@@ -4,7 +4,7 @@ import { Space } from 'antd';
 import { Link } from 'react-router-dom';
 import OrganismsWidgetList from '../../../components/organisms/widget/list';
 import LayoutsCms from '../../../layouts/cms';
-import { get_profile_doctor, get_schedule_doctor } from '../../../redux/actions/doctor';
+import { get_schedule_doctor } from '../../../redux/actions/doctor';
 
 import './style.scss';
 
@@ -57,8 +57,7 @@ const NurseSchedule = () => {
     ],
     data: []
   };
-  useEffect(() => {
-    dispatch(get_profile_doctor())
+  useEffect(() => {    
     dispatch(get_schedule_doctor())
     // eslint-disable-next-line
   }, [])  

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Space, Modal } from 'antd';
+import { Space, Modal, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
@@ -12,7 +12,9 @@ import { useHistory } from 'react-router-dom';
 const AdminDataUtilsRoom = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [initialData, setInitialData] = useState([])
   const { confirm } = Modal;
+
   const askToDelete = (id) => {
     confirm({
       title: 'Are you sure delete this room?',
@@ -31,7 +33,17 @@ const AdminDataUtilsRoom = () => {
     dispatch(get_data('rooms', 'room_list'));
   }, [dispatch, showModal]);
 
-  const initialRoomList = adminState?.room_list;  
+  const data = adminState?.room_list;    
+  console.log(data)  
+  useEffect(() => {
+    setInitialData(data)
+  }, [data]);
+
+  const handleSearch = (key) => {
+    console.log("key:", key)    
+    setInitialData(data?.filter((dt) => dt.code.includes(key)))    
+  }
+
   const listRoom = {
     title: "List Room",
     columns: [
@@ -51,24 +63,29 @@ const AdminDataUtilsRoom = () => {
         render: (text, record) => {
           return (
             <Space size="middle">              
-              <p
-                className="text-link" 
+              <Button 
+                type="primary" 
+                size="small" 
+                ghost
                 onClick={() => goToEdit(record)}
               >
                 Edit
-              </p>
-              <p 
-                className="text-danger" 
+              </Button>
+              <Button
+                type="primary" 
+                size="small" 
+                danger 
+                ghost
                 onClick={() => askToDelete(record.key)}
               >
                 Delete
-              </p>
+              </Button>
             </Space>
           )
         },
       },
     ],
-    data: initialRoomList
+    data: initialData
   };
   const [initialFormDataRoom, setInitialFormDataRoom] = useState({})  
 
@@ -102,7 +119,8 @@ const AdminDataUtilsRoom = () => {
     <div className="p-admin-data-utils-spealization">
       <OrganismsWidgetList 
         list={listRoom}
-        goToAddPage={() => goToAdd()} 
+        goToAddPage={() => goToAdd()}
+        handleSearch={handleSearch}
       />      
       <OrganismsAdminDataUtilsFormRoom
         initialFormData={initialFormDataRoom}   

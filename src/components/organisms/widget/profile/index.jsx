@@ -25,10 +25,10 @@ const OrganismsWidgetProfile = ({ profileData }) => {
           <h5>Age</h5>
           <p>{ profileData.age }</p>
         </div>
-        <div className="o-widget-profile__info-item">
+        {/* <div className="o-widget-profile__info-item">
           <h5>Registration Date</h5>
           <p>{ profileData.registDate }</p>
-        </div>
+        </div> */}
         <div className="o-widget-profile__info-item">
           <h5>Phone Number</h5>
           <p>{ profileData.phone }</p>

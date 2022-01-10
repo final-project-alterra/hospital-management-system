@@ -90,7 +90,6 @@ const Main = () => {
           <PrivateRoute exact path="/admin/data/utils" component={AdminDataUtils} />          
 
           <PrivateRoute exact path="/admin/outpatient" component={AdminOutpatient} />
-          <PrivateRoute exact path="/admin/outpatient/create" component={AdminOutpatientCreate} />
           <PrivateRoute exact path="/admin/outpatient/edit/:id" component={AdminOutpatientEdit} />
           <PrivateRoute exact path="/admin/outpatient/detail/:id" component={AdminOutpatientDetail} />
 
@@ -98,6 +97,7 @@ const Main = () => {
           <PrivateRoute exact path="/admin/schedule/create" component={AdminScheduleCreate} />
           <PrivateRoute exact path="/admin/schedule/edit/:id" component={AdminScheduleEdit} />
           <PrivateRoute exact path="/admin/schedule/detail/:id" component={AdminScheduleDetail} />
+          <PrivateRoute exact path="/admin/schedule/:id/outpatient/create" component={AdminOutpatientCreate} />
 
           <Route exact path="/doctor/dashboard" component={DoctorDashboard} />
           <Route exact path="/doctor/schedule" component={DoctorSchedule} />

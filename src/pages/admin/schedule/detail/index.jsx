@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms';
@@ -13,6 +13,7 @@ import MoleculesGoBack from '../../../../components/molecules/goBack';
 const AdminScheduleDetail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { id } = useParams();
   const { confirm } = Modal;
   const activeMenu = {
     key: 'schedule',
@@ -76,7 +77,7 @@ const AdminScheduleDetail = () => {
     data: []
   };
   useEffect(() => {
-    dispatch(get_schedule_detail())
+    dispatch(get_schedule_detail(id))
     // eslint-disable-next-line
   }, [])
   initialListScheduleDetail.data = useSelector(state => state.admin?.schedule_detail_list)

@@ -66,7 +66,7 @@ const AdminDataDoctorCreate = () => {
         <MoleculesGoBack title={`${initialFormData.title} Doctor`} goBack={goBack} />
         <OrganismsAdminDataDoctorForm 
           goBack={goBack}
-          initialFormData={initialFormData.data}
+          initialFormData={initialFormData}
           initialSpecialityList={speciality_list}
           initialRoomList={room_list}
           handleSubmit={(values) => handleCreate(values)} 

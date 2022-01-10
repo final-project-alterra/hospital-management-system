@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form, Input, Button, Select, Row, Col, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminOutpatientForm = ({ goBack, initialFormData, handleSubmit }) => {  
+const OrganismsAdminOutpatientForm = ({ patientList, initialFormData, handleSubmit }) => {  
   const [form] = Form.useForm();
+  useEffect(() => form.resetFields(), [initialFormData, form]);  
   return (
     <div className="o-admin-outpatient-form">
       <Form 
@@ -31,18 +32,21 @@ const OrganismsAdminOutpatientForm = ({ goBack, initialFormData, handleSubmit })
               <Input disabled={true} />
             </Form.Item>            
             <Form.Item
-              label="Doctor Schedule Time"
-              name="schedule"
+              label="Specialty"
+              name="specialty"
               required={false}              
             >
               <Input disabled={true} />
             </Form.Item>            
           </Col>
-          <Col span={12}>
-            <Form.Item label="Patient" name="patient">
-              <Select>
-                <Select.Option value="367123232331">Alfi Syahri - 36711232222</Select.Option>
-                <Select.Option value="36711285677723">Shadifa - 36711285677723</Select.Option>
+          <Col span={12}>            
+            <Form.Item label="Patient" name="patientId">
+              <Select disabled={initialFormData && initialFormData.title === 'Edit'}>
+                {
+                  patientList?.map((patient) => 
+                    <Select.Option value={patient.id}>{patient.name} - {patient.nik}</Select.Option>
+                  )
+                }
               </Select>
             </Form.Item>
             <Form.Item
@@ -68,7 +72,7 @@ const OrganismsAdminOutpatientForm = ({ goBack, initialFormData, handleSubmit })
                 htmlType="submit"
                 icon={<PlusOutlined />}
               >
-                Add Patient
+                { initialFormData.title } Outpatient
               </Button>
             )}
           </Form.Item>

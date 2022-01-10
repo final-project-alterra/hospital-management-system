@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { format } from 'date-fns';
 import * as main from './main';
 
 export const put_data_admin = (key, data) => ({
@@ -62,6 +63,7 @@ export const put_admin_data = (url, payload, history, nextPage) => {
       .then((resp) => {
         console.log("post: ", resp.data)
         history.push(nextPage);
+        dispatch(main.modal_success(resp.data?.meta?.message));
       })
       .catch((err) => {     
         let msgErr = err?.response?.data?.message || err?.response?.data?.error?.message;        
@@ -80,7 +82,8 @@ export const delete_admin_data = (url, id, state_key) => {
     axios
       .delete(`${url}/${id}`)
       .then((resp) => {
-        console.log("post: ", resp.data)        
+        console.log("post: ", resp.data);
+        dispatch(main.modal_success(resp.data?.meta?.message));
       })
       .catch((err) => {      
         dispatch(main.error(err?.response?.data?.message));
@@ -90,6 +93,10 @@ export const delete_admin_data = (url, id, state_key) => {
         dispatch(main.toggle_loader(false));
         if(url === "doctors") {
           dispatch(get_list_doctors())
+        } else if(url === "work-schedules") {          
+          dispatch(get_schedule());
+        } else if(url === "outpatients") {          
+          dispatch(get_outpatient());
         } else {
           dispatch(get_data(url, state_key))
         }
@@ -154,95 +161,140 @@ export const get_data_doctor = (id) => {
 }
 
 export const get_outpatient = () => {
+  // return (dispatch) => {
+  //   const initialOutpatientList = [
+  //     {
+  //       key: '1',
+  //       patientName: 'Mike',
+  //       doctorName: "dr Shang chi",
+  //       spealization: "Anak dan Kandungan",
+  //       status: 'On-Progress',
+  //     },      
+  //     {
+  //       key: '2',
+  //       patientName: 'Wong',
+  //       doctorName: "dr. Strange",
+  //       spealization: "Ilmu Hitam dan Sihir",
+  //       status: 'Waiting',
+  //     },      
+  //     {
+  //       key: '3',
+  //       patientName: 'Tom Holland',
+  //       doctorName: "dr. Octavius",
+  //       spealization: "Hewan",
+  //       status: 'Finished',
+  //     },
+  //   ];    
+  //   dispatch(put_data_admin("outpatient_list", initialOutpatientList));    
+  // }
   return (dispatch) => {
-    const initialOutpatientList = [
-      {
-        key: '1',
-        patientName: 'Mike',
-        doctorName: "dr Shang chi",
-        spealization: "Anak dan Kandungan",
-        status: 'On-Progress',
-      },      
-      {
-        key: '2',
-        patientName: 'Wong',
-        doctorName: "dr. Strange",
-        spealization: "Ilmu Hitam dan Sihir",
-        status: 'Waiting',
-      },      
-      {
-        key: '3',
-        patientName: 'Tom Holland',
-        doctorName: "dr. Octavius",
-        spealization: "Hewan",
-        status: 'Finished',
-      },
-    ];    
-    dispatch(put_data_admin("outpatient_list", initialOutpatientList));    
+    dispatch(main.toggle_loader(true));
+    axios
+      .get(`outpatients`)
+      .then((resp) => {
+        let newData = resp.data.data.map((dt) => {
+          return {            
+            key: dt.id,
+            date: format(new Date(dt.date), 'dd MMM yyyy'),
+            patientName: dt.patient.name,
+            doctorName: dt.doctor.name,
+            spealization: dt.doctor.specialty,
+            status: dt.status === 1? "Finished" : dt.status === 2? "On-Progress" : dt.status === 3? "Waiting": 'Canceled',
+          }
+        })
+        console.log("Masuk: ", newData)
+        dispatch(put_data_admin("outpatient_list", newData))
+      })
+      .catch((err) => {      
+        // dispatch(error(err?.response?.data))
+        console.log(err);
+      })
+      .then(() => {
+        dispatch(main.toggle_loader(false));
+      });
   }
 }
 
-export const get_schedule = () => {
+export const get_schedule = () => {  
   return (dispatch) => {
-    const initialScheduletList = [
-      {
-        key: '1',
-        jadwal: '12 Desember 2021',
-        doctorName: "dr Shang chi",
-        nurseName: "Shania",
-        rangeTime: '08.00 - 12.00',
-      },
-      {
-        key: '2',
-        jadwal: '12 Desember 2021',
-        doctorName: "dr Strange",
-        nurseName: "Wanda",
-        rangeTime: '08.00 - 12.00',
-      },
-      {
-        key: '3',
-        jadwal: '10 Desember 2021',
-        doctorName: "dr Octavius",
-        nurseName: "Kate",
-        rangeTime: '08.00 - 12.00',
-      },
-      {
-        key: '4',
-        jadwal: '09 Desember 2021',
-        doctorName: "dr Doom",
-        nurseName: "Natasha",
-        rangeTime: '08.00 - 12.00',
-      },
-    ];    
-    dispatch(put_data_admin("schedule_list", initialScheduletList));    
+    dispatch(main.toggle_loader(true));
+    axios
+      .get("work-schedules")
+      .then((resp) => {
+        console.log("coba: ", resp.data)
+        let data = resp.data.data;
+        if(Array.isArray(data)) {
+          data = data.map((dt) => {
+            console.log()
+            return {              
+              key: dt.id,
+              jadwal: format(new Date(dt.date), 'dd MMM yyyy'),
+              doctorName: dt.doctor.name,
+              nurseName: dt.nurse.name,
+              rangeTime: format(new Date(dt.date + " " +dt.startTime), 'HH:mm') + "-" + format(new Date(dt.date + " " + dt.endTime), 'HH:mm'),
+            }
+          })
+        }
+        dispatch(put_data_admin("schedule_list", data))
+      })
+      .catch((err) => {      
+        dispatch(main.error(err?.response?.data?.error?.message));
+        console.log(err);
+      })
+      .then(() => {
+        dispatch(main.toggle_loader(false));
+      });
   }
 }
 
-export const get_schedule_detail = () => {
+export const get_schedule_detail = (id) => {
+  // return (dispatch) => {
+  //   const initialScheduleDetailList = [
+  //     {
+  //       key: '1',
+  //       patientName: 'Jessica Jones',
+  //       status: "OnProgress",
+  //     },
+  //     {
+  //       key: '2',
+  //       patientName: 'Luke Cage',
+  //       status: "Waiting",
+  //     },
+  //     {
+  //       key: '3',
+  //       patientName: 'Matt Murdock',
+  //       status: "Waiting",
+  //     },
+  //     {
+  //       key: '4',
+  //       patientName: 'Andy',
+  //       status: "Finished",
+  //     },
+  //   ];    
+  //   dispatch(put_data_admin("schedule_detail_list", initialScheduleDetailList));    
+  // }
   return (dispatch) => {
-    const initialScheduleDetailList = [
-      {
-        key: '1',
-        patientName: 'Jessica Jones',
-        status: "OnProgress",
-      },
-      {
-        key: '2',
-        patientName: 'Luke Cage',
-        status: "Waiting",
-      },
-      {
-        key: '3',
-        patientName: 'Matt Murdock',
-        status: "Waiting",
-      },
-      {
-        key: '4',
-        patientName: 'Andy',
-        status: "Finished",
-      },
-    ];    
-    dispatch(put_data_admin("schedule_detail_list", initialScheduleDetailList));    
+    axios
+      .get(`work-schedules/${id}`)
+      .then((resp) => {
+        console.log("coba: ", resp.data)
+        let data = resp.data.data.outpatients;              
+        data = data.map((dt) => {          
+          return {              
+            key: dt.id,
+            patientName: dt.patient.name,            
+            status: dt.status === 1? "Finished" : dt.status === 2? "On-Progress" : dt.status === 3? "Waiting": 'Canceled',
+          }
+        })        
+        dispatch(put_data_admin("schedule_detail_list", data))
+      })
+      .catch((err) => {      
+        dispatch(main.error(err?.response?.data?.error?.message));
+        console.log(err);
+      })
+      .then(() => {
+        dispatch(main.toggle_loader(false));
+      });
   }
 }
 
@@ -285,6 +337,6 @@ export const get_detail_outpatient = () => {
       },
     ];
     dispatch(put_data_admin("prescription_list", initialPrescriptionList));
-    dispatch(put_data_admin("outpatient_data", initialOutpatientData));
+    dispatch(put_data_admin("outpatientt_data", initialOutpatientData));
   }
 }

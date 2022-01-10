@@ -1,14 +1,18 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import OrganismsAdminOutpatientForm from '../../../../components/organisms/admin/outpatient/form';
 import LayoutsCms from '../../../../layouts/cms';
 import MoleculesGoBack from '../../../../components/molecules/goBack';
 
 import './style.scss'
+import { get_data, put_admin_data } from '../../../../redux/actions/admin';
 
-const AdminOutpatientEdit = () => {  
+const AdminOutpatientEdit = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
+  const { id } = useParams();
   const activeMenu = {
     key: 'outpatient',
     openKey: '',
@@ -27,29 +31,42 @@ const AdminOutpatientEdit = () => {
       url: '/admin/outpatient/edit',
     },
   ];
+
+  useEffect(() => {
+    dispatch(get_data(`outpatients/${id}`, 'outpatient_data'));    
+    dispatch(get_data(`patients`, 'patient_list'));    
+  }, [dispatch, id]);
+  const { outpatient_data, patient_list } = useSelector(state => state.admin)  
+  console.log(outpatient_data)
   const initialFormData = {
     title: 'Edit',
     data: {
-      doctorName: 'Ikhsan',      
-      date: '2021-01-01',
-      schedule: '08.00 - 12.00',
-      patient: '367123232331',
-      complaint: 'Jadi saat kemarin punggung tiba-tiba sakit',
+      doctorName: outpatient_data?.doctor.name,
+      date: outpatient_data?.date,
+      specialty: outpatient_data?.doctor.specialty,
+      patientId: outpatient_data?.patient.id,
+      complaint: outpatient_data?.complaint,
     }
   }
   const goBack = () => {
     history.push('/admin/outpatient');
   }  
   const handleEdit = (data) => {
-    console.log(data)
+    data = {
+      id: parseInt(id),      
+      complaint: data.complaint
+    };    
+    console.log(data);
+    dispatch(put_admin_data(`outpatients`, data, history, '/admin/outpatient'));
   }  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
       <div className="p-admin-outpatient-edit">
-        <MoleculesGoBack title={`${initialFormData.title} Patient`} goBack={goBack} />        
+        <MoleculesGoBack title={`${initialFormData.title} Outpatient`} goBack={goBack} />        
         <OrganismsAdminOutpatientForm
-          goBack={goBack}
+          patientList={patient_list}
           initialFormData={initialFormData}
+          goBack={goBack}
           handleSubmit={(values) => handleEdit(values)} 
         />
       </div>

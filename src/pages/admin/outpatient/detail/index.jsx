@@ -35,7 +35,7 @@ const AdminOutpatientDetail = () => {
     // eslint-disable-next-line
   }, [])
   const admin = useSelector(state => state.admin);
-  const initialOutpatientData = admin?.outpatient_data;
+  const initialOutpatientData = admin?.outpatientt_data;
   const initialPrescriptionList = admin?.prescription_list;
   console.log("haha: ", initialPrescriptionList)
   const goBack = () => {

@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Space, Modal, Button } from 'antd';
+import { Space, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import { 
+  ExclamationCircleOutlined, 
+  FolderOutlined, 
+  EditOutlined, 
+  DeleteOutlined  
+} from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms';
@@ -90,20 +95,17 @@ const AdminDataPatient = () => {
           return (
             <Space size="middle">
               <Link to={`/admin/data/patient/detail/${record.key}`}>
-                <Button type="primary" size="small" ghost>Lihat Detail</Button>
+                <FolderOutlined />
               </Link>
               <Link to={`/admin/data/patient/edit/${record.key}`}>
-                <Button type="primary" size="small" ghost>Edit</Button>
+                <EditOutlined />
               </Link>
-              <Button
-                type="primary" 
-                size="small" 
-                danger 
-                ghost
+              <p 
+                className="text-danger"
                 onClick={() => askToDelete(record.key)}
               >
-                Delete
-              </Button>
+                <DeleteOutlined />
+              </p>
             </Space>
           )
         },

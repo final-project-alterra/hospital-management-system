@@ -14,7 +14,7 @@ import OrganismsWidgetList from '../../../components/organisms/widget/list';
 import LayoutsCms from '../../../layouts/cms';
 
 import './style.scss'
-import { get_schedule } from '../../../redux/actions/admin';
+import { delete_admin_data, get_schedule } from '../../../redux/actions/admin';
 
 const AdminSchedule = () => {
   const dispatch = useDispatch();
@@ -31,11 +31,12 @@ const AdminSchedule = () => {
       content: 'You can undo this change',
       onOk() {
         console.log('Delete id', id);
+        dispatch(delete_admin_data(`work-schedules`, id, 'schedule_list'));        
       },      
     });
   }
-  const goToCreateOutpatient = () => {
-    history.push('/admin/outpatient/create')
+  const goToCreateOutpatient = (id) => {
+    history.push(`/admin/schedule/${id}/outpatient/create`)
   }
   const breadcrumb = [
     {
@@ -106,7 +107,7 @@ const AdminSchedule = () => {
     dispatch(get_schedule())
     // eslint-disable-next-line
   }, [])
-  initialListSchedule.data = useSelector(state => state.admin?.schedule_list)
+  initialListSchedule.data = useSelector(state => state.admin?.schedule_list)  
 
   const goToAddSchedule = () => {
     history.push("/admin/schedule/create")

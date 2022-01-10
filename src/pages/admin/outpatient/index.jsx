@@ -7,7 +7,7 @@ import OrganismsWidgetList from '../../../components/organisms/widget/list';
 import LayoutsCms from '../../../layouts/cms';
 
 import './style.scss'
-import { get_outpatient } from '../../../redux/actions/admin';
+import { delete_admin_data, get_outpatient } from '../../../redux/actions/admin';
 
 const AdminOutpatient = () => {
   const dispatch = useDispatch();  
@@ -23,6 +23,7 @@ const AdminOutpatient = () => {
       content: 'You can undo this change',
       onOk() {
         console.log('Delete id', id);
+        dispatch(delete_admin_data(`outpatients`, id, 'outpatient_list'));
       },      
     });
   }
@@ -40,6 +41,11 @@ const AdminOutpatient = () => {
   const initialListOutpatient = {
     title: "List Outpatient",
     columns: [
+      {
+        title: 'Schedule Date',
+        dataIndex: 'date',
+        key: 'date',
+      },
       {
         title: 'Patient Name',
         dataIndex: 'patientName',

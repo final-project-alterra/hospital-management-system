@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Space, Modal, Button } from 'antd';
+import { Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import { 
+  ExclamationCircleOutlined,   
+  EditOutlined, 
+  DeleteOutlined  
+} from '@ant-design/icons';
 
 import { get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
 import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
@@ -59,23 +63,18 @@ const AdminDataUtilsSpealization = () => {
         render: (text, record) => {
           return (
             <Space size="middle">              
-              <Button 
-                type="primary" 
-                size="small" 
-                ghost
+              <p
+                className="text-link"
                 onClick={() => goToEdit(record)}
               >
-                Edit
-              </Button>
-              <Button
-                type="primary" 
-                size="small" 
-                danger 
-                ghost
+                <EditOutlined />
+              </p>
+              <p
+                className="text-danger"
                 onClick={() => askToDelete(record.key)}
               >
-                Delete
-              </Button>
+                <DeleteOutlined />
+              </p>
             </Space>
           )
         },

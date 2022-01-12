@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Space, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
+import { delete_admin_data, get_data } from '../../../../redux/actions/admin';
 
 const AdminDataNurse = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const { confirm } = Modal;  
   const askToDelete = (id) => {
@@ -18,6 +21,7 @@ const AdminDataNurse = () => {
       content: 'You can undo this change',
       onOk() {
         console.log('Delete id', id);
+        dispatch(delete_admin_data(`nurses`, id, 'nurse_list'));
       },      
     });
   }
@@ -39,6 +43,13 @@ const AdminDataNurse = () => {
       url: '/admin/data/nurse',
     },
   ];
+
+  useEffect(() => {
+    dispatch(get_data('nurses', 'nurse_list'));
+  }, [dispatch]);
+  const data = useSelector(state => state.admin?.nurse_list)
+  console.log(data)
+
   const listNurse = {
     title: "List Nurse",
     columns: [

@@ -37,7 +37,7 @@ const AdminOutpatientDetail = () => {
   const admin = useSelector(state => state.admin);
   const initialOutpatientData = admin?.outpatientt_data;
   const initialPrescriptionList = admin?.prescription_list;
-  console.log("haha: ", initialPrescriptionList)
+  
   const goBack = () => {
     history.goBack()
   }

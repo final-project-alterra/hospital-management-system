@@ -21,8 +21,7 @@ const AdminDataAdmin = () => {
       title: 'Are you sure delete this admin?',
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
-      onOk() {
-        console.log('Delete id', id);
+      onOk() {        
         dispatch(delete_admin_data(`admins`, id, 'admin_list'));
       },      
     });
@@ -49,14 +48,12 @@ const AdminDataAdmin = () => {
   useEffect(() => {
     dispatch(get_data('admins', 'admin_list'));
   }, [dispatch]);
-  const data = useSelector(state => state.admin?.admin_list)
-  console.log(data)  
+  const data = useSelector(state => state.admin?.admin_list)  
   useEffect(() => {
     setInitialData(data)
   }, [data]);
 
   const handleSearch = (key) => {
-    console.log("key:", key)    
     setInitialData(data?.filter((dt) => dt.name.includes(key)))    
   }
 

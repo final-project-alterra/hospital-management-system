@@ -14,7 +14,7 @@ export const get_data = (url, state_key) => {
     axios
       .get(url)
       .then((resp) => {
-        console.log("coba: ", resp.data)
+        
         let data = resp.data.data;
         if(Array.isArray(data)) {
           data = data.map((dt) => {
@@ -27,8 +27,7 @@ export const get_data = (url, state_key) => {
         dispatch(put_data_admin(state_key, data))
       })
       .catch((err) => {      
-        dispatch(main.error(err?.response?.data?.error?.message));
-        console.log(err);
+        dispatch(main.error(err?.response?.data?.error?.message));        
       })
       .then(() => {
         dispatch(main.toggle_loader(false));
@@ -41,8 +40,7 @@ export const post_admin_data = (url, payload, history, nextPage) => {
     dispatch(main.toggle_loader(true));
     axios
       .post(url, payload)
-      .then((resp) => {
-        console.log("post: ", resp.data)
+      .then((resp) => {        
         history.push(nextPage);
       })
       .catch((err) => {      
@@ -60,8 +58,7 @@ export const put_admin_data = (url, payload, history, nextPage) => {
     dispatch(main.toggle_loader(true));
     axios
       .put(url, payload)
-      .then((resp) => {
-        console.log("post: ", resp.data)
+      .then((resp) => {        
         history.push(nextPage);
         dispatch(main.modal_success(resp.data?.meta?.message));
       })
@@ -81,8 +78,7 @@ export const delete_admin_data = (url, id, state_key) => {
     dispatch(main.toggle_loader(true));
     axios
       .delete(`${url}/${id}`)
-      .then((resp) => {
-        console.log("post: ", resp.data);
+      .then((resp) => {        
         dispatch(main.modal_success(resp.data?.meta?.message));
       })
       .catch((err) => {      
@@ -104,13 +100,13 @@ export const delete_admin_data = (url, id, state_key) => {
   }
 }
 
-export const get_list_doctors = () => {
+export const get_list_doctors = (key) => {
   return (dispatch) => {
     dispatch(main.toggle_loader(true));
     axios
       .get('doctors')
       .then((resp) => {        
-        let aa = resp.data.data.map((dt) => {
+        let newData = resp.data.data.map((dt) => {
           return {
             id: dt.id,
             key: dt.id,
@@ -120,8 +116,10 @@ export const get_list_doctors = () => {
             age: dt.age,
           }
         })
-        console.log("Masuk: ", aa)
-        dispatch(put_data_admin("doctor_list", aa))
+        if (key) {
+          newData = newData.filter((dt) => dt.name.includes(key))
+        }
+        dispatch(put_data_admin("doctor_list", newData))
       })
       .catch((err) => {      
         // dispatch(error(err?.response?.data))
@@ -146,8 +144,7 @@ export const get_data_doctor = (id) => {
             phone: dt.phone,
             age: dt.age,
           }
-        })
-        console.log("Masuk: ", newData)
+        })        
         dispatch(put_data_admin("doctor_data", newData))
       })
       .catch((err) => {      
@@ -201,8 +198,7 @@ export const get_outpatient = () => {
             spealization: dt.doctor.specialty,
             status: dt.status === 1? "Finished" : dt.status === 2? "On-Progress" : dt.status === 3? "Waiting": 'Canceled',
           }
-        })
-        console.log("Masuk: ", newData)
+        })        
         dispatch(put_data_admin("outpatient_list", newData))
       })
       .catch((err) => {      
@@ -220,12 +216,11 @@ export const get_schedule = () => {
     dispatch(main.toggle_loader(true));
     axios
       .get("work-schedules")
-      .then((resp) => {
-        console.log("coba: ", resp.data)
+      .then((resp) => {        
         let data = resp.data.data;
         if(Array.isArray(data)) {
-          data = data.map((dt) => {
-            console.log()
+          data = data.sort((a, b) => new Date(a.date) - new Date(b.date))          
+          data = data.map((dt) => {            
             return {              
               key: dt.id,
               jadwal: format(new Date(dt.date), 'dd MMM yyyy'),
@@ -247,37 +242,12 @@ export const get_schedule = () => {
   }
 }
 
-export const get_schedule_detail = (id) => {
-  // return (dispatch) => {
-  //   const initialScheduleDetailList = [
-  //     {
-  //       key: '1',
-  //       patientName: 'Jessica Jones',
-  //       status: "OnProgress",
-  //     },
-  //     {
-  //       key: '2',
-  //       patientName: 'Luke Cage',
-  //       status: "Waiting",
-  //     },
-  //     {
-  //       key: '3',
-  //       patientName: 'Matt Murdock',
-  //       status: "Waiting",
-  //     },
-  //     {
-  //       key: '4',
-  //       patientName: 'Andy',
-  //       status: "Finished",
-  //     },
-  //   ];    
-  //   dispatch(put_data_admin("schedule_detail_list", initialScheduleDetailList));    
-  // }
+export const get_schedule_detail = (id) => {  
   return (dispatch) => {
+    dispatch(main.toggle_loader(true));
     axios
       .get(`work-schedules/${id}`)
-      .then((resp) => {
-        console.log("coba: ", resp.data)
+      .then((resp) => {        
         let data = resp.data.data.outpatients;              
         data = data.map((dt) => {          
           return {              

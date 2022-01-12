@@ -38,8 +38,7 @@ const AdminDataPatientEdit = () => {
   useEffect(() => {
     dispatch(get_data(`patients/${id}`, 'patient_data'));
   }, [dispatch, id]);
-  const patientData = useSelector(state => state.admin?.patient_data)
-  console.log(patientData)
+  const patientData = useSelector(state => state.admin?.patient_data)  
 
   const initialFormData = {
     title: 'Edit',
@@ -52,8 +51,7 @@ const AdminDataPatientEdit = () => {
     data = {
       ...data,
       id: parseInt(id)
-    }
-    console.log(data)
+    }    
     dispatch(put_admin_data(`patients`, data, history, '/admin/data/patient'));    
   }  
   return (

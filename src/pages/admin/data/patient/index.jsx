@@ -31,9 +31,8 @@ const AdminDataPatient = () => {
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
       onOk() {
-        console.log('Delete id', id);
         dispatch(delete_admin_data(`patients`, id, 'patient_list'));
-      },      
+      },
     });
   }
   const breadcrumb = [
@@ -55,13 +54,12 @@ const AdminDataPatient = () => {
     dispatch(get_data('patients', 'patient_list'));
   }, [dispatch]);
   const patientList = useSelector(state => state.admin?.patient_list)
-  console.log(patientList)
+  
   useEffect(() => {
     setInitialPatientList(patientList)
   }, [patientList]);
 
   const handleSearch = (key) => {
-    console.log("key:", key)    
     setInitialPatientList(patientList?.filter((dt) => dt.name.includes(key)))    
   }
   

@@ -4,7 +4,7 @@ import { Space } from 'antd';
 import { Link } from 'react-router-dom';
 import OrganismsWidgetList from '../../../components/organisms/widget/list';
 import LayoutsCms from '../../../layouts/cms';
-import { get_schedule_doctor } from '../../../redux/actions/doctor';
+import { get_schedule_nurse } from '../../../redux/actions/nurse';
 
 import './style.scss';
 
@@ -30,18 +30,18 @@ const NurseSchedule = () => {
     columns: [
       {
         title: 'Jadwal',
-        dataIndex: 'jadwal',
-        key: 'jadwal',
+        dataIndex: 'schedule',
+        key: 'schedule',
       },
       {
-        title: 'Nurse',
-        dataIndex: 'nurse',
-        key: 'nurse',
+        title: 'Doctor',
+        dataIndex: 'doctor',
+        key: 'doctor',
       },
       {
         title: 'Jam Kerja',
-        dataIndex: 'jamKerja',
-        key: 'jamKerja',
+        dataIndex: 'rangeTime',
+        key: 'rangeTime',
       },           
       {
         title: 'Action',
@@ -57,13 +57,14 @@ const NurseSchedule = () => {
     ],
     data: []
   };
+  const { user_data } = useSelector(state => state.main)  
   useEffect(() => {    
-    dispatch(get_schedule_doctor())
+    dispatch(get_schedule_nurse(user_data?.id))
     // eslint-disable-next-line
   }, [])  
   
-  initialListDoctor.data = useSelector(state => state.doctor?.schedule_data)
-  console.log(initialListDoctor)
+  initialListDoctor.data = useSelector(state => state.nurse?.schedule_data)
+  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-nurse-schedule">

@@ -43,8 +43,8 @@ const OrganismsAdminOutpatientForm = ({ patientList, initialFormData, handleSubm
             <Form.Item label="Patient" name="patientId">
               <Select disabled={initialFormData && initialFormData.title === 'Edit'}>
                 {
-                  patientList?.map((patient) => 
-                    <Select.Option value={patient.id}>{patient.name} - {patient.nik}</Select.Option>
+                  patientList?.map((patient, key) => 
+                    <Select.Option key={key} value={patient.id}>{patient.name} - {patient.nik}</Select.Option>
                   )
                 }
               </Select>

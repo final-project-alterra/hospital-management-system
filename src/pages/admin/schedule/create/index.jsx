@@ -48,8 +48,7 @@ const AdminScheduleCreate = () => {
     dispatch(get_data('doctors', 'doctor_list'));
     dispatch(get_data('nurses', 'nurse_list'));
   }, [dispatch]);
-  const { nurse_list, doctor_list } = useSelector(state => state.admin)  
-  console.log(nurse_list, doctor_list)
+  const { nurse_list, doctor_list } = useSelector(state => state.admin)    
 
   const goBack = () => {
     history.push('/admin/schedule');
@@ -61,8 +60,7 @@ const AdminScheduleCreate = () => {
       endDate: data.endDate.format('YYYY-MM-DD'),
       startTime: data.startTime.format('HH:mm:ss'),
       endTime: data.endTime.format('HH:mm:ss'),
-    }
-    console.log(data)    
+    };    
     dispatch(post_admin_data("work-schedules", data, history, '/admin/schedule'));
   }  
   return (

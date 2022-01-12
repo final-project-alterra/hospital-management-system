@@ -39,7 +39,7 @@ const AdminScheduleEdit = () => {
     dispatch(get_data('nurses', 'nurse_list'));
   }, [dispatch, id]);
   const { nurse_list, doctor_list, schedule_data } = useSelector(state => state.admin)  
-  console.log(schedule_data)
+  
   const initialFormData = {
     title: 'Edit',
     data: {
@@ -61,8 +61,7 @@ const AdminScheduleEdit = () => {
       date: dataEdit.date.format('YYYY-MM-DD'),
       startTime: dataEdit.startTime.format('HH:mm:ss'),
       endTime: dataEdit.endTime.format('HH:mm:ss'),
-    }
-    console.log(dataEdit);
+    }    
     dispatch(put_admin_data(`work-schedules`, dataEdit, history, '/admin/schedule'));
   }  
   return (

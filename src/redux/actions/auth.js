@@ -14,10 +14,8 @@ export const auth_login = (payload, history) => {
     dispatch(main.toggle_loader(true));
     axios
       .post('auth/login', payload)
-      .then((resp) => {                
-        console.log("Masuk: ", resp.data.data.token)
-        let decoded = jwt_decode(resp.data.data.token);
-        console.log("decoded: ", decoded)
+      .then((resp) => {                        
+        let decoded = jwt_decode(resp.data.data.token);        
         
         window.localStorage.setItem('token', resp.data.data.token);
         setAxios();

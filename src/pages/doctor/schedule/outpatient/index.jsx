@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Space } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms';
 import { get_schedule_outpatient_doctor } from '../../../../redux/actions/doctor';
+import { put_update_data } from '../../../../redux/actions/main';
 
 import './style.scss';
 
 const DoctorScheduleOutpatient = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const history = useHistory();  
+
   const activeMenu = {
     key: 'schedule',
     openKey: '',
@@ -34,9 +37,9 @@ const DoctorScheduleOutpatient = () => {
         key: 'patient',
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Complaint',
+        dataIndex: 'complaint',
+        key: 'complaint',
       },
       {
         title: 'Status',
@@ -49,7 +52,12 @@ const DoctorScheduleOutpatient = () => {
         render: (text, record) => {
           return (
             <Space size="middle">
-              <Link to={`/doctor/schedule/${record.key}/outpatient/examine`}>Examine</Link>
+              <p
+                className="text-link"
+                onClick={() => goToExamine(record.key)}
+              >
+                Examine
+              </p>              
             </Space>
           )
         },
@@ -58,14 +66,20 @@ const DoctorScheduleOutpatient = () => {
     data: []
   };
   useEffect(() => {    
-    dispatch(get_schedule_outpatient_doctor())
+    dispatch(get_schedule_outpatient_doctor(id))
     // eslint-disable-next-line
   }, [])  
   const goBack = () => {
     history.push('/doctor/schedule')
   }
+  const goToExamine = (id) => {
+    let data = {
+      id
+    }
+    dispatch(put_update_data(`outpatients/examine`, data, history, `/doctor/schedule/${id}/outpatient/examine`));    
+  }
   initialListDoctor.data = useSelector(state => state.doctor?.schedule_outpatient_data)
-  console.log(initialListDoctor)
+  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-doctor-schedule-outpatient">

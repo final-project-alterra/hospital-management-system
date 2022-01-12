@@ -39,8 +39,7 @@ const AdminDataAdminEdit = () => {
   useEffect(() => {
     dispatch(get_data(`admins/${id}`, 'admin_data'));
   }, [dispatch, id]);
-  const adminData = useSelector(state => state.admin?.admin_data)
-  console.log(adminData);
+  const adminData = useSelector(state => state.admin?.admin_data)  
 
   const initialFormData = {
     title: 'Edit',
@@ -54,8 +53,7 @@ const AdminDataAdminEdit = () => {
     dataEdit = {
       ...dataEdit,
       id: parseInt(id)
-    }
-    console.log(dataEdit)
+    }    
     dispatch(put_admin_data(`admins`, dataEdit, history, '/admin/data/admin'));
   };
 
@@ -63,8 +61,7 @@ const AdminDataAdminEdit = () => {
     dataEdit = {
       ...dataEdit,
       id: parseInt(id)
-    }
-    console.log(dataEdit)
+    }    
     dispatch(put_admin_data(`admins/password`, dataEdit, history, '/admin/data/admin'));
   };
 

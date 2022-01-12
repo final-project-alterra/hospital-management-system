@@ -48,8 +48,7 @@ const AdminDataPatientCreate = () => {
   const goBack = () => {
     history.push('/admin/data/patient');
   }  
-  const handleCreate = (data) => {
-    console.log(data)
+  const handleCreate = (data) => {    
     dispatch(post_admin_data("patients", data, history, '/admin/data/patient'));    
   }  
   return (

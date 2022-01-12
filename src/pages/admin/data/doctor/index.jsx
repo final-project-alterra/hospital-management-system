@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Space, Modal } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { 
@@ -17,17 +17,20 @@ import { delete_admin_data, get_list_doctors } from '../../../../redux/actions/a
 
 
 const AdminDataDoctor = () => {
+  const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
-  const [initialDoctorList, setInitialDoctorList] = useState(false)
-  const { confirm } = Modal;  
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('name');
+  console.log("name: ", name);
+  const [initialDoctorList, setInitialDoctorList] = useState(false);
+
   const askToDelete = (id) => {
     confirm({
       title: 'Are you sure delete this doctor?',
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
-      onOk() {
-        console.log('Delete id', id);
+      onOk() {        
         dispatch(delete_admin_data(`doctors`, id, 'doctor_list'));
       },      
     });
@@ -52,17 +55,17 @@ const AdminDataDoctor = () => {
   ];
 
   useEffect(() => {
-    dispatch(get_list_doctors());
-  }, [dispatch]);
+    dispatch(get_list_doctors(name));
+  }, [dispatch, name]);
   let doctorList = useSelector(state => state.admin?.doctor_list)
-  console.log(doctorList)
+  
   useEffect(() => {
     setInitialDoctorList(doctorList)
   }, [doctorList]);
 
   const handleSearch = (key) => {
-    console.log("key:", key)    
-    setInitialDoctorList(doctorList?.filter((dt) => dt.name.includes(key)))    
+    history.push(`/admin/data/doctor?name=${key}`)    
+    // setInitialDoctorList(doctorList?.filter((dt) => dt.name.includes(key)))    
   }
 
   const listDoctor = {

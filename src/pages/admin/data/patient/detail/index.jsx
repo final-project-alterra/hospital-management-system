@@ -33,13 +33,11 @@ const AdminDataPatientDetail = () => {
       url: '/admin/data/patient/detail',
     },
   ];
-  let { id } = useParams();
-  console.log("id: ", id)
+  let { id } = useParams();  
   useEffect(() => {
     dispatch(get_data(`patients/${id}`, 'patient_data'));
   }, [dispatch, id]);
-  const initialPatientData = useSelector(state => state.admin?.patient_data)
-  console.log(initialPatientData)
+  const initialPatientData = useSelector(state => state.admin?.patient_data)  
 
   const goBack = () => {
     history.push('/admin/data/patient');

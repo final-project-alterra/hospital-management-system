@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import OrganismsAdminDashboardHighlight from '../../../components/organisms/admin/dashboard/highlight'
 import OrganismsAdminDashboardCardGroup from '../../../components/organisms/admin/dashboard/cardGroup'
 import LayoutsCms from '../../../layouts/cms'
-import { get_data, get_list_doctors, put_data_admin } from '../../../redux/actions/admin'
+import { get_data, get_list_doctors } from '../../../redux/actions/admin'
 import './style.scss'
 
 const AdminDashboard = () => {
@@ -45,15 +45,12 @@ const AdminDashboard = () => {
   ];
   
   const dispatch = useDispatch()  
-  useEffect(() => {
-    dispatch(put_data_admin("highlight_data", highlight_data))
+  useEffect(() => {    
     dispatch(get_data("patients", "patient_list"))
     dispatch(get_list_doctors())
     // eslint-disable-next-line
-  }, [])
-  const highlights = useSelector(state => state.admin?.highlight_data)  
-  const { patient_list, doctor_list } = useSelector(state => state.admin)  
-  console.log(patient_list.length);
+  }, [])  
+  const { patient_list, doctor_list } = useSelector(state => state.admin)    
   const highlight_data = [
     {
       title: "Total Patient",
@@ -79,7 +76,7 @@ const AdminDashboard = () => {
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className='p-admin-dashboard'>        
-        <OrganismsAdminDashboardHighlight initialHighlightData={highlights} />
+        <OrganismsAdminDashboardHighlight initialHighlightData={highlight_data} />
         <OrganismsAdminDashboardCardGroup 
           initialCardData={card_data} 
           goToUrl={goToUrl}

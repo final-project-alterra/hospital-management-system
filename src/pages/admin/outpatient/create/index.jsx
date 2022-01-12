@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom';
 
 import OrganismsAdminOutpatientForm from '../../../../components/organisms/admin/outpatient/form';
@@ -13,7 +13,7 @@ const AdminOutpatientCreate = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
-  console.log(id)
+  
   const activeMenu = {
     key: 'outpatient',
     openKey: '',
@@ -32,24 +32,35 @@ const AdminOutpatientCreate = () => {
       url: '/admin/outpatient/create',
     },
   ];
+  const [initialFormData, setInitialFormData] = useState({
+    title: 'Create',
+    data: {      
+      doctorName: '',
+      date: '',
+      specialty: '',
+      patientId: 1,
+      complaint: '',
+    }
+  })
 
   useEffect(() => {
     dispatch(get_data(`work-schedules/${id}`, 'schedule_data'));    
     dispatch(get_data(`patients`, 'patient_list'));    
   }, [dispatch, id]);
   const { schedule_data, patient_list } = useSelector(state => state.admin)  
-  console.log(patient_list)
-
-  const initialFormData = {
-    title: 'Create',
-    data: {      
-      doctorName: schedule_data.doctor.name,
-      date: schedule_data.date,
-      specialty: schedule_data.doctor.specialty,
-      patientId: 1,
-      complaint: '',
+  useEffect(() => {
+    if(schedule_data) {
+      setInitialFormData(dt => ({
+        ...dt,
+        data: {
+          ...dt.data,
+          doctorName: schedule_data.doctor.name,
+          date: schedule_data.date,
+          specialty: schedule_data.doctor.specialty,
+        }}))
     }
-  }
+  }, [schedule_data]);
+
   const goBack = () => {
     history.push('/admin/outpatient');
   }  
@@ -58,8 +69,7 @@ const AdminOutpatientCreate = () => {
       workScheduleId: parseInt(id),
       patientId: parseInt(data.patientId),
       complaint: data.complaint
-    };
-    console.log(data);
+    };    
     dispatch(post_admin_data("outpatients", data, history, '/admin/outpatient'));
   }  
   return (

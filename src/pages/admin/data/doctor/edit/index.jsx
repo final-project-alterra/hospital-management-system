@@ -41,8 +41,7 @@ const AdminDataDoctorEdit = () => {
     dispatch(get_data('rooms', 'room_list'));
   }, [dispatch, id]);
   const doctorData = useSelector(state => state.admin?.doctor_data);
-  const { speciality_list, room_list } = useSelector(state => state.admin);  
-  console.log(doctorData);
+  const { speciality_list, room_list } = useSelector(state => state.admin);    
 
   const initialFormData = {
     title: 'Edit',
@@ -75,7 +74,6 @@ const AdminDataDoctorEdit = () => {
       ...dataEdit,
       id: parseInt(id)
     }
-    console.log(dataEdit)
     dispatch(put_admin_data(`doctors/password`, dataEdit, history, '/admin/data/doctor'));
   };
 

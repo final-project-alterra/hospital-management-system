@@ -45,8 +45,7 @@ const AdminDataAdminCreate = () => {
   const goBack = () => {
     history.push('/admin/data/admin');
   }  
-  const handleCreate = (data) => {
-    console.log(data)
+  const handleCreate = (data) => {    
     dispatch(post_admin_data("admins", data, history, '/admin/data/admin'));
   }  
   return (

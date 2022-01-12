@@ -50,14 +50,12 @@ const AdminDataDoctorCreate = () => {
     dispatch(get_data('rooms', 'room_list'));
   }, [dispatch]);
 
-  const { speciality_list, room_list } = useSelector(state => state.admin)
-  console.log(speciality_list, room_list);
+  const { speciality_list, room_list } = useSelector(state => state.admin)  
 
   const goBack = () => {
     history.push('/admin/data/doctor');
   }  
-  const handleCreate = (data) => {
-    console.log(data);
+  const handleCreate = (data) => {    
     dispatch(post_admin_data("doctors", data, history, '/admin/data/doctor'));
   }  
   return (

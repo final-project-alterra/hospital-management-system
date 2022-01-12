@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -17,9 +17,11 @@ import './style.scss'
 import { delete_admin_data, get_schedule } from '../../../redux/actions/admin';
 
 const AdminSchedule = () => {
+  const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
-  const { confirm } = Modal;
+  const [initialScheduleData, setInitialScheduleData] = useState([]);
+
   const activeMenu = {
     key: 'schedule',
     openKey: '',
@@ -30,7 +32,6 @@ const AdminSchedule = () => {
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
       onOk() {
-        console.log('Delete id', id);
         dispatch(delete_admin_data(`work-schedules`, id, 'schedule_list'));        
       },      
     });
@@ -47,7 +48,20 @@ const AdminSchedule = () => {
       label: 'Schedule',
       url: '/admin/schedule',
     },
-  ];    
+  ];
+
+  useEffect(() => {
+    dispatch(get_schedule());
+    // eslint-disable-next-line
+  }, []);
+  const { schedule_list } = useSelector(state => state.admin);  
+  useEffect(() => {
+    setInitialScheduleData(schedule_list)
+  }, [schedule_list]);
+
+  const handleSearch = (key) => {
+    setInitialScheduleData(schedule_list?.filter((dt) => dt.doctorName.includes(key) || dt.jadwal.includes(key)))    
+  };
   
   const initialListSchedule = {
     title: "List Schedule",
@@ -101,13 +115,8 @@ const AdminSchedule = () => {
         },
       },
     ],
-    data: []
+    data: initialScheduleData,
   };
-  useEffect(() => {
-    dispatch(get_schedule())
-    // eslint-disable-next-line
-  }, [])
-  initialListSchedule.data = useSelector(state => state.admin?.schedule_list)  
 
   const goToAddSchedule = () => {
     history.push("/admin/schedule/create")
@@ -117,9 +126,10 @@ const AdminSchedule = () => {
       <div className="p-admin-schedule">
         <OrganismsWidgetList 
           list={initialListSchedule}
-          goToAddPage={() => goToAddSchedule()} 
+          goToAddPage={() => goToAddSchedule()}
+          handleSearch={handleSearch}
         />
-      </div>      
+      </div>
     </LayoutsCms>
   )
 }

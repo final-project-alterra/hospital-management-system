@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Space } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import OrganismsWidgetList from '../../../components/organisms/widget/list';
 import LayoutsCms from '../../../layouts/cms';
-import { get_profile_doctor, get_schedule_doctor } from '../../../redux/actions/doctor';
+import { get_schedule_doctor } from '../../../redux/actions/doctor';
 
 import './style.scss';
 
 const DoctorSchedule = () => {
-  const dispatch = useDispatch();
-  const location = useLocation();
-  console.log(location);
+  const dispatch = useDispatch();  
+  
   const activeMenu = {
     key: 'schedule',
     openKey: '',
@@ -32,8 +31,8 @@ const DoctorSchedule = () => {
     columns: [
       {
         title: 'Jadwal',
-        dataIndex: 'jadwal',
-        key: 'jadwal',
+        dataIndex: 'schedule',
+        key: 'schedule',
       },
       {
         title: 'Nurse',
@@ -42,8 +41,8 @@ const DoctorSchedule = () => {
       },
       {
         title: 'Jam Kerja',
-        dataIndex: 'jamKerja',
-        key: 'jamKerja',
+        dataIndex: 'rangeTime',
+        key: 'rangeTime',
       },           
       {
         title: 'Action',
@@ -59,14 +58,13 @@ const DoctorSchedule = () => {
     ],
     data: []
   };
-  useEffect(() => {
-    dispatch(get_profile_doctor())
-    dispatch(get_schedule_doctor())
+  const { user_data } = useSelector(state => state.main)    
+  useEffect(() => {    
+    dispatch(get_schedule_doctor(user_data?.id))
     // eslint-disable-next-line
   }, [])  
   
-  initialListDoctor.data = useSelector(state => state.doctor?.schedule_data)
-  console.log(initialListDoctor)
+  initialListDoctor.data = useSelector(state => state.doctor?.schedule_data) 
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-doctor-schedule">

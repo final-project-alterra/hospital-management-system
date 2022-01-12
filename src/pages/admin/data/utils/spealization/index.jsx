@@ -7,7 +7,7 @@ import {
   DeleteOutlined  
 } from '@ant-design/icons';
 
-import { get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
+import { delete_admin_data, get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
 import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
 import OrganismsAdminDataUtilsFormSpealization from '../../../../../components/organisms/admin/data/utils/form/spealization';
 import { useHistory } from 'react-router-dom';
@@ -25,6 +25,7 @@ const AdminDataUtilsSpealization = () => {
       content: 'You can undo this change',
       onOk() {
         console.log('Delete id', id);
+        dispatch(delete_admin_data(`specialities`, id, 'speciality_list'));
       },      
     });
   };
@@ -39,13 +40,12 @@ const AdminDataUtilsSpealization = () => {
   }, [dispatch, showModal]);
 
   const data = adminState?.speciality_list    
-  console.log(data)  
+  
   useEffect(() => {
     setInitialData(data)
   }, [data]);
 
-  const handleSearch = (key) => {
-    console.log("key:", key)    
+  const handleSearch = (key) => {    
     setInitialData(data?.filter((dt) => dt.name.includes(key)))    
   }
 
@@ -84,8 +84,7 @@ const AdminDataUtilsSpealization = () => {
   };
   const [initialFormDataSpealization, setInitialFormDataSpealization] = useState({});    
 
-  const goToAdd = () => {
-    console.log("adsdahjnbds")
+  const goToAdd = () => {    
     setInitialFormDataSpealization({ ...initialFormDataSpealization,  
       title: "Create",
       data: { id: 0, name: "" }
@@ -104,10 +103,8 @@ const AdminDataUtilsSpealization = () => {
   const handleSubmit = (value) => {    
     if(value.id === 0) {
       value = { name: value.name }
-      dispatch(post_admin_data("specialities", value, history, '/admin/data/utils'));
-      console.log(value);
-    } else {
-      console.log(value);
+      dispatch(post_admin_data("specialities", value, history, '/admin/data/utils'));      
+    } else {      
       dispatch(put_admin_data("specialities", value, history, '/admin/data/utils'));
     }
   }

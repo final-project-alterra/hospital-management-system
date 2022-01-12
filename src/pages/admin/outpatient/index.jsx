@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,8 @@ import { delete_admin_data, get_outpatient } from '../../../redux/actions/admin'
 const AdminOutpatient = () => {
   const dispatch = useDispatch();  
   const { confirm } = Modal;
+  const [initialOutpatientData, setInitialOutpatientData] = useState([]);
+
   const activeMenu = {
     key: 'outpatient',
     openKey: '',
@@ -21,8 +23,7 @@ const AdminOutpatient = () => {
       title: 'Are you sure delete this outpatient?',
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
-      onOk() {
-        console.log('Delete id', id);
+      onOk() {        
         dispatch(delete_admin_data(`outpatients`, id, 'outpatient_list'));
       },      
     });
@@ -36,9 +37,22 @@ const AdminOutpatient = () => {
       label: 'Outpatient',
       url: '/admin/outpatient',
     },
-  ];    
+  ];
+
+  useEffect(() => {
+    dispatch(get_outpatient())
+    // eslint-disable-next-line
+  }, []);
+  const { outpatient_list } = useSelector(state => state.admin);
+  useEffect(() => {
+    setInitialOutpatientData(outpatient_list)
+  }, [outpatient_list]);
+
+  const handleSearch = (key) => {
+    setInitialOutpatientData(outpatient_list?.filter((dt) => dt.patientName.includes(key) || dt.date.includes(key)))    
+  };
   
-  const initialListOutpatient = {
+  const listOutpatient = {
     title: "List Outpatient",
     columns: [
       {
@@ -85,19 +99,15 @@ const AdminOutpatient = () => {
         },
       },
     ],
-    data: []
-  };
-  useEffect(() => {
-    dispatch(get_outpatient())
-    // eslint-disable-next-line
-  }, [])
-  initialListOutpatient.data = useSelector(state => state.admin?.outpatient_list)
+    data: initialOutpatientData,
+  };  
 
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-outpatient">
         <OrganismsWidgetList 
-          list={initialListOutpatient}          
+          list={listOutpatient}
+          handleSearch={handleSearch}
         />
       </div>      
     </LayoutsCms>

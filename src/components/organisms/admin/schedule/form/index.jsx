@@ -4,15 +4,13 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminScheduleForm = ({ initialFormData, doctorData, nurseData, handleSubmit }) => {  
-  console.log(initialFormData)
+const OrganismsAdminScheduleForm = ({ initialFormData, doctorData, nurseData, handleSubmit }) => {    
   const [form] = Form.useForm();
   useEffect(() => form.resetFields(), [initialFormData, form]);
   const dateFormat = "YYYY/MM/DD";
   const timeFormat = "HH:mm:ss";
   const [isRepeat, setIsRepeat] = useState(initialFormData.data.scheduleEnd? true:false)
-  const handleCheckbox = (e) => {
-    console.log("ch: ", e.target.checked)
+  const handleCheckbox = (e) => {    
     setIsRepeat(e.target.checked? true : false)
   }
 

@@ -9,8 +9,7 @@ const OrganismsDoctorPrescriptionCreate = () => {
   const dispatch = useDispatch();
   const modal_create_prescription = useSelector(state => state.doctor?.modal_create_prescription);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const handleOk = (value) => {    
-    console.log("form: ", value);
+  const handleOk = (value) => {
     setConfirmLoading(true);
     setTimeout(() => {
       dispatch(put_data_doctor("modal_create_prescription", false));
@@ -18,8 +17,7 @@ const OrganismsDoctorPrescriptionCreate = () => {
       form.resetFields();
     }, 2000);
   };
-  const handleCancel = () => {
-    console.log('Clicked cancel button');
+  const handleCancel = () => {    
     dispatch(put_data_doctor("modal_create_prescription", false));
   };
 

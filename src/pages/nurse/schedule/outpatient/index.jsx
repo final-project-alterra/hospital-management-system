@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Space } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms';
-import { get_schedule_outpatient_doctor } from '../../../../redux/actions/doctor';
+import { get_schedule_outpatient_nurse } from '../../../../redux/actions/nurse';
 
 import './style.scss';
 
 const NurseScheduleOutpatient = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const history = useHistory();  
+
   const activeMenu = {
     key: 'schedule',
     openKey: '',
@@ -38,9 +40,9 @@ const NurseScheduleOutpatient = () => {
         key: 'patient',
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Complaint',
+        dataIndex: 'complaint',
+        key: 'complaint',
       },
       {
         title: 'Status',
@@ -62,14 +64,14 @@ const NurseScheduleOutpatient = () => {
     data: []
   };
   useEffect(() => {    
-    dispatch(get_schedule_outpatient_doctor())
+    dispatch(get_schedule_outpatient_nurse(id))
     // eslint-disable-next-line
   }, [])  
   const goBack = () => {
-    history.push('/doctor/schedule')
+    history.push('/nurse/schedule')
   }
-  initialListDoctor.data = useSelector(state => state.doctor?.schedule_outpatient_data)
-  console.log(initialListDoctor)
+  initialListDoctor.data = useSelector(state => state.nurse?.schedule_outpatient_data)
+  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-nurse-schedule-outpatient">

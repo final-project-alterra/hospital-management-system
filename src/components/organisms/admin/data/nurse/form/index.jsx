@@ -4,8 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminDataNurseForm = ({ goBack, initialFormData, handleSubmit }) => {
-  console.log(initialFormData)
+const OrganismsAdminDataNurseForm = ({ goBack, initialFormData, handleSubmit }) => {  
   const [form] = Form.useForm();
   return (
     <div className="o-admin-data-nurse-form">      

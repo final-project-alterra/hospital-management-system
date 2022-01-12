@@ -3,8 +3,7 @@ import { Avatar } from 'antd'
 
 import './style.scss'
 
-const OrganismsWidgetProfile = ({ profileData }) => {
-  console.log(profileData)
+const OrganismsWidgetProfile = ({ profileData }) => {  
   return (
     <div className="o-widget-profile">
       <div className="o-widget-profile__ava">

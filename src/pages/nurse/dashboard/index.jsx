@@ -34,7 +34,7 @@ const NurseDashboard = () => {
     history.push(url)
   }
   const { user_data } = useSelector(state => state.main)  
-  console.log(user_data)
+  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-nurse-dashboard">

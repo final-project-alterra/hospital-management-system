@@ -7,7 +7,7 @@ import './style.scss'
 const OrganismsAdminDataAdminForm = ({ goBack, initialFormData, handleSubmit }) => {  
   const [form] = Form.useForm();
   useEffect(() => form.resetFields(), [initialFormData, form]);  
-  console.log("emm", initialFormData.data)
+  
   return (
     <div className="o-admin-data-admin-form">      
       <Form 

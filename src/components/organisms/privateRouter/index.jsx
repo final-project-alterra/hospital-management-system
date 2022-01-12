@@ -12,8 +12,7 @@ const PrivateRoute = (props) => {
   if(userJWTData)  {
     isExpired = Date.now() >= userJWTData.exp * 1000;
   }
-  console.log("Masuk private", isAuthenticated)  
-
+  
   return isAuthenticated && isExpired === false  ? (
     <Route {...props} />
   ) : (

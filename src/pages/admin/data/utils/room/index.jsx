@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Space, Modal, Button } from 'antd';
+import { Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import {
+  ExclamationCircleOutlined,
+  EditOutlined,
+  DeleteOutlined
+} from '@ant-design/icons';
 
 import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
-import { get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
+import { delete_admin_data, get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
 import OrganismsAdminDataUtilsFormRoom from '../../../../../components/organisms/admin/data/utils/form/room';
 import { useHistory } from 'react-router-dom';
 
@@ -22,6 +25,7 @@ const AdminDataUtilsRoom = () => {
       content: 'You can undo this change',
       onOk() {
         console.log('Delete id', id);
+        dispatch(delete_admin_data(`rooms`, id, 'room_list'));
       },      
     });
   };
@@ -34,13 +38,12 @@ const AdminDataUtilsRoom = () => {
   }, [dispatch, showModal]);
 
   const data = adminState?.room_list;    
-  console.log(data)  
+  
   useEffect(() => {
     setInitialData(data)
   }, [data]);
 
-  const handleSearch = (key) => {
-    console.log("key:", key)    
+  const handleSearch = (key) => {    
     setInitialData(data?.filter((dt) => dt.code.includes(key)))    
   }
 
@@ -63,23 +66,18 @@ const AdminDataUtilsRoom = () => {
         render: (text, record) => {
           return (
             <Space size="middle">              
-              <Button 
-                type="primary" 
-                size="small" 
-                ghost
+              <p
+                className="text-link"
                 onClick={() => goToEdit(record)}
               >
-                Edit
-              </Button>
-              <Button
-                type="primary" 
-                size="small" 
-                danger 
-                ghost
+                <EditOutlined />
+              </p>
+              <p
+                className="text-danger"
                 onClick={() => askToDelete(record.key)}
               >
-                Delete
-              </Button>
+                <DeleteOutlined />
+              </p>
             </Space>
           )
         },
@@ -106,11 +104,9 @@ const AdminDataUtilsRoom = () => {
   }
   const handleSubmit = (value) => {    
     if(value.id === 0) {
-      value = { code: value.code, floor: value.floor }
-      console.log(value);
+      value = { code: value.code, floor: value.floor }      
       dispatch(post_admin_data("rooms", value, history, '/admin/data/utils'));
     } else {
-      console.log(value);
       dispatch(put_admin_data("rooms", value, history, '/admin/data/utils'));
     }
   }

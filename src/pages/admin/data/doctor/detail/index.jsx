@@ -43,8 +43,7 @@ const AdminDataDoctorDetail = () => {
   useEffect(() => {
     dispatch(get_data(`doctors/${id}`, 'doctor_data'));
   }, [dispatch, id]);
-  const doctorData = useSelector(state => state.admin?.doctor_data)
-  console.log(doctorData)
+  const doctorData = useSelector(state => state.admin?.doctor_data)  
 
   const initialDoctorData = [
     {

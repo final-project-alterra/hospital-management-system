@@ -19,8 +19,7 @@ const AdminDataNurse = () => {
       title: 'Are you sure delete this nurse?',
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
-      onOk() {
-        console.log('Delete id', id);
+      onOk() {        
         dispatch(delete_admin_data(`nurses`, id, 'nurse_list'));
       },      
     });

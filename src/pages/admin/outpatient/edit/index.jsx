@@ -37,14 +37,14 @@ const AdminOutpatientEdit = () => {
     dispatch(get_data(`patients`, 'patient_list'));    
   }, [dispatch, id]);
   const { outpatient_data, patient_list } = useSelector(state => state.admin)  
-  console.log(outpatient_data)
+  
   const initialFormData = {
     title: 'Edit',
     data: {
-      doctorName: outpatient_data?.doctor.name,
+      doctorName: outpatient_data?.doctor?.name,
       date: outpatient_data?.date,
-      specialty: outpatient_data?.doctor.specialty,
-      patientId: outpatient_data?.patient.id,
+      specialty: outpatient_data?.doctor?.specialty,
+      patientId: outpatient_data?.patient?.id,
       complaint: outpatient_data?.complaint,
     }
   }
@@ -55,8 +55,7 @@ const AdminOutpatientEdit = () => {
     data = {
       id: parseInt(id),      
       complaint: data.complaint
-    };    
-    console.log(data);
+    };
     dispatch(put_admin_data(`outpatients`, data, history, '/admin/outpatient'));
   }  
   return (

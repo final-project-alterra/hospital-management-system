@@ -66,7 +66,7 @@ const AdminDataDoctorEdit = () => {
       ...dataEdit,
       id: parseInt(id)
     }
-    console.log(dataEdit)
+    
     dispatch(put_admin_data(`doctors`, dataEdit, history, '/admin/data/doctor'));
   }  
   const handleEditPassword = (dataEdit) => {    

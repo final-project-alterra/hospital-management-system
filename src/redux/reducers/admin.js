@@ -1,6 +1,7 @@
 const admin_state = {
 	highlight_data: [],
   outpatient_data: false,
+  outpatient_detail_data: false,
   outpatient_list: [],
   schedule_list: [],
   patient_list: [],
@@ -12,6 +13,7 @@ const admin_state = {
   doctor_data: false,
   patient_data: false,
   admin_data: false,
+  nurse_data: false,
   speciality_data: false,
   room_data: false,
   schedule_detail_list: [],

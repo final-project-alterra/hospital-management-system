@@ -9,6 +9,7 @@ import {
   EditOutlined, 
   DeleteOutlined  
 } from '@ant-design/icons';
+
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
@@ -22,7 +23,7 @@ const AdminDataDoctor = () => {
   const history = useHistory();
   const search = useLocation().search;
   const name = new URLSearchParams(search).get('name');
-  console.log("name: ", name);
+  
   const [initialDoctorList, setInitialDoctorList] = useState(false);
 
   const askToDelete = (id) => {
@@ -55,17 +56,26 @@ const AdminDataDoctor = () => {
   ];
 
   useEffect(() => {
-    dispatch(get_list_doctors(name));
+    if(!name) {
+      dispatch(get_list_doctors());
+    }
   }, [dispatch, name]);
+
   let doctorList = useSelector(state => state.admin?.doctor_list)
-  
-  useEffect(() => {
-    setInitialDoctorList(doctorList)
-  }, [doctorList]);
+  useEffect(() => {    
+    if(doctorList.length === 0 && name) {
+      dispatch(get_list_doctors());
+    }
+    else if(name) {
+      setInitialDoctorList(doctorList?.filter((dt) => dt.name.includes(name)))
+    } else {      
+      setInitialDoctorList(doctorList)
+    }
+  }, [dispatch, doctorList, name]);
 
   const handleSearch = (key) => {
     history.push(`/admin/data/doctor?name=${key}`)    
-    // setInitialDoctorList(doctorList?.filter((dt) => dt.name.includes(key)))    
+    setInitialDoctorList(doctorList?.filter((dt) => dt.name.includes(key)))    
   }
 
   const listDoctor = {

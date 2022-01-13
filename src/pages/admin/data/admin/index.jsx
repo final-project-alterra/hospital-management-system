@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { Space, Modal, Button } from 'antd';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom'
-import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Space, Modal } from 'antd';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { 
+  ExclamationCircleOutlined, 
+  FolderOutlined, 
+  EditOutlined, 
+  DeleteOutlined  
+} from '@ant-design/icons';
+
+import { delete_admin_data, get_data } from '../../../../redux/actions/admin';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
-import { delete_admin_data, get_data } from '../../../../redux/actions/admin';
 
 const AdminDataAdmin = () => {
+  const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
-  const { confirm } = Modal;
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('name');
+
   const [initialData, setInitialData] = useState([])
 
   const askToDelete = (id) => {
@@ -44,17 +52,27 @@ const AdminDataAdmin = () => {
       url: '/admin/data/admin',
     },
   ];
+  
+  useEffect(() => {
+    if(!name) {
+      dispatch(get_data('admins', 'admin_list'));
+    } 
+  }, [dispatch, name]);
 
-  useEffect(() => {
-    dispatch(get_data('admins', 'admin_list'));
-  }, [dispatch]);
   const data = useSelector(state => state.admin?.admin_list)  
-  useEffect(() => {
-    setInitialData(data)
-  }, [data]);
+  useEffect(() => {    
+    if(data.length === 0 && name) {
+      dispatch(get_data('admins', 'admin_list'));
+    }
+    else if(name) {
+      setInitialData(data?.filter((dt) => dt.name.includes(name)))
+    } else {
+      setInitialData(data)
+    }
+  }, [dispatch, data, name]);
 
   const handleSearch = (key) => {
-    setInitialData(data?.filter((dt) => dt.name.includes(key)))    
+    history.push(`/admin/data/admin?name=${key}`)
   }
 
   const listAdmin = {
@@ -81,21 +99,18 @@ const AdminDataAdmin = () => {
         render: (text, record) => {
           return (
             <Space size="middle">
-              <Link to={`/admin/data/admin/detail/${record.key}`}>
-                <Button type="primary" size="small" ghost>Lihat Detail</Button>
+              <Link to={`/admin/data/admin/detail/${record.key}`}>                
+                <FolderOutlined />
               </Link>
               <Link to={`/admin/data/admin/edit/${record.key}`}>
-                <Button type="primary" size="small" ghost>Edit</Button>
+                <EditOutlined />
               </Link>
-              <Button
-                type="primary" 
-                size="small" 
-                danger 
-                ghost
+              <p
+                className="text-danger"                
                 onClick={() => askToDelete(record.key)}
               >
-                Delete
-              </Button>
+                <DeleteOutlined />
+              </p>
             </Space>
           )
         },

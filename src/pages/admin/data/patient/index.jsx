@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Space, Modal } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { 
   ExclamationCircleOutlined, 
@@ -19,6 +19,9 @@ const AdminDataPatient = () => {
   const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('name');
+
   const [initialPatientList, setInitialPatientList] = useState([])
 
   const activeMenu = {
@@ -51,16 +54,25 @@ const AdminDataPatient = () => {
   ];  
   
   useEffect(() => {
-    dispatch(get_data('patients', 'patient_list'));
-  }, [dispatch]);
-  const patientList = useSelector(state => state.admin?.patient_list)
-  
-  useEffect(() => {
-    setInitialPatientList(patientList)
-  }, [patientList]);
+    if(!name) {
+      dispatch(get_data('patients', 'patient_list'));
+    }
+  }, [dispatch, name]);
+
+  const patientList = useSelector(state => state.admin?.patient_list)  
+  useEffect(() => {    
+    if(patientList.length === 0 && name) {
+      dispatch(get_data('patients', 'patient_list'));
+    }
+    else if(name) {
+      setInitialPatientList(patientList?.filter((dt) => dt.name.includes(name)));
+    } else {
+      setInitialPatientList(patientList);
+    }
+  }, [dispatch, name, patientList]);
 
   const handleSearch = (key) => {
-    setInitialPatientList(patientList?.filter((dt) => dt.name.includes(key)))    
+    history.push(`/admin/data/patient?name=${key}`);
   }
   
   const listPatient = {

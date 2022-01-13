@@ -54,7 +54,7 @@ const DoctorScheduleOutpatient = () => {
             <Space size="middle">
               <p
                 className="text-link"
-                onClick={() => goToExamine(record.key)}
+                onClick={() => goToExamine(record)}
               >
                 Examine
               </p>              
@@ -72,11 +72,15 @@ const DoctorScheduleOutpatient = () => {
   const goBack = () => {
     history.push('/doctor/schedule')
   }
-  const goToExamine = (id) => {
+  const goToExamine = (record) => {
     let data = {
-      id
+      id: record.key,
+    }    
+    if(record.status === "Waiting") {
+      dispatch(put_update_data(`outpatients/examine`, data, history, `/doctor/schedule/${id}/outpatient/examine`));    
+    } else if (record.status === "On-Progress") {
+      history.push(`/doctor/schedule/${record.key}/outpatient/examine`);
     }
-    dispatch(put_update_data(`outpatients/examine`, data, history, `/doctor/schedule/${id}/outpatient/examine`));    
   }
   initialListDoctor.data = useSelector(state => state.doctor?.schedule_outpatient_data)
   

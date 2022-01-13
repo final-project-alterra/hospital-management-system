@@ -39,7 +39,7 @@ const AdminScheduleDetail = () => {
       url: '/admin/schedule',
     },
     {
-      label: 'Detauk',
+      label: 'Detail',
       url: '/admin/schedule/detail',
     },
   ];    

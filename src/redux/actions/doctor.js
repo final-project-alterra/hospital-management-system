@@ -144,30 +144,20 @@ export const get_schedule_outpatient_doctor = (id) => {
   }
 }
 
-export const get_outpatient = () => {
-  return (dispatch) => {    
-    const initialOutpatientData = [
-      {
-        label: "Patient Name",
-        value: "Syifa Fauziah",
-      },      
-      {
-        label: "Age",
-        value: "12",
-      },
-      {
-        label: "Gender",
-        value: "12",
-      },
-      {
-        label: "Doctor Name",
-        value: "dr. Angga",
-      },
-      {
-        label: "Keluhan",
-        value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam accumsan vulputate pretium. Nullam suscipit, purus ac finibus dictum, est nisi egestas mauris, non mollis tortor quam id enim. Morbi est magna, maximus sed sodales eget, pharetra eget sapien. Nulla nunc ex, cursus ut rutrum nec, rutrum euismod orci. Aenean non semper augue.",
-      },
-    ];
-    dispatch(put_data_doctor("outpatient_data", initialOutpatientData))
+export const get_outpatient = (id) => {
+  return (dispatch) => {
+    dispatch(main.toggle_loader(true));
+    axios
+      .get(`outpatients/${id}`)
+      .then((resp) => {
+        dispatch(put_data_doctor("outpatient_data", resp.data.data))
+      })
+      .catch((err) => {      
+        dispatch(main.error(err?.response?.data?.error?.message));
+        console.log(err);
+      })
+      .then(() => {
+        dispatch(main.toggle_loader(false));
+      });
   }
 }

@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { 
+  ExclamationCircleOutlined, 
+  FolderOutlined, 
+  EditOutlined, 
+  DeleteOutlined  
+} from '@ant-design/icons';
+
+import { delete_admin_data, get_outpatient } from '../../../redux/actions/admin';
 import OrganismsWidgetList from '../../../components/organisms/widget/list';
 import LayoutsCms from '../../../layouts/cms';
 
 import './style.scss'
-import { delete_admin_data, get_outpatient } from '../../../redux/actions/admin';
 
 const AdminOutpatient = () => {
-  const dispatch = useDispatch();  
   const { confirm } = Modal;
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('key');
   const [initialOutpatientData, setInitialOutpatientData] = useState([]);
 
   const activeMenu = {
@@ -38,18 +47,27 @@ const AdminOutpatient = () => {
       url: '/admin/outpatient',
     },
   ];
-
   useEffect(() => {
-    dispatch(get_outpatient())
+    if(!name) {
+      dispatch(get_outpatient())
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [name]);
+
   const { outpatient_list } = useSelector(state => state.admin);
-  useEffect(() => {
-    setInitialOutpatientData(outpatient_list)
-  }, [outpatient_list]);
+  useEffect(() => {    
+    if(outpatient_list.length === 0 && name) {
+      dispatch(get_outpatient());
+    }
+    else if(name) {      
+      setInitialOutpatientData(outpatient_list?.filter((dt) => dt.patientName.includes(name) || dt.date.includes(name)))    
+    } else {      
+      setInitialOutpatientData(outpatient_list)
+    }
+  }, [dispatch, outpatient_list, name]);
 
   const handleSearch = (key) => {
-    setInitialOutpatientData(outpatient_list?.filter((dt) => dt.patientName.includes(key) || dt.date.includes(key)))    
+    history.push(`/admin/outpatient?key=${key}`)    
   };
   
   const listOutpatient = {
@@ -86,13 +104,20 @@ const AdminOutpatient = () => {
         render: (text, record) => {
           return (
             <Space size="middle">
-              <Link to={`/admin/outpatient/detail/${record.key}`}>Lihat Detail</Link>
-              <Link to={`/admin/outpatient/edit/${record.key}`}>Edit</Link>
+              <Link to={`/admin/outpatient/detail/${record.key}`}>
+                <FolderOutlined />
+              </Link>
+              {
+                record.status !== "Finished" &&
+                <Link to={`/admin/outpatient/edit/${record.key}`}>
+                  <EditOutlined />
+                </Link>
+              }
               <p 
                 className="text-danger" 
                 onClick={() => askToDelete(record.key)}
               >
-                Delete
+                <DeleteOutlined />
               </p>
             </Space>
           )

@@ -4,7 +4,7 @@ import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsDoctorCardPrescription = ({ prescriptionList, goToCreate, isReadOnly }) => {  
+const OrganismsDoctorCardPrescription = ({ prescriptionList, goToCreate, handleFinish, isReadOnly }) => {  
   return (
     <div className="o-doctor-card-prescription">
       <div className="o-doctor-card-prescription__header">
@@ -24,7 +24,7 @@ const OrganismsDoctorCardPrescription = ({ prescriptionList, goToCreate, isReadO
         {
           prescriptionList && prescriptionList?.map((prescription) => (
             <div className="o-doctor-card-prescription__list-item">
-              <h4>{ prescription.name }</h4>
+              <h4>{ prescription.medicine }</h4>
               <p>{ prescription.instruction }</p>
             </div>
           ))
@@ -34,7 +34,8 @@ const OrganismsDoctorCardPrescription = ({ prescriptionList, goToCreate, isReadO
         !isReadOnly &&
         <Button
           type="primary" 
-          icon={<CheckOutlined />}        
+          icon={<CheckOutlined />}
+          onClick={handleFinish}
         >
           Examined
         </Button>

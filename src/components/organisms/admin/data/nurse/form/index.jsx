@@ -1,29 +1,31 @@
-import React from 'react'
-import { Form, Input, Button, Select, Row, Col, Space } from 'antd';
+import React, { useEffect } from 'react'
+import { Form, InputNumber, Input, Button, Select, Row, Col, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminDataNurseForm = ({ goBack, initialFormData, handleSubmit }) => {  
+const OrganismsAdminDataNurseForm = ({ initialFormData, handleSubmit }) => {  
   const [form] = Form.useForm();
+  useEffect(() => form.resetFields(), [initialFormData, form]);
+
   return (
     <div className="o-admin-data-nurse-form">      
       <Form 
         form={form} 
         layout="vertical" 
-        initialValues={initialFormData}
+        initialValues={initialFormData.data}
         onFinish={handleSubmit}
       >
         <Row gutter={16}>
           <Col span={12}>
             <Form.Item
               label="Fullname"
-              name="fullname"              
+              name="name"
               required={false}
               rules={[
                 {
                   required: true,
-                  message: "Please input your Email!",
+                  message: "Please input your name!",
                 }            
               ]}
             >
@@ -53,7 +55,7 @@ const OrganismsAdminDataNurseForm = ({ goBack, initialFormData, handleSubmit }) 
                 }            
               ]}
             >
-              <Input />
+              <InputNumber />
             </Form.Item>
             <Form.Item label="Gender" name="gender">
               <Select>
@@ -62,14 +64,7 @@ const OrganismsAdminDataNurseForm = ({ goBack, initialFormData, handleSubmit }) 
               </Select>
             </Form.Item>
           </Col>
-          <Col span={12}>            
-            <Form.Item label="Doctor" name="doctor">
-              <Select>
-                <Select.Option value="dr mike">Dr Mike</Select.Option>
-                <Select.Option value="dr ika">Dr Ika</Select.Option>
-                <Select.Option value="dr hana">Dr Hana</Select.Option>
-              </Select>
-            </Form.Item>
+          <Col span={12}>
             <Form.Item
               name="address"
               label="Address"
@@ -82,35 +77,41 @@ const OrganismsAdminDataNurseForm = ({ goBack, initialFormData, handleSubmit }) 
               ]}
             >
               <Input.TextArea showCount maxLength={100} />
-            </Form.Item>
-            <Form.Item
-              label="Email"
-              name="email"
-              required={false}
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Email!",
-                }            
-              ]}
-            >
-              <Input />
-            </Form.Item>
+            </Form.Item>            
             {
-              initialFormData.password === "" && 
-              <Form.Item
-                label="Password"
-                name="password"
-                required={false}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
+              initialFormData.data.password === "" && 
+              <>
+                <Form.Item
+                  label="Email"
+                  name="email"
+                  required={false}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Email!",
+                    },
+                    {
+                      type: 'email',
+                      message: "Email is not valid!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>              
+                <Form.Item
+                  label="Password"
+                  name="password"
+                  required={false}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your password!",
+                    },
+                  ]}
+                >
+                  <Input.Password />
+                </Form.Item>
+              </>
             }
           </Col>
         </Row>  
@@ -122,7 +123,7 @@ const OrganismsAdminDataNurseForm = ({ goBack, initialFormData, handleSubmit }) 
                 htmlType="submit"
                 icon={<PlusOutlined />}
               >
-                Add Nurse
+                { initialFormData.title } Nurse
               </Button>
             )}
           </Form.Item>

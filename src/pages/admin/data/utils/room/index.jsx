@@ -10,21 +10,23 @@ import {
 import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
 import { delete_admin_data, get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
 import OrganismsAdminDataUtilsFormRoom from '../../../../../components/organisms/admin/data/utils/form/room';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const AdminDataUtilsRoom = () => {
+  const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
+  const search = useLocation().search;
+  const keyQuery = new URLSearchParams(search).get('key');
   const [initialData, setInitialData] = useState([])
-  const { confirm } = Modal;
+
 
   const askToDelete = (id) => {
     confirm({
       title: 'Are you sure delete this room?',
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
-      onOk() {
-        console.log('Delete id', id);
+      onOk() {        
         dispatch(delete_admin_data(`rooms`, id, 'room_list'));
       },      
     });
@@ -34,17 +36,26 @@ const AdminDataUtilsRoom = () => {
   const showModal = adminState?.modal_form_utils_room
 
   useEffect(() => {
-    dispatch(get_data('rooms', 'room_list'));
-  }, [dispatch, showModal]);
+    if(!showModal && !keyQuery) {
+      dispatch(get_data('rooms', 'room_list'));
+    }
+  }, [dispatch, showModal, keyQuery]);
 
   const data = adminState?.room_list;    
   
-  useEffect(() => {
-    setInitialData(data)
-  }, [data]);
+  useEffect(() => {    
+    if(data.length === 0 && keyQuery) {
+      dispatch(get_data('rooms', 'room_list'));
+    }
+    else if(keyQuery) {
+      setInitialData(data?.filter((dt) => dt.code.includes(keyQuery) || dt.floor.includes(keyQuery)));
+    } else {
+      setInitialData(data);
+    }
+  }, [dispatch, data, keyQuery]);
 
-  const handleSearch = (key) => {    
-    setInitialData(data?.filter((dt) => dt.code.includes(key)))    
+  const handleSearch = (key) => {
+    history.push(`/admin/data/utils?tab=2&key=${key}`);
   }
 
   const listRoom = {

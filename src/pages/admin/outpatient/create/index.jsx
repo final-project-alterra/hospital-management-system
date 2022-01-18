@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const AdminOutpatientCreate = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  console.log("history:", history)
   const { id } = useParams();
   
   const activeMenu = {
@@ -61,6 +62,9 @@ const AdminOutpatientCreate = () => {
     }
   }, [schedule_data]);
 
+  const goToAddPage = () => {
+    history.push('/admin/data/patient/create');
+  }  
   const goBack = () => {
     history.push('/admin/outpatient');
   }  
@@ -77,10 +81,11 @@ const AdminOutpatientCreate = () => {
       <div className="p-admin-outpatient-create">
         <MoleculesGoBack title={`${initialFormData.title} Outpatient`} goBack={goBack} />        
         <OrganismsAdminOutpatientForm
-          goBack={goBack}
           patientList={patient_list}
           initialFormData={initialFormData}
+          goBack={goBack}
           handleSubmit={(values) => handleCreate(values)} 
+          goToAddPage={goToAddPage}
         />
       </div>
     </LayoutsCms>

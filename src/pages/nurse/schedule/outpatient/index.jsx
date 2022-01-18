@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Space } from 'antd';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms';
 import { get_schedule_outpatient_nurse } from '../../../../redux/actions/nurse';
 
 import './style.scss';
+import { put_update_data } from '../../../../redux/actions/main';
 
 const NurseScheduleOutpatient = () => {
   const dispatch = useDispatch();
@@ -54,8 +55,13 @@ const NurseScheduleOutpatient = () => {
         key: 'action',
         render: (text, record) => {
           return (
-            <Space size="middle">
-              <Link to={`/nurse/schedule/${record.key}/outpatient/${record.key}`}>Examine</Link>
+            <Space size="middle">              
+              <p
+                className="text-link"
+                onClick={() => goToExamine(record)}
+              >
+                Examine
+              </p>
             </Space>
           )
         },
@@ -69,6 +75,17 @@ const NurseScheduleOutpatient = () => {
   }, [])  
   const goBack = () => {
     history.push('/nurse/schedule')
+  }
+
+  const goToExamine = (record) => {
+    let data = {
+      id: record.key,
+    }    
+    if(record.status === "Waiting") {
+      dispatch(put_update_data(`outpatients/examine`, data, history, `/nurse/schedule/${id}/outpatient/${record.key}`));
+    } else if (record.status === "On-Progress") {
+      history.push(`/nurse/schedule/${id}/outpatient/${record.key}`);
+    }
   }
   initialListDoctor.data = useSelector(state => state.nurse?.schedule_outpatient_data)
   

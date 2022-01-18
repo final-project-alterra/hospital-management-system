@@ -100,7 +100,7 @@ const OrganismsAdminDataDoctorForm = ({ initialSpecialityList, initialRoomList, 
                 optionFilterProp="children"
                 placeholder="Select a room"
                 filterOption={(input, option) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
               >
                 {

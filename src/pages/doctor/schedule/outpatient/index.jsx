@@ -57,7 +57,7 @@ const DoctorScheduleOutpatient = () => {
                 onClick={() => goToExamine(record)}
               >
                 Examine
-              </p>              
+              </p>
             </Space>
           )
         },

@@ -41,7 +41,11 @@ export const post_admin_data = (url, payload, history, nextPage) => {
     axios
       .post(url, payload)
       .then((resp) => {        
-        history.push(nextPage);
+        if(url === "patients") {
+          history.goBack();
+        } else {
+          history.push(nextPage);
+        }
       })
       .catch((err) => {      
         dispatch(main.error(err?.response?.data?.error?.message));
@@ -219,12 +223,14 @@ export const get_schedule = () => {
       .then((resp) => {        
         let data = resp.data.data;
         if(Array.isArray(data)) {
-          data = data.sort((a, b) => new Date(a.date) - new Date(b.date))          
+          data = data.sort((a, b) => new Date(a.date) - new Date(b.date))
           data = data.map((dt) => {            
+
             return {              
               key: dt.id,
               jadwal: format(new Date(dt.date), 'dd MMM yyyy'),
               doctorName: dt.doctor.name,
+              speciality: dt.doctor.speciality,
               nurseName: dt.nurse.name,
               rangeTime: format(new Date(dt.date + " " +dt.startTime), 'HH:mm') + "-" + format(new Date(dt.date + " " + dt.endTime), 'HH:mm'),
             }

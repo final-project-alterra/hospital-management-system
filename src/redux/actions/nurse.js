@@ -49,8 +49,9 @@ export const get_schedule_nurse = (id) => {
     dispatch(main.toggle_loader(true));
     axios
       .get('work-schedules')
-      .then((resp) => {
-        let newData = resp.data.data.filter(dt => dt.nurse.id === id)        
+      .then((resp) => {        
+        let data = resp.data.data.sort((a, b) => new Date(a.date) - new Date(b.date))          
+        let newData = data.filter(dt => dt.nurse.id === id)        
         newData = newData.map((dt) => {
           return {            
             key: dt.id,

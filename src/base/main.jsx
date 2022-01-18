@@ -107,7 +107,7 @@ const Main = () => {
           <Route exact path="/nurse/dashboard" component={NurseDashboard} />
           <Route exact path="/nurse/schedule" component={NurseSchedule} />
           <Route exact path="/nurse/schedule/:id/outpatient" component={NurseScheduleOutpatient} />
-          <Route exact path="/nurse/schedule/:id/outpatient/:idPatient" component={NurseScheduleOutpatientExamine} />
+          <Route exact path="/nurse/schedule/:id/outpatient/:idOutpatient" component={NurseScheduleOutpatientExamine} />
         </Switch>
       </Spin> 
     </Router>

@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminOutpatientForm = ({ patientList, initialFormData, handleSubmit }) => {  
+const OrganismsAdminOutpatientForm = ({ patientList, initialFormData, handleSubmit, goToAddPage }) => {  
   const [form] = Form.useForm();
   useEffect(() => form.resetFields(), [initialFormData, form]);  
   return (
@@ -41,14 +41,33 @@ const OrganismsAdminOutpatientForm = ({ patientList, initialFormData, handleSubm
           </Col>
           <Col span={12}>            
             <Form.Item label="Patient" name="patientId">
-              <Select disabled={initialFormData && initialFormData.title === 'Edit'}>
-                {
-                  patientList?.map((patient, key) => 
-                    <Select.Option key={key} value={patient.id}>{patient.name} - {patient.nik}</Select.Option>
-                  )
-                }
-              </Select>
+              {
+                patientList && 
+                <Select
+                  disabled={initialFormData && initialFormData.title === 'Edit'}
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder="Select a Patient"
+                  filterOption={(input, option) =>
+                    option.props.children.join(' ').toLowerCase().includes(input.toLowerCase())
+                  }
+                >
+                  {
+                    patientList?.map((patient, key) => 
+                      <Select.Option key={key} value={patient.id}>{patient.name} - {patient.nik}</Select.Option>
+                    )
+                  }
+                </Select>
+              }
             </Form.Item>
+            <Button 
+              type="primary" 
+              icon={<PlusOutlined />}
+              onClick={goToAddPage}
+              style={{marginBottom: '12px'}}
+            >
+              Add Patient
+            </Button>
             <Form.Item
               name="complaint"
               label="Complaint"

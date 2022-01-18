@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import MoleculesGoBack from '../../../../../components/molecules/goBack'
 import OrganismsWidgetInfo from '../../../../../components/organisms/widget/info';
 import LayoutsCms from '../../../../../layouts/cms';
@@ -11,6 +11,7 @@ import './style.scss'
 const NurseScheduleOutpatientExamine = () => {
   const history = useHistory(); 
   const dispatch = useDispatch();
+  const { idOutpatient } = useParams();
   const activeMenu = {
     key: 'schedule',
     openKey: '',
@@ -34,10 +35,24 @@ const NurseScheduleOutpatientExamine = () => {
     },
   ];
   useEffect(() => {
-    dispatch(get_outpatient())
+    dispatch(get_outpatient(idOutpatient))
     // eslint-disable-next-line
   }, [])
-  const initialOutpatientData = useSelector(state => state.doctor?.outpatient_data)
+  const outpatientData = useSelector(state => state.doctor?.outpatient_data)  
+  const initialOutpatientData = [
+    {
+      label: "Patient Name",
+      value: outpatientData?.patient?.name,
+    },
+    {
+      label: "Doctor Name",
+      value: outpatientData?.doctor?.name,
+    },
+    {
+      label: "Keluhan",
+      value: outpatientData?.complaint,
+    },
+  ];
   
   const goBack = () => {
     history.goBack()

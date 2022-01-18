@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Space, Modal } from 'antd';
+import { Space, Modal, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { ExclamationCircleOutlined   } from '@ant-design/icons';
 
@@ -11,6 +11,7 @@ import { useHistory } from 'react-router-dom';
 const AdminDataUtilsSpealization = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [initialData, setInitialData] = useState([])
   const { confirm } = Modal;
 
   const askToDelete = (id) => {
@@ -33,9 +34,16 @@ const AdminDataUtilsSpealization = () => {
     }
   }, [dispatch, showModal]);
 
-  const initialSpecialityList = adminState?.speciality_list
-  // const initialSpecialityData = adminState?.speciality_data
-  console.log(initialSpecialityList)
+  const data = adminState?.speciality_list    
+  console.log(data)  
+  useEffect(() => {
+    setInitialData(data)
+  }, [data]);
+
+  const handleSearch = (key) => {
+    console.log("key:", key)    
+    setInitialData(data?.filter((dt) => dt.name.includes(key)))    
+  }
 
   const listSpealization = {
     title: "List Spealization",
@@ -51,37 +59,31 @@ const AdminDataUtilsSpealization = () => {
         render: (text, record) => {
           return (
             <Space size="middle">              
-              <p
-                className="text-link" 
+              <Button 
+                type="primary" 
+                size="small" 
+                ghost
                 onClick={() => goToEdit(record)}
               >
                 Edit
-              </p>
-              <p 
-                className="text-danger" 
+              </Button>
+              <Button
+                type="primary" 
+                size="small" 
+                danger 
+                ghost
                 onClick={() => askToDelete(record.key)}
               >
                 Delete
-              </p>
+              </Button>
             </Space>
           )
         },
       },
     ],
-    data: initialSpecialityList
+    data: initialData
   };
-
-  const [initialFormDataSpealization, setInitialFormDataSpealization] = useState({}) ;
-  
-  // useEffect(() => {    
-  //   if(initialSpecialityData) {
-  //     setInitialFormDataSpealization({
-  //       title: "Edit",
-  //       data: initialSpecialityData
-  //     })
-  //     dispatch(put_data_admin("modal_form_utils_spealization", true))
-  //   }
-  // }, [initialSpecialityData]);
+  const [initialFormDataSpealization, setInitialFormDataSpealization] = useState({});    
 
   const goToAdd = () => {
     console.log("adsdahjnbds")
@@ -115,7 +117,8 @@ const AdminDataUtilsSpealization = () => {
     <div className="p-admin-data-utils-spealization">
       <OrganismsWidgetList 
         list={listSpealization}
-        goToAddPage={() => goToAdd()} 
+        goToAddPage={() => goToAdd()}
+        handleSearch={handleSearch}
       />
       <OrganismsAdminDataUtilsFormSpealization
         initialFormData={initialFormDataSpealization}        

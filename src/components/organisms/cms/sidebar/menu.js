@@ -77,12 +77,12 @@ export const nurseMenu = [
     key: 'dashboard',
     label: 'Dashboard',
     url: '/nurse/dashboard',
-    icon: 'home',
+    icon: 'HomeOutlined',
   },
   {
     key: 'schedule',
     label: 'Schedule',
     url: '/nurse/schedule',
-    icon: 'home',
+    icon: 'ScheduleOutlined',
   },
 ]

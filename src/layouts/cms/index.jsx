@@ -21,8 +21,8 @@ const LayoutsCms = (props) => {
   const dispatch = useDispatch();
 
   const { userJWTData } = useSelector(state => state.auth); 
-  console.log("user jwt", userJWTData)
   const { user_data } = useSelector(state => state.main);   
+  console.log("user jwt", userJWTData, user_data)
   
   useEffect(() => {
     if(userJWTData?.role && !user_data) {

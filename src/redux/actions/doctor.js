@@ -51,6 +51,8 @@ export const get_schedule_doctor = (id) => {
       .get('work-schedules')
       .then((resp) => {
         let newData = resp.data.data.filter(dt => dt.doctor.id === id)        
+        console.log("id", id)
+        console.log("new", newData)
         newData = newData.map((dt) => {
           return {            
             key: dt.id,

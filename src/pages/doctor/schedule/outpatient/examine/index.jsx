@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { Form, Input, Button } from 'antd';
+import { CheckOutlined } from '@ant-design/icons';
+
 import MoleculesGoBack from '../../../../../components/molecules/goBack'
 import OrganismsDoctorCardPrescription from '../../../../../components/organisms/doctor/card/prescription';
 import OrganismsDoctorPrescriptionCreate from '../../../../../components/organisms/doctor/prescription/create';
@@ -15,6 +18,7 @@ import './style.scss'
 const DoctorScheduleOutpatientExamine = () => {
   const history = useHistory();
   const { id } = useParams();
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [initialPrescriptionList, setInitialPrescriptionList] = useState([]);
   
@@ -73,11 +77,13 @@ const DoctorScheduleOutpatientExamine = () => {
       ...data.prescription
     ]));
   }  
-  const handleFinish = () => {
+  const handleFinish = (data) => {
     let dataExamine = {
       id: parseInt(id),
+      diagnosis: data.diagnosis,
       prescriptions: initialPrescriptionList
     };    
+    console.log(dataExamine);
     dispatch(put_update_data(`outpatients/finish`, dataExamine, history, `/doctor/schedule`));
   }
   return (
@@ -89,11 +95,40 @@ const DoctorScheduleOutpatientExamine = () => {
             <OrganismsWidgetInfo data={initialOutpatientData} />
           </div>
           <div className="o-doctor-schedule-outpatient-examine__content-right">
-            <OrganismsDoctorCardPrescription
-              prescriptionList={initialPrescriptionList}
-              goToCreate={goToCreate}
-              handleFinish={handleFinish}
-            />
+            <Form
+              form={form} 
+              layout="vertical"
+              onFinish={handleFinish}
+            >
+              <Form.Item
+                label="Diagnosis"
+                name="diagnosis"
+                required={false}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your Diagnosis!",
+                  }            
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <OrganismsDoctorCardPrescription
+                prescriptionList={initialPrescriptionList}
+                goToCreate={goToCreate}
+              />
+              <Form.Item shouldUpdate>
+                {() => (
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    icon={<CheckOutlined />}
+                  >
+                    Examine
+                  </Button>
+                )}
+              </Form.Item>
+            </Form>
           </div>
         </div>
         <OrganismsDoctorPrescriptionCreate 

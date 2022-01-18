@@ -42,7 +42,7 @@ const AdminSchedule = () => {
         dispatch(delete_admin_data(`work-schedules`, id, 'schedule_list'));        
       },      
     });
-  }
+  };
   const goToCreateOutpatient = (id) => {
     history.push(`/admin/schedule/${id}/outpatient/create`)
   }
@@ -148,7 +148,7 @@ const AdminSchedule = () => {
               <p 
                 className="text-danger" 
                 onClick={() => askToDelete(record.key)}
-              >                
+              >
                 <DeleteOutlined />
               </p>
             </Space>

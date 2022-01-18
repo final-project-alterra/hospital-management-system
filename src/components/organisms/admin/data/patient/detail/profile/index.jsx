@@ -9,7 +9,7 @@ const OrganismsAdminDataPatientDetailProfile = ({ data }) => {
       <div className="o-admin-data-doctor-detail-profile__ava">
         <Avatar size={100} >U</Avatar>
         <h3>{ data.name }</h3>
-        <p>alfinasution64@gmail.com</p>
+        <p>NIK: { data.nik }</p>
       </div>
       <div className="o-admin-data-doctor-detail-profile__info">
         <div className="o-admin-data-doctor-detail-profile__info-item">

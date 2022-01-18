@@ -42,19 +42,20 @@ const OrganismsAdminScheduleForm = ({ initialFormData, doctorData, nurseData, ha
                 >
                   <DatePicker format={dateFormat} />
                 </Form.Item>
+                <Form.Item label="Every" name="repeat">
+                  <Select placeholder="Select Repeat" disabled={true}>
+                    <Select.Option value="no-repeat">No Repeat</Select.Option>
+                    <Select.Option value="daily">Daily</Select.Option>
+                    <Select.Option value="weekly">Weekly</Select.Option>
+                    <Select.Option value="monthly">Monthly</Select.Option>
+                  </Select>
+                </Form.Item>
                 <Checkbox defaultChecked={isRepeat} onChange={handleCheckbox}>
                   Repeat Schedule
                 </Checkbox>
                 {
                   isRepeat &&
-                  <>                
-                    <Form.Item label="Every" name="repeat">
-                      <Select placeholder="Select Repeat">
-                        <Select.Option value="daily">Daily</Select.Option>
-                        <Select.Option value="weekly">Weekly</Select.Option>
-                        <Select.Option value="monthly">Monthly</Select.Option>
-                      </Select>
-                    </Form.Item>
+                  <>                    
                     <Form.Item
                       label="Schedule End"
                       name="endDate"

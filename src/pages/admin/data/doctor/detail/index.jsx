@@ -1,21 +1,39 @@
-import React, { useEffect } from 'react'
-import { Link, useHistory, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Tabs, Space } from 'antd';
+import { Tabs, Space, Modal } from 'antd';
+import { format } from 'date-fns';
+import { 
+  ExclamationCircleOutlined, 
+  FolderOutlined, 
+  EditOutlined, 
+  DeleteOutlined,
+} from '@ant-design/icons';
+
+import { delete_admin_data, get_data } from '../../../../../redux/actions/admin';
+import { get_schedule_doctor } from '../../../../../redux/actions/doctor';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import LayoutsCms from '../../../../../layouts/cms';
 import OrganismsAdminDataDoctorDetailInfo from '../../../../../components/organisms/admin/data/doctor/detail/info';
+import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
 
 import './style.scss'
-import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
-import { get_data } from '../../../../../redux/actions/admin';
 
 const { TabPane } = Tabs;
 
 const AdminDataDoctorDetail = () => {
+  const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
   let { id } = useParams();
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('name');
+  const tabKey = new URLSearchParams(search).get('tab');
+  const [initialScheduleData, setInitialScheduleData] = useState([]);
+  const [filterData, setFilterData] = useState({
+    name,
+    rangeDate: false,
+  });
   
   const activeMenu = {
     key: 'data-doctor',
@@ -39,11 +57,27 @@ const AdminDataDoctorDetail = () => {
       url: '/admin/data/doctor/detail',
     },
   ];
+
+  const askToDelete = (id) => {
+    confirm({
+      title: 'Are you sure delete this schedule?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'You can undo this change',
+      onOk() {
+        dispatch(delete_admin_data(`work-schedules`, id, 'schedule_list'));        
+      },      
+    });
+  }
     
   useEffect(() => {
-    dispatch(get_data(`doctors/${id}`, 'doctor_data'));
-  }, [dispatch, id]);
+    if(!name) {
+      dispatch(get_data(`doctors/${id}`, 'doctor_data'));
+      dispatch(get_schedule_doctor(parseInt(id)))
+    }
+  }, [dispatch, id, name]);
   const doctorData = useSelector(state => state.admin?.doctor_data)  
+  const { schedule_data } = useSelector(state => state.doctor)
+  console.log("sc", schedule_data)
 
   const initialDoctorData = [
     {
@@ -71,13 +105,35 @@ const AdminDataDoctorDetail = () => {
       value: doctorData?.address,
     },
   ];
+
+  useEffect(() => {
+    if(!schedule_data && name) {
+      dispatch(get_data(`doctors/${id}`, 'doctor_data'));
+      dispatch(get_schedule_doctor(id));
+    }
+    else if(filterData) {     
+      let scheduleFilter = schedule_data;
+      if(filterData.name) {
+        scheduleFilter = scheduleFilter.filter(dt => (dt.nurse.includes(name) || dt.schedule.includes(name)));
+      }
+      if(filterData.rangeDate) {
+        scheduleFilter = scheduleFilter.filter(dt => dt.schedule >= filterData.rangeDate.dateStart && dt.schedule <= filterData.rangeDate.dateEnd);
+        setInitialScheduleData(scheduleFilter)
+      } else {
+        scheduleFilter = scheduleFilter.filter(dt => dt.schedule === format(new Date(Date.now()), 'dd MMM yyyy'));
+      }
+      setInitialScheduleData(scheduleFilter);
+      console.log("FIlter:" , filterData)
+    }  
+  }, [dispatch, schedule_data, name, filterData, id]);
+
   const listSchedule = {
-    filterType: "Month",    
+    filterType: 'rangeDate',
     columns: [
       {
         title: 'Jadwal',
-        dataIndex: 'jadwal',
-        key: 'jadwal',
+        dataIndex: 'schedule',
+        key: 'schedule',
       },
       {
         title: 'Nurse',
@@ -86,45 +142,61 @@ const AdminDataDoctorDetail = () => {
       },
       {
         title: 'Range Waktu',
-        dataIndex: 'range',
-        key: 'range',
+        dataIndex: 'rangeTime',
+        key: 'rangeTime',
       },
       {
         title: 'Action',
         key: 'action',
-        render: () => (
-          <Space size="middle">            
-            <Link to="/">Edit</Link>          
-            <p className="text-danger">Delete</p>
+        render: (text, record) => (
+          <Space size="middle">
+            <Link to={`/admin/schedule/detail/${record.key}`}>
+              <FolderOutlined />
+            </Link>
+            <Link to={`/admin/schedule/edit/${record.key}`}>
+              <EditOutlined />
+            </Link>
+            <p 
+              className="text-danger"
+              onClick={() => askToDelete(record.key)}
+            >
+              <DeleteOutlined />
+            </p>
           </Space>
         ),
       },
     ],
-    data: [
-      {
-        key: '1',
-        jadwal: '12 Desember',
-        nurse: 'Risa',
-        range: "08.00 - 14.30",
-      },
-      {
-        key: '2',
-        jadwal: '12 Desember',
-        nurse: 'Risa',
-        range: "08.00 - 14.30",
-      },
-    ]
+    data: initialScheduleData,
   };
 
   const goBack = () => {
     history.push('/admin/data/doctor');
+  }
+  const handleSearch = (key) => {
+    setFilterData({
+      ...filterData,
+      name: key,
+    })
+    history.push(`/admin/data/doctor/detail/${id}?tab=${tabKey}&name=${key}`)
+  };
+  const handleFilter = (val) => {    
+    setFilterData({
+      ...filterData,
+      rangeDate: {
+        dateStart: val[0].format('DD MMM yyyy'),
+        dateEnd: val[1].format('DD MMM yyyy')
+      }
+    })    
+  }
+  const handleTab = (val) => {
+    history.push(`/admin/data/doctor/detail/${id}?tab=${val}`);
   }
   
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-data-doctor-detail">
         <MoleculesGoBack title="Detail Doctor" goBack={goBack} />
-        <Tabs defaultActiveKey="1" >
+        <Tabs activeKey={tabKey ?? '1'} onChange={handleTab}>
           <TabPane tab="Informasi Pribadi" key="1">
             <OrganismsAdminDataDoctorDetailInfo 
               doctorData={initialDoctorData}
@@ -133,6 +205,8 @@ const AdminDataDoctorDetail = () => {
           <TabPane tab="Schedule" key="2">            
             <OrganismsWidgetList 
               list={listSchedule}
+              handleSearch={handleSearch}
+              handleFilter={handleFilter}
             />
           </TabPane>          
         </Tabs>

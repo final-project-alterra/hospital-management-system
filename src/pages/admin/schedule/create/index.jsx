@@ -38,9 +38,9 @@ const AdminScheduleCreate = () => {
       endDate: moment(),
       startTime: moment(),
       endTime: moment(),
-      repeat: '',
-      doctorId: '',
-      nurseId: '',      
+      repeat: 'no-repeat',
+      doctorId: 1,
+      nurseId: 1,      
     }
   }
 
@@ -53,16 +53,23 @@ const AdminScheduleCreate = () => {
   const goBack = () => {
     history.push('/admin/schedule');
   }  
-  const handleCreate = (data) => {
+  const handleCreate = (data) => {    
+    let endDate = "";
+    if(data.endDate) {
+      endDate = data.endDate.format('YYYY-MM-DD');
+    } else {
+      endDate = data.startDate.format('YYYY-MM-DD');
+    }
     data = {
       ...data,
       startDate: data.startDate.format('YYYY-MM-DD'),
-      endDate: data.endDate.format('YYYY-MM-DD'),
+      endDate,
       startTime: data.startTime.format('HH:mm:ss'),
       endTime: data.endTime.format('HH:mm:ss'),
-    };    
+    };
+    console.log(data)    
     dispatch(post_admin_data("work-schedules", data, history, '/admin/schedule'));
-  }  
+  }
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
       <div className="p-admin-schedule-create">

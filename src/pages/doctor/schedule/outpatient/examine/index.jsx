@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { Form, Input, Button } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
+import { format } from 'date-fns';
 
 import MoleculesGoBack from '../../../../../components/molecules/goBack'
 import OrganismsDoctorCardPrescription from '../../../../../components/organisms/doctor/card/prescription';
@@ -17,7 +18,7 @@ import './style.scss'
 
 const DoctorScheduleOutpatientExamine = () => {
   const history = useHistory();
-  const { id } = useParams();
+  const { idOutpatient } = useParams();
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [initialPrescriptionList, setInitialPrescriptionList] = useState([]);
@@ -46,18 +47,31 @@ const DoctorScheduleOutpatientExamine = () => {
   ];
 
   useEffect(() => {
-    dispatch(get_outpatient(id))
+    dispatch(get_outpatient(idOutpatient))
     // eslint-disable-next-line
   }, [])
   const outpatientData = useSelector(state => state.doctor?.outpatient_data)  
+  console.log("masuk:", outpatientData);
   const initialOutpatientData = [
     {
       label: "Patient Name",
       value: outpatientData?.patient?.name,
     },
     {
+      label: "Gender",
+      value: outpatientData?.patient?.gender === 'L'? 'Laki-laki': 'Perempuan',
+    },
+    {
+      label: "Birth Date",
+      value: outpatientData && format(new Date(outpatientData?.patient?.birthDate), 'dd MMMM yyyy'),
+    },
+    {
       label: "Doctor Name",
       value: outpatientData?.doctor?.name,
+    },
+    {
+      label: "Speciality",
+      value: outpatientData?.doctor?.specialty,
     },
     {
       label: "Keluhan",
@@ -79,7 +93,7 @@ const DoctorScheduleOutpatientExamine = () => {
   }  
   const handleFinish = (data) => {
     let dataExamine = {
-      id: parseInt(id),
+      id: parseInt(idOutpatient),
       diagnosis: data.diagnosis,
       prescriptions: initialPrescriptionList
     };    

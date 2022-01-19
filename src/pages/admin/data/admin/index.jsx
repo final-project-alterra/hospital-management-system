@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Space, Modal } from 'antd';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
 import { 
   ExclamationCircleOutlined, 
   FolderOutlined, 
@@ -63,11 +64,16 @@ const AdminDataAdmin = () => {
   useEffect(() => {    
     if(data.length === 0 && name) {
       dispatch(get_data('admins', 'admin_list'));
-    }
-    else if(name) {
-      setInitialData(data?.filter((dt) => dt.name.includes(name)))
     } else {
-      setInitialData(data)
+      let modifyData = data.map((dt) => ({
+        ...dt,
+        birthDate: format(new Date(dt.birthDate), 'dd MMMM yyyy'),
+      }))
+      if(name) {
+        setInitialData(modifyData?.filter((dt) => dt.name.includes(name)))
+      } else {
+        setInitialData(modifyData)
+      }
     }
   }, [dispatch, data, name]);
 
@@ -89,9 +95,9 @@ const AdminDataAdmin = () => {
         key: 'phone',        
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',        
+        title: 'Birth Date',
+        dataIndex: 'birthDate',
+        key: 'birthDate',        
       },
       {
         title: 'Action',

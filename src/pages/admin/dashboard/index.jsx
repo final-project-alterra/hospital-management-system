@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import OrganismsAdminDashboardHighlight from '../../../components/organisms/admin/dashboard/highlight'
 import OrganismsAdminDashboardCardGroup from '../../../components/organisms/admin/dashboard/cardGroup'
 import LayoutsCms from '../../../layouts/cms'
-import { get_data, get_list_doctors } from '../../../redux/actions/admin'
+import { get_data } from '../../../redux/actions/admin'
 import './style.scss'
 
 const AdminDashboard = () => {
@@ -47,7 +47,7 @@ const AdminDashboard = () => {
   const dispatch = useDispatch()  
   useEffect(() => {    
     dispatch(get_data("patients", "patient_list"))
-    dispatch(get_list_doctors())
+    dispatch(get_data("doctors", "doctor_list"))
     // eslint-disable-next-line
   }, [])  
   const { patient_list, doctor_list } = useSelector(state => state.admin)    

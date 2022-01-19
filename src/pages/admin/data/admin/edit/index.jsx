@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import moment from 'moment';
 import { Tabs } from 'antd';
 import { useHistory, useParams } from 'react-router-dom';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
@@ -43,7 +44,10 @@ const AdminDataAdminEdit = () => {
 
   const initialFormData = {
     title: 'Edit',
-    data: adminData
+    data: {
+      ...adminData,
+      birthDate: moment(adminData.birthDate, 'YYYY-MM-DD')
+    },
   };
   const goBack = () => {
     history.push('/admin/data/admin');
@@ -52,7 +56,8 @@ const AdminDataAdminEdit = () => {
     delete dataEdit['email']    
     dataEdit = {
       ...dataEdit,
-      id: parseInt(id)
+      id: parseInt(id),
+      birthDate: dataEdit.birthDate.format('YYYY-MM-DD'),
     }    
     dispatch(put_admin_data(`admins`, dataEdit, history, '/admin/data/admin'));
   };
@@ -60,7 +65,7 @@ const AdminDataAdminEdit = () => {
   const handleEditPassword = (dataEdit) => {    
     dataEdit = {
       ...dataEdit,
-      id: parseInt(id)
+      id: parseInt(id),
     }    
     dispatch(put_admin_data(`admins/password`, dataEdit, history, '/admin/data/admin'));
   };

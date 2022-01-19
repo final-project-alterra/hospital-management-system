@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
+import { format } from 'date-fns';
 import { 
   ExclamationCircleOutlined, 
   FolderOutlined, 
@@ -22,6 +23,10 @@ const AdminOutpatient = () => {
   const search = useLocation().search;
   const name = new URLSearchParams(search).get('key');
   const [initialOutpatientData, setInitialOutpatientData] = useState([]);
+  const [filterData, setFilterData] = useState({
+    name,
+    rangeDate: false,
+  });
 
   const activeMenu = {
     key: 'outpatient',
@@ -58,20 +63,32 @@ const AdminOutpatient = () => {
   useEffect(() => {    
     if(outpatient_list.length === 0 && name) {
       dispatch(get_outpatient());
+    } else if(filterData) {
+      let outpatientFilter = outpatient_list;
+      if(filterData.name) {
+        outpatientFilter = outpatientFilter.filter((dt) => dt.patientName.includes(name) || dt.date.includes(name))
+      }
+      if(filterData.rangeDate) {
+        outpatientFilter = outpatientFilter.filter(dt => dt.date >= filterData.rangeDate.dateStart && dt.date <= filterData.rangeDate.dateEnd)        
+      } else {
+        outpatientFilter = outpatientFilter.filter(dt => dt.date === format(new Date(Date.now()), 'dd MMMM yyyy'))        
+      }
+      setInitialOutpatientData(outpatientFilter)
+      console.log("FIlter:" , filterData)
     }
-    else if(name) {      
-      setInitialOutpatientData(outpatient_list?.filter((dt) => dt.patientName.includes(name) || dt.date.includes(name)))    
-    } else {      
-      setInitialOutpatientData(outpatient_list)
-    }
-  }, [dispatch, outpatient_list, name]);
+  }, [dispatch, outpatient_list, name, filterData]);
 
   const handleSearch = (key) => {
-    history.push(`/admin/outpatient?key=${key}`)    
+    setFilterData({
+      ...filterData,
+      name: key,
+    })
+    history.push(`/admin/outpatient?key=${key}`);
   };
   
   const listOutpatient = {
     title: "List Outpatient",
+    filterType: 'rangeDate',
     columns: [
       {
         title: 'Schedule Date',
@@ -125,7 +142,17 @@ const AdminOutpatient = () => {
       },
     ],
     data: initialOutpatientData,
-  };  
+  };
+
+  const handleFilter = (val) => {    
+    setFilterData({
+      ...filterData,
+      rangeDate: {
+        dateStart: val[0].format('DD MMM yyyy'),
+        dateEnd: val[1].format('DD MMM yyyy')
+      }
+    })    
+  }
 
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
@@ -133,6 +160,7 @@ const AdminOutpatient = () => {
         <OrganismsWidgetList 
           list={listOutpatient}
           handleSearch={handleSearch}
+          handleFilter={handleFilter}
         />
       </div>      
     </LayoutsCms>

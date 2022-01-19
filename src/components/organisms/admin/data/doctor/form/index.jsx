@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
-import { Form, Input, InputNumber, Button, Select, Row, Col, Space } from 'antd';
+import { Form, Input, DatePicker, Button, Select, Row, Col, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
 const OrganismsAdminDataDoctorForm = ({ initialSpecialityList, initialRoomList, initialFormData, handleSubmit }) => {    
   const [form] = Form.useForm();
+  const dateFormat = "YYYY-MM-DD";
   useEffect(() => form.resetFields(), [initialFormData, form]);  
 
   return (
@@ -45,17 +46,10 @@ const OrganismsAdminDataDoctorForm = ({ initialSpecialityList, initialRoomList, 
               <Input />
             </Form.Item>
             <Form.Item
-              label="Age"
-              name="age"
-              required={false}
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Phone Number!",
-                }            
-              ]}
+              label="Birth Date"
+              name="birthDate"
             >
-              <InputNumber />
+              <DatePicker format={dateFormat} />
             </Form.Item>
             <Form.Item label="Gender" name="gender">
               <Select>

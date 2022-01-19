@@ -43,7 +43,7 @@ const OrganismsAdminScheduleForm = ({ initialFormData, doctorData, nurseData, ha
                   <DatePicker format={dateFormat} />
                 </Form.Item>
                 <Form.Item label="Every" name="repeat">
-                  <Select placeholder="Select Repeat" disabled={true}>
+                  <Select placeholder="Select Repeat" disabled={!isRepeat}>
                     <Select.Option value="no-repeat">No Repeat</Select.Option>
                     <Select.Option value="daily">Daily</Select.Option>
                     <Select.Option value="weekly">Weekly</Select.Option>

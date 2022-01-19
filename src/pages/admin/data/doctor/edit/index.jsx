@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import moment from 'moment';
 import { Tabs } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -48,7 +49,7 @@ const AdminDataDoctorEdit = () => {
     data: {
       name: doctorData?.name,
       phone: doctorData?.phone,
-      age: doctorData?.age,
+      birthDate: moment(doctorData?.birthDate, 'YYYY-MM-DD'),
       gender: doctorData?.gender,
       specialityId: doctorData?.speciality?.id,
       roomId: doctorData?.room?.id,
@@ -64,7 +65,8 @@ const AdminDataDoctorEdit = () => {
   const handleEdit = (dataEdit) => {
     dataEdit = {
       ...dataEdit,
-      id: parseInt(id)
+      id: parseInt(id),
+      birthDate: dataEdit.birthDate.format('YYYY-MM-DD'),
     }
     
     dispatch(put_admin_data(`doctors`, dataEdit, history, '/admin/data/doctor'));

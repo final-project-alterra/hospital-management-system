@@ -61,17 +61,13 @@ const AdminSchedule = () => {
     dispatch(get_schedule());
     // eslint-disable-next-line
   }, []);
-  const { schedule_list } = useSelector(state => state.admin);  
-  // useEffect(() => {    
-  //   let scheduleToday = schedule_list.filter(dt => dt.jadwal === format(new Date(Date.now()), 'dd MMM yyyy'))
-  //   setInitialScheduleData(scheduleToday)
-  // }, [schedule_list]);
+  const { schedule_list } = useSelector(state => state.admin);
 
   useEffect(() => {    
     if(schedule_list.length === 0 && name) {
       dispatch(get_schedule());
     }
-    else if(filterData) {     
+    else if(filterData) {
       let scheduleToday = schedule_list       
       if(filterData.name) {
         scheduleToday = scheduleToday.filter(dt => (dt.doctorName.includes(name) || dt.jadwal.includes(name)))                
@@ -80,16 +76,13 @@ const AdminSchedule = () => {
         scheduleToday = scheduleToday.filter(dt => dt.jadwal >= filterData.rangeDate.dateStart && dt.jadwal <= filterData.rangeDate.dateEnd)
         setInitialScheduleData(scheduleToday)
       } else {
-        scheduleToday = scheduleToday.filter(dt => dt.jadwal === format(new Date(Date.now()), 'dd MMM yyyy'))        
+        scheduleToday = scheduleToday.filter(dt => dt.jadwal === format(new Date(Date.now()), 'dd MMMM yyyy'))        
       }
       setInitialScheduleData(scheduleToday)
       console.log("FIlter:" , filterData)
     }  
   }, [dispatch, schedule_list, name, filterData]);
 
-  // const handleSearch = (key) => {
-  //   setInitialScheduleData(schedule_list?.filter((dt) => dt.doctorName.includes(key) || dt.jadwal.includes(key)))    
-  // };
   const handleSearch = (key) => {
     setFilterData({
       ...filterData,
@@ -161,20 +154,13 @@ const AdminSchedule = () => {
 
   const goToAddSchedule = () => {
     history.push("/admin/schedule/create")
-  }
-
-  // const handleFilter = (val) => {
-  //   console.log(val[0].format('DD MMM yyyy'))
-  //   let scheduleRange = schedule_list.filter(dt => dt.jadwal >= val[0].format('DD MMM yyyy') && dt.jadwal <= val[1].format('DD MMM yyyy'))
-  //   setInitialScheduleData(scheduleRange)
-  // }
-
+  }  
   const handleFilter = (val) => {    
     setFilterData({
       ...filterData,
       rangeDate: {
-        dateStart: val[0].format('DD MMM yyyy'),
-        dateEnd: val[1].format('DD MMM yyyy')
+        dateStart: val[0].format('DD MMMM yyyy'),
+        dateEnd: val[1].format('DD MMMM yyyy')
       }
     })    
   }

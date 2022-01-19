@@ -102,7 +102,7 @@ const Main = () => {
           <Route exact path="/doctor/dashboard" component={DoctorDashboard} />
           <Route exact path="/doctor/schedule" component={DoctorSchedule} />
           <Route exact path="/doctor/schedule/:id/outpatient" component={DoctorScheduleOutpatient} />
-          <Route exact path="/doctor/schedule/:id/outpatient/examine" component={DoctorScheduleOutpatientExamine} />
+          <Route exact path="/doctor/schedule/:id/outpatient/:idOutpatient" component={DoctorScheduleOutpatientExamine} />
           
           <Route exact path="/nurse/dashboard" component={NurseDashboard} />
           <Route exact path="/nurse/schedule" component={NurseSchedule} />

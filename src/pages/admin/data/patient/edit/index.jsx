@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
@@ -42,7 +43,10 @@ const AdminDataPatientEdit = () => {
 
   const initialFormData = {
     title: 'Edit',
-    data: patientData,
+    data: {
+      ...patientData,
+      birthDate: moment(patientData.birthDate, 'YYYY-MM-DD')
+    },
   }
   const goBack = () => {
     history.push('/admin/data/patient');
@@ -50,7 +54,8 @@ const AdminDataPatientEdit = () => {
   const handleEdit = (data) => {        
     data = {
       ...data,
-      id: parseInt(id)
+      id: parseInt(id),
+      birthDate: data.birthDate.format('YYYY-MM-DD'),
     }    
     dispatch(put_admin_data(`patients`, data, history, '/admin/data/patient'));    
   }  

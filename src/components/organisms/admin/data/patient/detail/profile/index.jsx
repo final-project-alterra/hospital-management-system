@@ -1,5 +1,6 @@
-import React from 'react'
-import { Avatar } from 'antd'
+import React from 'react';
+import { Avatar } from 'antd';
+import { format } from 'date-fns';
 
 import './style.scss'
 
@@ -21,12 +22,12 @@ const OrganismsAdminDataPatientDetailProfile = ({ data }) => {
           <p>{ data.address }</p>
         </div>
         <div className="o-admin-data-doctor-detail-profile__info-item">
-          <h5>Age</h5>
-          <p>{ data.age }</p>
+          <h5>Birth Date</h5>
+          <p>{ data.birthDate && format(new Date(data.birthDate), 'dd MMMM yyyy') }</p>
         </div>
         <div className="o-admin-data-doctor-detail-profile__info-item">
           <h5>Registration Date</h5>
-          <p>{ data.name }</p>
+          <p>{ data.createdAt && format(new Date(data.createdAt), 'dd MMMM yyyy') }</p>
         </div>
         <div className="o-admin-data-doctor-detail-profile__info-item">
           <h5>Phone Number</h5>

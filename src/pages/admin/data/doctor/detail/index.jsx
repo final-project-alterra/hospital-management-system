@@ -75,33 +75,33 @@ const AdminDataDoctorDetail = () => {
       dispatch(get_schedule_doctor(parseInt(id)))
     }
   }, [dispatch, id, name]);
-  const doctorData = useSelector(state => state.admin?.doctor_data)  
-  const { schedule_data } = useSelector(state => state.doctor)
+  const doctorData = useSelector(state => state.admin?.doctor_data);
+  const { schedule_data } = useSelector(state => state.doctor);
   console.log("sc", schedule_data)
 
   const initialDoctorData = [
     {
-      label: "Fullname",
+      label: 'Fullname',
       value: doctorData?.name,
     },
     {
-      label: "Phone Number",
+      label: 'Phone Number',
       value: doctorData?.phone,
     },
     {
-      label: "Age",
-      value: doctorData?.age,
+      label: 'Birth Date',
+      value: format(new Date(doctorData?.birthDate ?? '1900-01-01'), 'dd MMMM yyyy'),
     },
     {
-      label: "Gender",
-      value: doctorData?.gender,
+      label: 'Gender',
+      value: doctorData?.gender === 'L'? 'Laki-laki':'Perempuan',
     },
     {
-      label: "Spealicity",
+      label: 'Spealicity',
       value: doctorData?.speciality?.name,
     },
     {
-      label: "Address",
+      label: 'Address',
       value: doctorData?.address,
     },
   ];

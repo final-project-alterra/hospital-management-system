@@ -48,7 +48,7 @@ const DoctorScheduleOutpatient = () => {
       dispatch(get_schedule_outpatient_doctor(id));
     } else {
       if(key) {
-        setInitialData(data?.filter((dt) => dt.patient.includes(key)));
+        setInitialData(data?.filter((dt) => dt.patient.includes(key) || dt.status.includes(key)));
       } else {
         setInitialData(data);
       }
@@ -89,18 +89,24 @@ const DoctorScheduleOutpatient = () => {
         render: (text, record) => {
           return (
             <Space size="middle">
-              <p
-                className="text-link"
-                onClick={() => goToExamine(record)}
-              >
-                Examine
-              </p>
-              <p
-                className="text-danger"
-                onClick={() => handleCancel(record.key)}
-              >
-                Cancel
-              </p>
+              {
+                (record.status === "On-Progress" || record.status === "Waiting") &&
+                <p
+                  className="text-link"
+                  onClick={() => goToExamine(record)}
+                >
+                  Examine
+                </p>
+              }
+              {
+                record.status === "Waiting" &&
+                <p
+                  className="text-danger"
+                  onClick={() => handleCancel(record.key)}
+                >
+                  Cancel
+                </p>
+              }
             </Space>
           )
         },

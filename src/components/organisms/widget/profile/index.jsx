@@ -15,7 +15,7 @@ const OrganismsWidgetProfile = ({ profileData }) => {
       <div className="o-widget-profile__info">
         <div className="o-widget-profile__info-item">
           <h5>Gender</h5>
-          <p>{ profileData.gender }</p>
+          <p>{ profileData.gender === 'L'? 'Laki-laki':'Perempuan' }</p>
         </div>
         <div className="o-widget-profile__info-item">
           <h5>Address</h5>

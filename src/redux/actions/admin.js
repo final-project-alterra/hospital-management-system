@@ -229,9 +229,13 @@ export const get_schedule_detail = (id) => {
       .get(`work-schedules/${id}`)
       .then((resp) => {        
         let data = resp.data.data.outpatients;
+        data = data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+        data = data.map((dt, key) => ({...dt, noQueue: key+1}));
+        data = data.sort((a, b) => a.status - b.status);
         data = data.map((dt) => {
           return {
             key: dt.id,
+            noQueue: dt.noQueue,
             patientName: dt.patient.name,
             status: dt.status === 1? "On-Progress" : dt.status === 2? "Waiting" : dt.status === 3? "Finished": 'Canceled',
           }

@@ -99,10 +99,10 @@ const Main = () => {
           <PrivateRoute exact path="/admin/schedule/detail/:id" component={AdminScheduleDetail} />
           <PrivateRoute exact path="/admin/schedule/:id/outpatient/create" component={AdminOutpatientCreate} />
 
-          <Route exact path="/doctor/dashboard" component={DoctorDashboard} />
-          <Route exact path="/doctor/schedule" component={DoctorSchedule} />
-          <Route exact path="/doctor/schedule/:id/outpatient" component={DoctorScheduleOutpatient} />
-          <Route exact path="/doctor/schedule/:id/outpatient/:idOutpatient" component={DoctorScheduleOutpatientExamine} />
+          <PrivateRoute exact path="/doctor/dashboard" component={DoctorDashboard} />
+          <PrivateRoute exact path="/doctor/schedule" component={DoctorSchedule} />
+          <PrivateRoute exact path="/doctor/schedule/:id/outpatient" component={DoctorScheduleOutpatient} />
+          <PrivateRoute exact path="/doctor/schedule/:id/outpatient/:idOutpatient" component={DoctorScheduleOutpatientExamine} />
           
           <Route exact path="/nurse/dashboard" component={NurseDashboard} />
           <Route exact path="/nurse/schedule" component={NurseSchedule} />

@@ -1,5 +1,6 @@
 import React from 'react'
 import { PlusOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { format } from 'date-fns';
 import { Button } from 'antd';
 
 import './style.scss'
@@ -17,12 +18,12 @@ const OrganismsAdminDataPatientDetailHistory = ({ outpatientHistoryList, goDetai
         {
           outpatientHistoryList?.map((outpatient) => 
             <div className="o-admin-data-doctor-detail-history__list-item">
-              <div className="o-admin-data-doctor-detail-history__list-item-column">                
+              <div className="o-admin-data-doctor-detail-history__list-item-column" >
                 <h5>{ outpatient.id }</h5>
                 <p>ID</p>
               </div>
               <div className="o-admin-data-doctor-detail-history__list-item-column">
-                <h4>{ outpatient.date }</h4>
+                <h4>{ format(new Date(outpatient.date), 'dd MMMM yyyy') }</h4>
                 <p>{ outpatient.startTime } - { outpatient.endTime }</p>
               </div>
               <div className="o-admin-data-doctor-detail-history__list-item-column">
@@ -34,8 +35,14 @@ const OrganismsAdminDataPatientDetailHistory = ({ outpatientHistoryList, goDetai
                 <p>Nurse</p>
               </div>
               <div className="o-admin-data-doctor-detail-history__list-item-column">
-                <h5>{ outpatient?.diagnosis }</h5>
-                <p>Reason</p>
+                <h5>
+                  { 
+                    outpatient?.status === 3? 
+                    outpatient?.diagnosis : outpatient?.status === 4? 
+                    'Canceled': 'Not finished yet' 
+                  }
+                </h5>
+                <p>Diagnosis</p>
               </div>
               <div className="o-admin-data-doctor-detail-history__list-item-arrow">            
                 <ArrowRightOutlined onClick={() => goDetailOutpatient(outpatient.id)} />

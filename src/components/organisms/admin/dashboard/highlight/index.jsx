@@ -14,6 +14,12 @@ const OrganismsAdminDashboardHighlight = ({ initialHighlightData }) => {
               <InfoCircleOutlined />          
             </div>
             <h2 className="o-admin-dashboard-highlight__card-total">{ highlight.total }</h2>
+            <h2 className="o-admin-dashboard-highlight__card-other">
+              { 
+                highlight.available ? `Available: ${highlight.available}` 
+                : highlight.today && `Today: ${highlight.today}` 
+              }
+            </h2>
           </div>
         ))
       }

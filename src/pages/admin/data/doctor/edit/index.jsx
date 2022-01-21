@@ -4,13 +4,15 @@ import { Tabs } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
+import imgEx from '../../../../../assets/images/dashboard-img.png';
 import { get_data, put_admin_data } from '../../../../../redux/actions/admin';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
-import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form'
+import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form';
+import OrganismsWidgetUploadImage from '../../../../../components/organisms/widget/uploadImage';
+import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
 import LayoutsCms from '../../../../../layouts/cms';
 
 import './style.scss'
-import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
 
 const AdminDataDoctorEdit = () => {
   const { TabPane } = Tabs;
@@ -47,17 +49,15 @@ const AdminDataDoctorEdit = () => {
   const initialFormData = {
     title: 'Edit',
     data: {
-      name: doctorData?.name,
-      phone: doctorData?.phone,
+      ...doctorData,
       birthDate: moment(doctorData?.birthDate, 'YYYY-MM-DD'),
-      gender: doctorData?.gender,
       specialityId: doctorData?.speciality?.id,
       roomId: doctorData?.room?.id,
-      address: doctorData?.address,
-      email: doctorData?.email,
-      password: doctorData?.password,
     },
   };
+  const initialUploadData= {
+    url: imgEx
+  }
 
   const goBack = () => {
     history.push('/admin/data/doctor');
@@ -77,6 +77,9 @@ const AdminDataDoctorEdit = () => {
       id: parseInt(id)
     }
     dispatch(put_admin_data(`doctors/password`, dataEdit, history, '/admin/data/doctor'));
+  };
+  const handleEditPic = (dataEdit) => {    
+    console.log(dataEdit);
   };
 
   return (    
@@ -99,7 +102,13 @@ const AdminDataDoctorEdit = () => {
               initialFormData={initialFormData}              
               handleSubmit={(values) => handleEditPassword(values)} 
             />
-          </TabPane>          
+          </TabPane>
+          <TabPane tab="Change Photo Profile" key="3">
+            <OrganismsWidgetUploadImage
+              initialUploadData={initialUploadData}
+              handleSubmit={(values) => handleEditPic(values)} 
+            />
+          </TabPane>
         </Tabs>  
       </div>
     </LayoutsCms>

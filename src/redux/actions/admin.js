@@ -194,13 +194,12 @@ export const get_schedule = () => {
     dispatch(main.toggle_loader(true));
     axios
       .get("work-schedules")
-      .then((resp) => {        
+      .then((resp) => {
         let data = resp.data.data;
         if(Array.isArray(data)) {
           data = data.sort((a, b) => new Date(a.date) - new Date(b.date))
-          data = data.map((dt) => {            
-
-            return {              
+          data = data.map((dt) => {
+            return {
               key: dt.id,
               jadwal: format(new Date(dt.date), 'dd MMMM yyyy'),
               doctorName: dt.doctor.name,
@@ -212,7 +211,7 @@ export const get_schedule = () => {
         }
         dispatch(put_data_admin("schedule_list", data))
       })
-      .catch((err) => {      
+      .catch((err) => {
         dispatch(main.error(err?.response?.data?.error?.message));
         console.log(err);
       })

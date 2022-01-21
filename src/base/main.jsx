@@ -104,10 +104,10 @@ const Main = () => {
           <PrivateRoute exact path="/doctor/schedule/:id/outpatient" component={DoctorScheduleOutpatient} />
           <PrivateRoute exact path="/doctor/schedule/:id/outpatient/:idOutpatient" component={DoctorScheduleOutpatientExamine} />
           
-          <Route exact path="/nurse/dashboard" component={NurseDashboard} />
-          <Route exact path="/nurse/schedule" component={NurseSchedule} />
-          <Route exact path="/nurse/schedule/:id/outpatient" component={NurseScheduleOutpatient} />
-          <Route exact path="/nurse/schedule/:id/outpatient/:idOutpatient" component={NurseScheduleOutpatientExamine} />
+          <PrivateRoute exact path="/nurse/dashboard" component={NurseDashboard} />
+          <PrivateRoute exact path="/nurse/schedule" component={NurseSchedule} />
+          <PrivateRoute exact path="/nurse/schedule/:id/outpatient" component={NurseScheduleOutpatient} />
+          <PrivateRoute exact path="/nurse/schedule/:id/outpatient/:idOutpatient" component={NurseScheduleOutpatientExamine} />
         </Switch>
       </Spin> 
     </Router>

@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react'
 import moment from 'moment';
 import { Tabs } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import MoleculesGoBack from '../../../../../components/molecules/goBack';
 
+import MoleculesGoBack from '../../../../../components/molecules/goBack';
+import imgEx from '../../../../../assets/images/dashboard-img.png';
+import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
+import { get_data, put_admin_data } from '../../../../../redux/actions/admin';
+import OrganismsWidgetUploadImage from '../../../../../components/organisms/widget/uploadImage';
 import OrganismsAdminDataAdminForm from '../../../../../components/organisms/admin/data/admin/form'
 import LayoutsCms from '../../../../../layouts/cms';
 
 import './style.scss'
-import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
-import { useDispatch, useSelector } from 'react-redux';
-import { get_data, put_admin_data } from '../../../../../redux/actions/admin';
 
 const AdminDataAdminEdit = () => {
   const { TabPane } = Tabs;
@@ -49,6 +51,10 @@ const AdminDataAdminEdit = () => {
       birthDate: moment(adminData.birthDate, 'YYYY-MM-DD')
     },
   };
+  const initialUploadData= {
+    url: imgEx
+  };
+
   const goBack = () => {
     history.push('/admin/data/admin');
   }  
@@ -69,6 +75,9 @@ const AdminDataAdminEdit = () => {
     }    
     dispatch(put_admin_data(`admins/password`, dataEdit, history, '/admin/data/admin'));
   };
+  const handleEditPic = (dataEdit) => {    
+    console.log(dataEdit);
+  };
 
   return (    
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
@@ -88,7 +97,13 @@ const AdminDataAdminEdit = () => {
               initialFormData={initialFormData.data}
               handleSubmit={(values) => handleEditPassword(values)} 
             />
-          </TabPane>          
+          </TabPane>
+          <TabPane tab="Change Photo Profile" key="3">
+            <OrganismsWidgetUploadImage
+              initialUploadData={initialUploadData}
+              handleSubmit={(values) => handleEditPic(values)} 
+            />
+          </TabPane>
         </Tabs>  
       </div>
     </LayoutsCms>

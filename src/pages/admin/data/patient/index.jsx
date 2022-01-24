@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Space, Modal, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { Space, Modal } from 'antd';
 import { useHistory } from 'react-router-dom';
-import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import { format } from 'date-fns';
+import { 
+  ExclamationCircleOutlined, 
+  FolderOutlined, 
+  EditOutlined, 
+  DeleteOutlined  
+} from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms';
@@ -14,6 +20,9 @@ const AdminDataPatient = () => {
   const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('name');
+
   const [initialPatientList, setInitialPatientList] = useState([])
 
   const activeMenu = {
@@ -26,9 +35,8 @@ const AdminDataPatient = () => {
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
       onOk() {
-        console.log('Delete id', id);
         dispatch(delete_admin_data(`patients`, id, 'patient_list'));
-      },      
+      },
     });
   }
   const breadcrumb = [
@@ -47,17 +55,31 @@ const AdminDataPatient = () => {
   ];  
   
   useEffect(() => {
-    dispatch(get_data('patients', 'patient_list'));
-  }, [dispatch]);
-  const patientList = useSelector(state => state.admin?.patient_list)
-  console.log(patientList)
-  useEffect(() => {
-    setInitialPatientList(patientList)
-  }, [patientList]);
+    if(!name) {
+      dispatch(get_data('patients', 'patient_list'));
+    }
+  }, [dispatch, name]);
+
+  const patientList = useSelector(state => state.admin?.patient_list)  
+  useEffect(() => {    
+    if(patientList.length === 0 && name) {
+      dispatch(get_data('patients', 'patient_list'));
+    } else {
+      let modifyData = patientList.map((dt) => ({
+        ...dt,
+        birthDate: format(new Date(dt.birthDate), 'dd MMMM yyyy'),
+        gender: dt.gender === 'L'? 'Laki-Laki': 'Perempuan',
+      }))
+      if(name) {
+        setInitialPatientList(modifyData?.filter((dt) => dt.name.includes(name)));
+      } else {
+        setInitialPatientList(modifyData);
+      }
+    }
+  }, [dispatch, name, patientList]);
 
   const handleSearch = (key) => {
-    console.log("key:", key)    
-    setInitialPatientList(patientList?.filter((dt) => dt.name.includes(key)))    
+    history.push(`/admin/data/patient?name=${key}`);
   }
   
   const listPatient = {
@@ -74,9 +96,9 @@ const AdminDataPatient = () => {
         key: 'phone',
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Birth Date',
+        dataIndex: 'birthDate',
+        key: 'birthDate',
       },
       {
         title: 'Gender',
@@ -90,20 +112,17 @@ const AdminDataPatient = () => {
           return (
             <Space size="middle">
               <Link to={`/admin/data/patient/detail/${record.key}`}>
-                <Button type="primary" size="small" ghost>Lihat Detail</Button>
+                <FolderOutlined />
               </Link>
               <Link to={`/admin/data/patient/edit/${record.key}`}>
-                <Button type="primary" size="small" ghost>Edit</Button>
+                <EditOutlined />
               </Link>
-              <Button
-                type="primary" 
-                size="small" 
-                danger 
-                ghost
+              <p 
+                className="text-danger"
                 onClick={() => askToDelete(record.key)}
               >
-                Delete
-              </Button>
+                <DeleteOutlined />
+              </p>
             </Space>
           )
         },

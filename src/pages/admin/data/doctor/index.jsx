@@ -1,28 +1,38 @@
 import React, { useEffect, useState } from 'react'
-import { Space, Modal, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Space, Modal } from 'antd';
+import { Link, useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import { format } from 'date-fns';
+import { 
+  ExclamationCircleOutlined, 
+  FolderOutlined, 
+  EditOutlined, 
+  DeleteOutlined  
+} from '@ant-design/icons';
+
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
-import { delete_admin_data, get_list_doctors } from '../../../../redux/actions/admin';
+import { delete_admin_data, get_data } from '../../../../redux/actions/admin';
 
 
 const AdminDataDoctor = () => {
+  const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
-  const [initialDoctorList, setInitialDoctorList] = useState(false)
-  const { confirm } = Modal;  
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('name');
+  
+  const [initialDoctorList, setInitialDoctorList] = useState(false);
+
   const askToDelete = (id) => {
     confirm({
       title: 'Are you sure delete this doctor?',
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
-      onOk() {
-        console.log('Delete id', id);
+      onOk() {        
         dispatch(delete_admin_data(`doctors`, id, 'doctor_list'));
       },      
     });
@@ -47,16 +57,31 @@ const AdminDataDoctor = () => {
   ];
 
   useEffect(() => {
-    dispatch(get_list_doctors());
-  }, [dispatch]);
+    if(!name) {
+      dispatch(get_data('doctors', 'doctor_list'));
+    }
+  }, [dispatch, name]);
+
   let doctorList = useSelector(state => state.admin?.doctor_list)
-  console.log(doctorList)
-  useEffect(() => {
-    setInitialDoctorList(doctorList)
-  }, [doctorList]);
+  useEffect(() => {    
+    if(doctorList.length === 0 && name) {
+      dispatch(get_data('doctors', 'doctor_list'));
+    } else {
+      let modifyData = doctorList && doctorList.map((dt) => ({
+        ...dt,
+        speciality: dt.speciality.name,
+        birthDate: dt && format(new Date(dt.birthDate), 'dd MMMM yyyy'),
+      }))
+      if(name) {
+        setInitialDoctorList(modifyData?.filter((dt) => dt.name.includes(name)))
+      } else {      
+        setInitialDoctorList(modifyData)
+      }
+    }
+  }, [dispatch, doctorList, name]);
 
   const handleSearch = (key) => {
-    console.log("key:", key)    
+    history.push(`/admin/data/doctor?name=${key}`)    
     setInitialDoctorList(doctorList?.filter((dt) => dt.name.includes(key)))    
   }
 
@@ -79,9 +104,9 @@ const AdminDataDoctor = () => {
         key: 'phone',
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Birth Date',
+        dataIndex: 'birthDate',
+        key: 'birthDate',
       },      
       {
         title: 'Action',
@@ -90,20 +115,17 @@ const AdminDataDoctor = () => {
           return (
             <Space size="middle">
               <Link to={`/admin/data/doctor/detail/${record.key}`}>
-                <Button type="primary" size="small" ghost>Lihat Detail</Button>
+                <FolderOutlined />
               </Link>
               <Link to={`/admin/data/doctor/edit/${record.key}`}>
-                <Button type="primary" size="small" ghost>Edit</Button>
+                <EditOutlined />
               </Link>
-              <Button 
-                type="primary" 
-                size="small" 
-                danger 
-                ghost
+              <p 
+                className="text-danger"
                 onClick={() => askToDelete(record.key)}
               >
-                Delete
-              </Button>              
+                <DeleteOutlined />
+              </p>
             </Space>
           )
         },

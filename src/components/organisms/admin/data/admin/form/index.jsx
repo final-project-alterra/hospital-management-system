@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
-import { Form, Input, InputNumber, Button, Select, Row, Col, Space } from 'antd';
+import { Form, Input, DatePicker, Button, Select, Row, Col, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
 const OrganismsAdminDataAdminForm = ({ goBack, initialFormData, handleSubmit }) => {  
   const [form] = Form.useForm();
+  const dateFormat = "YYYY-MM-DD";
   useEffect(() => form.resetFields(), [initialFormData, form]);  
-
+  
   return (
     <div className="o-admin-data-admin-form">      
       <Form 
@@ -45,17 +46,10 @@ const OrganismsAdminDataAdminForm = ({ goBack, initialFormData, handleSubmit }) 
               <Input />
             </Form.Item>
             <Form.Item
-              label="Age"
-              name="age"
-              required={false}
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Phone Number!",
-                }            
-              ]}
+              label="Birth Date"
+              name="birthDate"
             >
-              <InputNumber />
+              <DatePicker format={dateFormat} />
             </Form.Item>
             <Form.Item label="Gender" name="gender">
               <Select>
@@ -128,7 +122,7 @@ const OrganismsAdminDataAdminForm = ({ goBack, initialFormData, handleSubmit }) 
             )}
           </Form.Item>
           <Form.Item >
-            <Button type="text" className="text-danger">
+            <Button type="text" className="text-danger" onClick={goBack}>
               <span className="text-danger">Cancel</span>
             </Button>
           </Form.Item>

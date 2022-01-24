@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom';
 
 import LayoutsCms from '../../../../../layouts/cms';
@@ -11,6 +11,7 @@ import { get_data } from '../../../../../redux/actions/admin';
 const AdminDataPatientDetail = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [outpatientHistoryList, setoutpatientHistoryList] = useState([])
   const activeMenu = {
     key: 'data-patient',
     openKey: 'data',
@@ -33,24 +34,39 @@ const AdminDataPatientDetail = () => {
       url: '/admin/data/patient/detail',
     },
   ];
-  let { id } = useParams();
-  console.log("id: ", id)
+  let { id } = useParams();  
   useEffect(() => {
     dispatch(get_data(`patients/${id}`, 'patient_data'));
+    dispatch(get_data(`/patients/${id}/outpatients`, 'outpatient_patient_list'));
   }, [dispatch, id]);
-  const initialPatientData = useSelector(state => state.admin?.patient_data)
-  console.log(initialPatientData)
+  const initialPatientData = useSelector(state => state.admin?.patient_data);
+  const { outpatient_patient_list } = useSelector(state => state.admin);
+  console.log(outpatientHistoryList)
+
+  useEffect(() => {
+    setoutpatientHistoryList(outpatient_patient_list)
+  }, [outpatient_patient_list])
 
   const goBack = () => {
     history.push('/admin/data/patient');
+  }
+
+  const goDetailOutpatient = (id) => {
+    history.push(`/admin/outpatient/detail/${id}`);
   }
 
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-data-patient-detail">
         <OrganismsAdminDataPatientDetailHeader goBack={goBack} />
-        <OrganismsAdminDataPatientDetailProfile data={initialPatientData} />
-        <OrganismsAdminDataPatientDetailHistory />
+        <OrganismsAdminDataPatientDetailProfile 
+          data={initialPatientData} 
+          totalOutpatient={outpatientHistoryList.length}
+        />
+        <OrganismsAdminDataPatientDetailHistory 
+          outpatientHistoryList={outpatientHistoryList} 
+          goDetailOutpatient={goDetailOutpatient}
+        />
       </div>
     </LayoutsCms>
   )

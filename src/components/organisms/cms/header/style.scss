@@ -4,4 +4,11 @@
   padding: 2em;
   background-color: $neutral-3;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &__date {
+    font-size: 1.6em;
+    margin-bottom: 0;
+  }
 }

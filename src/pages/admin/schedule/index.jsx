@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { format } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import { 
   ExclamationCircleOutlined, 
@@ -14,12 +15,20 @@ import OrganismsWidgetList from '../../../components/organisms/widget/list';
 import LayoutsCms from '../../../layouts/cms';
 
 import './style.scss'
-import { get_schedule } from '../../../redux/actions/admin';
+import { delete_admin_data, get_schedule } from '../../../redux/actions/admin';
 
 const AdminSchedule = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
   const { confirm } = Modal;
+  const dispatch = useDispatch();
+  const history = useHistory();  
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('name');
+  const [initialScheduleData, setInitialScheduleData] = useState([]);  
+  const [filterData, setFilterData] = useState({
+    name,
+    rangeDate: false,
+  });
+
   const activeMenu = {
     key: 'schedule',
     openKey: '',
@@ -30,12 +39,12 @@ const AdminSchedule = () => {
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
       onOk() {
-        console.log('Delete id', id);
+        dispatch(delete_admin_data(`work-schedules`, id, 'schedule_list'));        
       },      
     });
-  }
-  const goToCreateOutpatient = () => {
-    history.push('/admin/outpatient/create')
+  };
+  const goToCreateOutpatient = (id) => {
+    history.push(`/admin/schedule/${id}/outpatient/create`)
   }
   const breadcrumb = [
     {
@@ -46,10 +55,45 @@ const AdminSchedule = () => {
       label: 'Schedule',
       url: '/admin/schedule',
     },
-  ];    
+  ];
+
+  useEffect(() => {
+    dispatch(get_schedule());
+    // eslint-disable-next-line
+  }, []);
+  const { schedule_list } = useSelector(state => state.admin);
+
+  useEffect(() => {    
+    if(schedule_list.length === 0 && name) {
+      dispatch(get_schedule());
+    }
+    else if(filterData) {
+      let scheduleToday = schedule_list       
+      if(filterData.name) {
+        scheduleToday = scheduleToday.filter(dt => (dt.doctorName.includes(name) || dt.jadwal.includes(name)))                
+      }
+      if(filterData.rangeDate) {
+        scheduleToday = scheduleToday.filter(dt => dt.jadwal >= filterData.rangeDate.dateStart && dt.jadwal <= filterData.rangeDate.dateEnd)
+        setInitialScheduleData(scheduleToday)
+      } else {
+        scheduleToday = scheduleToday.filter(dt => dt.jadwal === format(new Date(Date.now()), 'dd MMMM yyyy'))        
+      }
+      setInitialScheduleData(scheduleToday)
+      console.log("FIlter:" , filterData)
+    }  
+  }, [dispatch, schedule_list, name, filterData]);
+
+  const handleSearch = (key) => {
+    setFilterData({
+      ...filterData,
+      name: key,
+    })
+    history.push(`/admin/schedule?name=${key}`)
+  };
   
   const initialListSchedule = {
-    title: "List Schedule",
+    title: 'List Schedule',
+    filterType: 'rangeDate',
     columns: [
       {
         title: 'Jadwal',
@@ -60,6 +104,11 @@ const AdminSchedule = () => {
         title: 'Doctor Name',
         dataIndex: 'doctorName',
         key: 'doctorName',
+      },
+      {
+        title: 'Spealization',
+        dataIndex: 'speciality',
+        key: 'speciality',
       },
       {
         title: 'Nurse Name',
@@ -92,7 +141,7 @@ const AdminSchedule = () => {
               <p 
                 className="text-danger" 
                 onClick={() => askToDelete(record.key)}
-              >                
+              >
                 <DeleteOutlined />
               </p>
             </Space>
@@ -100,25 +149,32 @@ const AdminSchedule = () => {
         },
       },
     ],
-    data: []
+    data: initialScheduleData,
   };
-  useEffect(() => {
-    dispatch(get_schedule())
-    // eslint-disable-next-line
-  }, [])
-  initialListSchedule.data = useSelector(state => state.admin?.schedule_list)
 
   const goToAddSchedule = () => {
     history.push("/admin/schedule/create")
+  }  
+  const handleFilter = (val) => {    
+    setFilterData({
+      ...filterData,
+      rangeDate: {
+        dateStart: val[0].format('DD MMMM yyyy'),
+        dateEnd: val[1].format('DD MMMM yyyy')
+      }
+    })    
   }
+
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-schedule">
         <OrganismsWidgetList 
           list={initialListSchedule}
-          goToAddPage={() => goToAddSchedule()} 
+          goToAddPage={() => goToAddSchedule()}
+          handleSearch={handleSearch}
+          handleFilter={handleFilter}
         />
-      </div>      
+      </div>
     </LayoutsCms>
   )
 }

@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
-import { Form, Input, InputNumber, Button, Select, Row, Col, Space } from 'antd';
+import { Form, Input, Button, Select, DatePicker, Row, Col, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
 const OrganismsAdminDataPatientForm = ({ goBack, initialFormData, handleSubmit }) => {  
   const [form] = Form.useForm();
+  const dateFormat = "YYYY-MM-DD";
   useEffect(() => form.resetFields(), [initialFormData, form]);  
 
   return (
@@ -29,7 +30,7 @@ const OrganismsAdminDataPatientForm = ({ goBack, initialFormData, handleSubmit }
                 }            
               ]}
             >
-              <Input />
+              <Input disabled={initialFormData.title === "Edit"} />
             </Form.Item>
             <Form.Item
               label="Fullname"
@@ -39,7 +40,7 @@ const OrganismsAdminDataPatientForm = ({ goBack, initialFormData, handleSubmit }
                 {
                   required: true,
                   message: "Please input your Name!",
-                }            
+                }
               ]}
             >
               <Input />
@@ -58,18 +59,11 @@ const OrganismsAdminDataPatientForm = ({ goBack, initialFormData, handleSubmit }
               <Input />
             </Form.Item>
             <Form.Item
-              label="Age"
-              name="age"
-              required={false}
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your Phone Number!",
-                }            
-              ]}
+              label="Birth Date"
+              name="birthDate"
             >
-              <InputNumber block />
-            </Form.Item>            
+              <DatePicker format={dateFormat} />
+            </Form.Item>
           </Col>
           <Col span={12}> 
             <Form.Item label="Gender" name="gender">
@@ -106,7 +100,7 @@ const OrganismsAdminDataPatientForm = ({ goBack, initialFormData, handleSubmit }
             )}
           </Form.Item>
           <Form.Item >
-            <Button type="text" className="text-danger">
+            <Button type="text" className="text-danger" onClick={goBack}>
               <span className="text-danger">Cancel</span>
             </Button>
           </Form.Item>

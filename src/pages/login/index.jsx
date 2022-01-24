@@ -12,10 +12,9 @@ const Login = () => {
   const dispatch = useDispatch();  
   const history = useHistory();
   const { isAuthenticated, userJWTData } = useSelector(state => state.auth); 
-  console.log(isAuthenticated, userJWTData)
+
   if (isAuthenticated && userJWTData) {
-    if(!(Date.now() >= userJWTData.exp * 1000)) {
-      console.log("state: ", userJWTData)
+    if(!(Date.now() >= userJWTData.exp * 1000)) {      
       const { from } = location.state || { from: { pathname: `/${userJWTData.role}/dashboard` } };
       history.replace(from)
     } else { 
@@ -25,11 +24,10 @@ const Login = () => {
     }
   }
 
-  const handleLogin = (values) => {
-    console.log(values)
+  const handleLogin = (values) => {    
     dispatch(auth_login(values, history))
   }
-  console.log("userrr: ", userJWTData)
+  
   return (
     <div className='p-login'>
       <div className='p-login__cover'>

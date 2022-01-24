@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form, Input, Button, Select, Row, Col, Space } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminOutpatientForm = ({ goBack, initialFormData, handleSubmit }) => {  
+const OrganismsAdminOutpatientForm = ({ patientList, initialFormData, handleSubmit, goToAddPage }) => {  
   const [form] = Form.useForm();
+  useEffect(() => form.resetFields(), [initialFormData, form]);  
   return (
     <div className="o-admin-outpatient-form">
       <Form 
@@ -31,20 +32,42 @@ const OrganismsAdminOutpatientForm = ({ goBack, initialFormData, handleSubmit })
               <Input disabled={true} />
             </Form.Item>            
             <Form.Item
-              label="Doctor Schedule Time"
-              name="schedule"
+              label="Specialty"
+              name="specialty"
               required={false}              
             >
               <Input disabled={true} />
             </Form.Item>            
           </Col>
-          <Col span={12}>
-            <Form.Item label="Patient" name="patient">
-              <Select>
-                <Select.Option value="367123232331">Alfi Syahri - 36711232222</Select.Option>
-                <Select.Option value="36711285677723">Shadifa - 36711285677723</Select.Option>
-              </Select>
+          <Col span={12}>            
+            <Form.Item label="Patient" name="patientId">
+              {
+                patientList && 
+                <Select
+                  disabled={initialFormData && initialFormData.title === 'Edit'}
+                  showSearch
+                  optionFilterProp="children"
+                  placeholder="Select a Patient"
+                  filterOption={(input, option) =>
+                    option.props.children.join(' ').toLowerCase().includes(input.toLowerCase())
+                  }
+                >
+                  {
+                    patientList?.map((patient, key) => 
+                      <Select.Option key={key} value={patient.id}>{patient.name} - {patient.nik}</Select.Option>
+                    )
+                  }
+                </Select>
+              }
             </Form.Item>
+            <Button 
+              type="primary" 
+              icon={<PlusOutlined />}
+              onClick={goToAddPage}
+              style={{marginBottom: '12px'}}
+            >
+              Add Patient
+            </Button>
             <Form.Item
               name="complaint"
               label="Complaint"
@@ -68,7 +91,7 @@ const OrganismsAdminOutpatientForm = ({ goBack, initialFormData, handleSubmit })
                 htmlType="submit"
                 icon={<PlusOutlined />}
               >
-                Add Patient
+                { initialFormData.title } Outpatient
               </Button>
             )}
           </Form.Item>

@@ -3,6 +3,7 @@ import { Space, Modal } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
 import { 
   ExclamationCircleOutlined, 
   FolderOutlined, 
@@ -14,7 +15,7 @@ import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
-import { delete_admin_data, get_list_doctors } from '../../../../redux/actions/admin';
+import { delete_admin_data, get_data } from '../../../../redux/actions/admin';
 
 
 const AdminDataDoctor = () => {
@@ -57,19 +58,25 @@ const AdminDataDoctor = () => {
 
   useEffect(() => {
     if(!name) {
-      dispatch(get_list_doctors());
+      dispatch(get_data('doctors', 'doctor_list'));
     }
   }, [dispatch, name]);
 
   let doctorList = useSelector(state => state.admin?.doctor_list)
   useEffect(() => {    
     if(doctorList.length === 0 && name) {
-      dispatch(get_list_doctors());
-    }
-    else if(name) {
-      setInitialDoctorList(doctorList?.filter((dt) => dt.name.includes(name)))
-    } else {      
-      setInitialDoctorList(doctorList)
+      dispatch(get_data('doctors', 'doctor_list'));
+    } else {
+      let modifyData = doctorList && doctorList.map((dt) => ({
+        ...dt,
+        speciality: dt.speciality.name,
+        birthDate: dt && format(new Date(dt.birthDate), 'dd MMMM yyyy'),
+      }))
+      if(name) {
+        setInitialDoctorList(modifyData?.filter((dt) => dt.name.includes(name)))
+      } else {      
+        setInitialDoctorList(modifyData)
+      }
     }
   }, [dispatch, doctorList, name]);
 
@@ -97,9 +104,9 @@ const AdminDataDoctor = () => {
         key: 'phone',
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Birth Date',
+        dataIndex: 'birthDate',
+        key: 'birthDate',
       },      
       {
         title: 'Action',

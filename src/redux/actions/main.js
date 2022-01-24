@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Modal } from 'antd';
+import * as admin from './admin';
 
 export const put_data = (key, data) => ({
 	type: "PUT_DATA",
@@ -62,6 +63,10 @@ export const put_update_data = (url, payload, history, nextPage) => {
       })
       .then(() => {
         dispatch(toggle_loader(false));
+        if(url === "outpatients/cancel") {
+          let arrString = nextPage.split("/");
+          dispatch(admin.get_schedule_detail(arrString[arrString.length-1]));
+        }
       });
   }
 }

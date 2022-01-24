@@ -3,6 +3,7 @@ const admin_state = {
   outpatient_data: false,
   outpatient_detail_data: false,
   outpatient_list: [],
+  outpatient_patient_list: [],
   schedule_list: [],
   patient_list: [],
   doctor_list: [],

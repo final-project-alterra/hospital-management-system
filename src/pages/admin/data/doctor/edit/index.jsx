@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react'
+import moment from 'moment';
 import { Tabs } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { get_data, put_admin_data } from '../../../../../redux/actions/admin';
+import { get_data, put_admin_data, put_upload_data } from '../../../../../redux/actions/admin';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
-import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form'
+import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form';
+import OrganismsWidgetUploadImage from '../../../../../components/organisms/widget/uploadImage';
+import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
 import LayoutsCms from '../../../../../layouts/cms';
 
 import './style.scss'
-import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
 
 const AdminDataDoctorEdit = () => {
   const { TabPane } = Tabs;
@@ -46,17 +48,15 @@ const AdminDataDoctorEdit = () => {
   const initialFormData = {
     title: 'Edit',
     data: {
-      name: doctorData?.name,
-      phone: doctorData?.phone,
-      age: doctorData?.age,
-      gender: doctorData?.gender,
+      ...doctorData,
+      birthDate: moment(doctorData?.birthDate, 'YYYY-MM-DD'),
       specialityId: doctorData?.speciality?.id,
       roomId: doctorData?.room?.id,
-      address: doctorData?.address,
-      email: doctorData?.email,
-      password: doctorData?.password,
     },
   };
+  const initialUploadData= {
+    url: doctorData?.imageUrl
+  }
 
   const goBack = () => {
     history.push('/admin/data/doctor');
@@ -64,7 +64,8 @@ const AdminDataDoctorEdit = () => {
   const handleEdit = (dataEdit) => {
     dataEdit = {
       ...dataEdit,
-      id: parseInt(id)
+      id: parseInt(id),
+      birthDate: dataEdit.birthDate.format('YYYY-MM-DD'),
     }
     
     dispatch(put_admin_data(`doctors`, dataEdit, history, '/admin/data/doctor'));
@@ -75,6 +76,13 @@ const AdminDataDoctorEdit = () => {
       id: parseInt(id)
     }
     dispatch(put_admin_data(`doctors/password`, dataEdit, history, '/admin/data/doctor'));
+  };
+  const handleEditPic = (imageFile) => {    
+    const dataUpload = {      
+      id: parseInt(id),
+      imageFile
+    }
+    dispatch(put_upload_data(`doctors/image-profile`, dataUpload, history, '/admin/data/doctor'));
   };
 
   return (    
@@ -97,7 +105,13 @@ const AdminDataDoctorEdit = () => {
               initialFormData={initialFormData}              
               handleSubmit={(values) => handleEditPassword(values)} 
             />
-          </TabPane>          
+          </TabPane>
+          <TabPane tab="Change Photo Profile" key="3">
+            <OrganismsWidgetUploadImage
+              initialUploadData={initialUploadData}
+              handleSubmit={(values) => handleEditPic(values)} 
+            />
+          </TabPane>
         </Tabs>  
       </div>
     </LayoutsCms>

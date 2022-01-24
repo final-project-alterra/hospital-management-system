@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { format } from 'date-fns';
+
+import { get_data } from '../../../../../redux/actions/admin';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import LayoutsCms from '../../../../../layouts/cms';
 import OrganismsAdminDataAdminDetailInfo from '../../../../../components/organisms/admin/data/admin/detail/info';
 
-import './style.scss'
-import { useDispatch, useSelector } from 'react-redux';
-import { get_data } from '../../../../../redux/actions/admin';
+import './style.scss';
 
 const AdminDataAdminDetail = () => {
   const dispatch = useDispatch();
@@ -47,12 +49,16 @@ const AdminDataAdminDetail = () => {
       value: adminData?.name,
     },
     {
+      label: 'Email',
+      value: adminData?.email,
+    },
+    {
       label: "Phone Number",
       value: adminData?.phone,
     },
     {
-      label: "Age",
-      value: adminData?.age,
+      label: "Birth Date",
+      value: format(new Date(adminData?.birthDate ?? '1900-01-01'), 'dd MMMM yyyy'),
     },
     {
       label: "Gender",
@@ -74,6 +80,7 @@ const AdminDataAdminDetail = () => {
         <MoleculesGoBack title="Detail Admin" goBack={goBack} />
         <OrganismsAdminDataAdminDetailInfo 
           adminData={initialAdminData}
+          imageUrl={adminData?.imageUrl}
         />        
       </div>
     </LayoutsCms>

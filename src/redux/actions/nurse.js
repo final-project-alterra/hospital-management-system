@@ -51,6 +51,7 @@ export const get_schedule_nurse = (id) => {
       .get('work-schedules')
       .then((resp) => {        
         let data = resp.data.data.sort((a, b) => new Date(a.date) - new Date(b.date))          
+        console.log("nurse: ", data, id)
         let newData = data.filter(dt => dt.nurse.id === id)        
         newData = newData.map((dt) => {
           return {            
@@ -59,7 +60,7 @@ export const get_schedule_nurse = (id) => {
             doctor: dt.doctor.name,
             rangeTime: format(new Date(dt.date + " " +dt.startTime), 'HH:mm') + "-" + format(new Date(dt.date + " " + dt.endTime), 'HH:mm'),            
           }
-        })        
+        })
         dispatch(put_data_nurse("schedule_data", newData))
       })
       .catch((err) => {      

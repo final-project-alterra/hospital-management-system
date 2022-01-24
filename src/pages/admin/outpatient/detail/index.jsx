@@ -52,8 +52,12 @@ const AdminOutpatientDetail = () => {
       value: outpatientData?.complaint,
     },
     {
+      label: "Diagnosis",
+      value: outpatientData?.diagnosis || 'Not Finished',
+    },
+    {
       label: "Status",
-      value: outpatientData?.status === 1? "Finished" : outpatientData?.status === 2? "On-Progress" : outpatientData?.status === 3? "Waiting": 'Canceled',
+      value: outpatientData?.status === 1? "On-Progress" : outpatientData?.status === 2? "Waiting" : outpatientData?.status === 3? "Finished": 'Canceled',
     },
   ];
 

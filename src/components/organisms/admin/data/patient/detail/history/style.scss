@@ -19,9 +19,16 @@
       padding: 2em;
       display: flex;
       align-items: center;
-      justify-content: space-between;      
+      justify-content: space-between;
+      width: 100%;
+      &-column {
+        width: 18%;
+        &:first-child {
+          width: 5%;
+        }
+      }      
       h4 {
-        font-size: 2em;
+        font-size: 1.8em;
         margin-bottom: 0;
       }
       h5 {

@@ -13,8 +13,7 @@ export const get_data = (url, state_key) => {
     dispatch(main.toggle_loader(true));
     axios
       .get(url)
-      .then((resp) => {
-        
+      .then((resp) => {        
         let data = resp.data.data;
         if(Array.isArray(data)) {
           data = data.map((dt) => {
@@ -24,6 +23,7 @@ export const get_data = (url, state_key) => {
             }
           })
         }
+        console.log(data)
         dispatch(put_data_admin(state_key, data))
       })
       .catch((err) => {      
@@ -46,6 +46,36 @@ export const post_admin_data = (url, payload, history, nextPage) => {
         } else {
           history.push(nextPage);
         }
+      })
+      .catch((err) => {      
+        dispatch(main.error(err?.response?.data?.error?.message));
+        console.log(err);
+      })
+      .then(() => {
+        dispatch(main.toggle_loader(false));
+      });
+  }
+}
+
+export const put_upload_data = (url, payload, history, nextPage) => {
+  return (dispatch) => {
+    dispatch(main.toggle_loader(true));
+    const formData = new FormData();
+    let nameId = nextPage.split('/')
+    if(nameId[3] === 'admin') {
+      nameId = 'adminId'
+    } else if(nameId[3] === 'doctor') {
+      nameId = 'doctorId'
+    } else if(nameId[3] === 'nurse') {
+      nameId = 'nurseId'
+    }
+    formData.append(nameId, payload.id);
+    formData.append('image', payload.imageFile);
+    axios
+      .put(url, formData)
+      .then((resp) => {
+        history.push(nextPage);
+        dispatch(main.modal_success(resp.data?.meta?.message));
       })
       .catch((err) => {      
         dispatch(main.error(err?.response?.data?.error?.message));
@@ -162,32 +192,6 @@ export const get_data_doctor = (id) => {
 }
 
 export const get_outpatient = () => {
-  // return (dispatch) => {
-  //   const initialOutpatientList = [
-  //     {
-  //       key: '1',
-  //       patientName: 'Mike',
-  //       doctorName: "dr Shang chi",
-  //       spealization: "Anak dan Kandungan",
-  //       status: 'On-Progress',
-  //     },      
-  //     {
-  //       key: '2',
-  //       patientName: 'Wong',
-  //       doctorName: "dr. Strange",
-  //       spealization: "Ilmu Hitam dan Sihir",
-  //       status: 'Waiting',
-  //     },      
-  //     {
-  //       key: '3',
-  //       patientName: 'Tom Holland',
-  //       doctorName: "dr. Octavius",
-  //       spealization: "Hewan",
-  //       status: 'Finished',
-  //     },
-  //   ];    
-  //   dispatch(put_data_admin("outpatient_list", initialOutpatientList));    
-  // }
   return (dispatch) => {
     dispatch(main.toggle_loader(true));
     axios
@@ -196,16 +200,16 @@ export const get_outpatient = () => {
         let newData = resp.data.data.map((dt) => {
           return {            
             key: dt.id,
-            date: format(new Date(dt.date), 'dd MMM yyyy'),
+            date: format(new Date(dt.date), 'dd MMMM yyyy'),
             patientName: dt.patient.name,
             doctorName: dt.doctor.name,
             spealization: dt.doctor.specialty,
-            status: dt.status === 1? "Finished" : dt.status === 2? "On-Progress" : dt.status === 3? "Waiting": 'Canceled',
+            status: dt.status === 1? "On-Progress" : dt.status === 2? "Waiting" : dt.status === 3? "Finished": 'Canceled',
           }
-        })        
+        })
         dispatch(put_data_admin("outpatient_list", newData))
       })
-      .catch((err) => {      
+      .catch((err) => {
         // dispatch(error(err?.response?.data))
         console.log(err);
       })
@@ -220,15 +224,14 @@ export const get_schedule = () => {
     dispatch(main.toggle_loader(true));
     axios
       .get("work-schedules")
-      .then((resp) => {        
+      .then((resp) => {
         let data = resp.data.data;
         if(Array.isArray(data)) {
           data = data.sort((a, b) => new Date(a.date) - new Date(b.date))
-          data = data.map((dt) => {            
-
-            return {              
+          data = data.map((dt) => {
+            return {
               key: dt.id,
-              jadwal: format(new Date(dt.date), 'dd MMM yyyy'),
+              jadwal: format(new Date(dt.date), 'dd MMMM yyyy'),
               doctorName: dt.doctor.name,
               speciality: dt.doctor.speciality,
               nurseName: dt.nurse.name,
@@ -238,7 +241,7 @@ export const get_schedule = () => {
         }
         dispatch(put_data_admin("schedule_list", data))
       })
-      .catch((err) => {      
+      .catch((err) => {
         dispatch(main.error(err?.response?.data?.error?.message));
         console.log(err);
       })
@@ -254,12 +257,16 @@ export const get_schedule_detail = (id) => {
     axios
       .get(`work-schedules/${id}`)
       .then((resp) => {        
-        let data = resp.data.data.outpatients;              
-        data = data.map((dt) => {          
-          return {              
+        let data = resp.data.data.outpatients;
+        data = data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+        data = data.map((dt, key) => ({...dt, noQueue: key+1}));
+        data = data.sort((a, b) => a.status - b.status);
+        data = data.map((dt) => {
+          return {
             key: dt.id,
-            patientName: dt.patient.name,            
-            status: dt.status === 1? "Finished" : dt.status === 2? "On-Progress" : dt.status === 3? "Waiting": 'Canceled',
+            noQueue: dt.noQueue,
+            patientName: dt.patient.name,
+            status: dt.status === 1? "On-Progress" : dt.status === 2? "Waiting" : dt.status === 3? "Finished": 'Canceled',
           }
         })        
         dispatch(put_data_admin("schedule_detail_list", data))
@@ -290,44 +297,4 @@ export const get_detail_outpatient = (id) => {
         dispatch(main.toggle_loader(false));
       });
   }
-  // return (dispatch) => {
-  //   const initialOutpatientData = [
-  //     {
-  //       label: "Patient Name",
-  //       value: "Assyifa Rafta",
-  //     },      
-  //     {
-  //       label: "Age",
-  //       value: "21",
-  //     },
-  //     {
-  //       label: "Gender",
-  //       value: "12",
-  //     },
-  //     {
-  //       label: "Doctor Name",
-  //       value: "dr. Angga",
-  //     },
-  //     {
-  //       label: "Keluhan",
-  //       value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam accumsan vulputate pretium. Nullam suscipit, purus ac finibus dictum, est nisi egestas mauris, non mollis tortor quam id enim. Morbi est magna, maximus sed sodales eget, pharetra eget sapien. Nulla nunc ex, cursus ut rutrum nec, rutrum euismod orci. Aenean non semper augue.",
-  //     },
-  //   ];
-  //   const initialPrescriptionList = [
-  //     {
-  //       name: 'Obat Oskadon',
-  //       instruction: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam accumsan vulputate pretium. Nullam suscipit, purus ac finibus dictum, est nisi egestas mauris, non mollis tortor quam id enim. Morbi est magna',
-  //     },
-  //     {
-  //       name: 'Obat Neozep',
-  //       instruction: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam accumsan vulputate pretium. Nullam suscipit, purus ac finibus dictum, est nisi egestas mauris, non mollis tortor quam id enim. Morbi est magna',
-  //     },
-  //     {
-  //       name: 'Obat Neozep',
-  //       instruction: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam accumsan vulputate pretium. Nullam suscipit, purus ac finibus dictum, est nisi egestas mauris, non mollis tortor quam id enim. Morbi est magna',
-  //     },
-  //   ];
-  //   dispatch(put_data_admin("prescription_list", initialPrescriptionList));
-  //   dispatch(put_data_admin("outpatientt_data", initialOutpatientData));
-  // }
 }

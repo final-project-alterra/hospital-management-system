@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button } from 'antd'
-import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsDoctorCardPrescription = ({ prescriptionList, goToCreate, handleFinish, isReadOnly }) => {  
+const OrganismsDoctorCardPrescription = ({ prescriptionList, goToCreate, isReadOnly }) => {  
   return (
     <div className="o-doctor-card-prescription">
       <div className="o-doctor-card-prescription__header">
@@ -30,16 +30,6 @@ const OrganismsDoctorCardPrescription = ({ prescriptionList, goToCreate, handleF
           ))
         }        
       </div>
-      {
-        !isReadOnly &&
-        <Button
-          type="primary" 
-          icon={<CheckOutlined />}
-          onClick={handleFinish}
-        >
-          Examined
-        </Button>
-      }
     </div>
   )
 }

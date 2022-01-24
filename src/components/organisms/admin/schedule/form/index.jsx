@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminScheduleForm = ({ initialFormData, doctorData, nurseData, handleSubmit }) => {    
+const OrganismsAdminScheduleForm = ({ goBack, initialFormData, doctorData, nurseData, handleSubmit }) => {    
   const [form] = Form.useForm();
   useEffect(() => form.resetFields(), [initialFormData, form]);
   const dateFormat = "YYYY/MM/DD";
@@ -42,19 +42,20 @@ const OrganismsAdminScheduleForm = ({ initialFormData, doctorData, nurseData, ha
                 >
                   <DatePicker format={dateFormat} />
                 </Form.Item>
+                <Form.Item label="Every" name="repeat">
+                  <Select placeholder="Select Repeat" disabled={!isRepeat}>
+                    <Select.Option value="no-repeat">No Repeat</Select.Option>
+                    <Select.Option value="daily">Daily</Select.Option>
+                    <Select.Option value="weekly">Weekly</Select.Option>
+                    <Select.Option value="monthly">Monthly</Select.Option>
+                  </Select>
+                </Form.Item>
                 <Checkbox defaultChecked={isRepeat} onChange={handleCheckbox}>
                   Repeat Schedule
                 </Checkbox>
                 {
                   isRepeat &&
-                  <>                
-                    <Form.Item label="Every" name="repeat">
-                      <Select placeholder="Select Repeat">
-                        <Select.Option value="daily">Daily</Select.Option>
-                        <Select.Option value="weekly">Weekly</Select.Option>
-                        <Select.Option value="monthly">Monthly</Select.Option>
-                      </Select>
-                    </Form.Item>
+                  <>                    
                     <Form.Item
                       label="Schedule End"
                       name="endDate"
@@ -82,7 +83,14 @@ const OrganismsAdminScheduleForm = ({ initialFormData, doctorData, nurseData, ha
           </Col>
           <Col span={12}>
             <Form.Item label="Doctor Name" name="doctorId">
-              <Select placeholder="Select Doctor">
+              <Select 
+                showSearch
+                optionFilterProp="children"
+                placeholder="Select a doctor"
+                filterOption={(input, option) =>
+                  option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
                 {
                   doctorData?.map((data) => 
                     <Select.Option value={data.id}>{ data.name }</Select.Option>
@@ -91,7 +99,14 @@ const OrganismsAdminScheduleForm = ({ initialFormData, doctorData, nurseData, ha
               </Select>
             </Form.Item>                      
             <Form.Item label="Nurse Name" name="nurseId">
-              <Select placeholder="Select Nurse">
+              <Select 
+                showSearch
+                optionFilterProp="children"
+                placeholder="Select a nurse"
+                filterOption={(input, option) =>
+                  option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
                 {
                   nurseData?.map((data) => 
                     <Select.Option value={data.id}>{ data.name }</Select.Option>
@@ -114,7 +129,11 @@ const OrganismsAdminScheduleForm = ({ initialFormData, doctorData, nurseData, ha
             )}
           </Form.Item>
           <Form.Item >
-            <Button type="text" className="text-danger">
+            <Button 
+              type="text" 
+              className="text-danger"
+              onClick={goBack}
+            >
               <span className="text-danger">Cancel</span>
             </Button>
           </Form.Item>

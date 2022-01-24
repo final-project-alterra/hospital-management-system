@@ -1,6 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 
 import { post_admin_data } from '../../../../../redux/actions/admin';
 import OrganismsAdminDataAdminForm from '../../../../../components/organisms/admin/data/admin/form'
@@ -34,8 +35,8 @@ const AdminDataAdminCreate = () => {
     title: 'Create',
     data: {
       name: '',
-      phone: '',
-      age: '',
+      phone: '',      
+      birthDate: moment(),
       gender: 'L',
       address: '',
       email: '',
@@ -45,7 +46,11 @@ const AdminDataAdminCreate = () => {
   const goBack = () => {
     history.push('/admin/data/admin');
   }  
-  const handleCreate = (data) => {    
+  const handleCreate = (data) => {
+    data = {
+      ...data,
+      birthDate: data.birthDate.format('YYYY-MM-DD'),
+    };
     dispatch(post_admin_data("admins", data, history, '/admin/data/admin'));
   }  
   return (

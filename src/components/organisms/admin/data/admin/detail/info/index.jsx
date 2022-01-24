@@ -1,10 +1,14 @@
 import React from 'react'
+import { Avatar } from 'antd';
 
 import './style.scss'
 
-const OrganismsAdminDataAdminDetailInfo = ({ adminData }) => {
+const OrganismsAdminDataAdminDetailInfo = ({ adminData, imageUrl }) => {
   return (
     <div className="o-admin-data-doctor-detail-info">
+      <div className="o-admin-data-doctor-detail-info__ava">
+        <Avatar shape="square" size={200} src={`https://${imageUrl}`} />
+      </div>
       <div className="o-admin-data-doctor-detail-info__group">
         {
          adminData?.map((data, key) => (

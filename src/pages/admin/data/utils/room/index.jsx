@@ -116,9 +116,9 @@ const AdminDataUtilsRoom = () => {
   const handleSubmit = (value) => {    
     if(value.id === 0) {
       value = { code: value.code, floor: value.floor }      
-      dispatch(post_admin_data("rooms", value, history, '/admin/data/utils'));
+      dispatch(post_admin_data("rooms", value, history, '/admin/data/utils?tab=2'));
     } else {
-      dispatch(put_admin_data("rooms", value, history, '/admin/data/utils'));
+      dispatch(put_admin_data("rooms", value, history, '/admin/data/utils?tab=2'));
     }
   }
 

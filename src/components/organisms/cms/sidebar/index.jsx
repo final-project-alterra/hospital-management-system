@@ -21,13 +21,13 @@ const OrganismsCmsSidebar = (props) => {
   const goToMenu = (url) => {
     history.push(url)
   }  
-  // const role = useSelector(state => state.main.role)
+  console.log("profile: ", props.profileData)
   return (
     <div className='o-cms-sidebar'>
       {
         props.profileData &&
         <div className="o-cms-sidebar__profile">
-          <Avatar size={45}>{ props.profileData.name[0] }</Avatar>
+          <Avatar size={45} src={`https://${props.profileData.imageUrl}`} />
           <div className="o-cms-sidebar__profile-info">
             <h4>{ props.profileData?.name }</h4>
             <p>{ props.role }</p>

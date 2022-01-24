@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
 import { Space, Modal } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
-import { useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
 import {
   ExclamationCircleOutlined,
   FolderOutlined,
@@ -63,11 +63,16 @@ const AdminDataNurse = () => {
   useEffect(() => {    
     if(data.length === 0 && name) {
       dispatch(get_data('nurses', 'nurse_list'));
-    }
-    else if(name) {
-      setInitialNurseList(data?.filter((dt) => dt.name.includes(name)));
     } else {
-      setInitialNurseList(data);
+      let modifyData = data.map((dt) => ({
+        ...dt,
+        birthDate: format(new Date(dt.birthDate), 'dd MMMM yyyy'),
+      }))
+      if(name) {
+        setInitialNurseList(modifyData?.filter((dt) => dt.name.includes(name)));
+      } else {
+        setInitialNurseList(modifyData);
+      }
     }
   }, [dispatch, name, data]);
 
@@ -88,9 +93,9 @@ const AdminDataNurse = () => {
         key: 'phone',
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Birth Date',
+        dataIndex: 'birthDate',
+        key: 'birthDate',
       },
       {
         title: 'Action',

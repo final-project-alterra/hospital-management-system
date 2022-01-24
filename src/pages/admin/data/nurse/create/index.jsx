@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
@@ -35,7 +36,7 @@ const AdminDataNurseCreate = () => {
     data: {
       fullname: '',
       phone: '',
-      age: '',
+      birthDate: moment(),
       gender: 'L',
       address: '',      
       email: '',
@@ -45,7 +46,11 @@ const AdminDataNurseCreate = () => {
   const goBack = () => {
     history.push('/admin/data/nurse');
   }
-  const handleCreate = (data) => {    
+  const handleCreate = (data) => {
+    data = {
+      ...data,
+      birthDate: data.birthDate.format('YYYY-MM-DD'),
+    };
     dispatch(post_admin_data("nurses", data, history, '/admin/data/nurse'));
   }
   return (

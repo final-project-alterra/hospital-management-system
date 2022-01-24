@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Space, Modal } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
+import { Space, Modal } from 'antd';
 import { useHistory } from 'react-router-dom';
+import { format } from 'date-fns';
 import { 
   ExclamationCircleOutlined, 
   FolderOutlined, 
@@ -63,11 +64,17 @@ const AdminDataPatient = () => {
   useEffect(() => {    
     if(patientList.length === 0 && name) {
       dispatch(get_data('patients', 'patient_list'));
-    }
-    else if(name) {
-      setInitialPatientList(patientList?.filter((dt) => dt.name.includes(name)));
     } else {
-      setInitialPatientList(patientList);
+      let modifyData = patientList.map((dt) => ({
+        ...dt,
+        birthDate: format(new Date(dt.birthDate), 'dd MMMM yyyy'),
+        gender: dt.gender === 'L'? 'Laki-Laki': 'Perempuan',
+      }))
+      if(name) {
+        setInitialPatientList(modifyData?.filter((dt) => dt.name.includes(name)));
+      } else {
+        setInitialPatientList(modifyData);
+      }
     }
   }, [dispatch, name, patientList]);
 
@@ -89,9 +96,9 @@ const AdminDataPatient = () => {
         key: 'phone',
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Birth Date',
+        dataIndex: 'birthDate',
+        key: 'birthDate',
       },
       {
         title: 'Gender',

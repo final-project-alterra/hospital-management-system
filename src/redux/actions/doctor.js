@@ -51,6 +51,8 @@ export const get_schedule_doctor = (id) => {
       .get('work-schedules')
       .then((resp) => {
         let newData = resp.data.data.filter(dt => dt.doctor.id === id)        
+        console.log("id", id)
+        console.log("new", newData)
         newData = newData.map((dt) => {
           return {            
             key: dt.id,
@@ -95,43 +97,24 @@ export const get_schedule_doctor = (id) => {
 }
 
 export const get_schedule_outpatient_doctor = (id) => {
-  // return (dispatch) => {
-  //   const initialScheduleOutpatientData = [
-  //     {
-  //       key: '1',
-  //       patient: 'Arya',
-  //       age: 32,
-  //       status: "Onprogress",
-  //     },
-  //     {
-  //       key: '2',
-  //       patient: 'Wira Wirawan',
-  //       age: 21,
-  //       status: "Waiting",
-  //     },
-  //     {
-  //       key: '3',
-  //       patient: 'Nugi',
-  //       age: 24,
-  //       status: "Waiting",
-  //     },
-  //   ]
-  //   dispatch(put_data_doctor("schedule_outpatient_data", initialScheduleOutpatientData))
-  // }
   return (dispatch) => {
     dispatch(main.toggle_loader(true));
     axios
       .get(`work-schedules/${id}`)
       .then((resp) => {        
-        let data = resp.data.data.outpatients;              
-        data = data.map((dt) => {          
+        let data = resp.data.data.outpatients;
+        data = data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+        data = data.map((dt, key) => ({...dt, noQueue: key+1}));
+        data = data.sort((a, b) => a.status - b.status)
+        data = data.map((dt, key) => {          
           return {              
             key: dt.id,
+            noQueue: dt.noQueue,
             complaint: dt.complaint,            
-            patient: dt.patient.name,            
-            status: dt.status === 1? "Finished" : dt.status === 2? "On-Progress" : dt.status === 3? "Waiting": 'Canceled',
+            patient: dt.patient.name,
+            status: dt.status === 1? "On-Progress" : dt.status === 2? "Waiting" : dt.status === 3? "Finished": 'Canceled',
           }
-        })        
+        });
         dispatch(put_data_doctor("schedule_outpatient_data", data))
       })
       .catch((err) => {      

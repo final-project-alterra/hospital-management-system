@@ -22,6 +22,14 @@
         align-items: center;
       }
     }
+    &-btn {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      button {
+        width: 45%;
+      }
+    }
   }
   // .avatar-uploader > .ant-upload-list > .ant-upload {
   //   width: 14em;

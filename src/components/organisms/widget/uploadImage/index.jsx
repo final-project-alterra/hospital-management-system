@@ -4,7 +4,7 @@ import { UploadOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsWidgetUploadImage = ({ initialUploadData, handleSubmit }) => {
+const OrganismsWidgetUploadImage = ({ initialUploadData, handleSubmit, handleDelete }) => {
   const [fileList, setfileList] = useState({});
   const handleChange = (info) => {
     setfileList(info.file)
@@ -36,13 +36,20 @@ const OrganismsWidgetUploadImage = ({ initialUploadData, handleSubmit }) => {
           }
           <Button icon={<UploadOutlined />}>Upload</Button>
         </Upload>
-        <Button 
-          type="primary" 
-          block
-          onClick={() => handleSubmit(fileList)}
-        >
-          Submit
-        </Button>
+        <div className="o-widget-upload-image__group-btn">
+          <Button 
+            type="primary" 
+            onClick={() => handleSubmit(fileList)}
+          >
+            Submit
+          </Button>
+          <Button 
+            type="danger"
+            onClick={handleDelete}
+          >
+            Delete
+          </Button>
+        </div>
       </div>
     </div>
   )

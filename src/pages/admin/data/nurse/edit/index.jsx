@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import { Tabs } from 'antd';
+import { Tabs, Modal } from 'antd';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import OrganismsAdminDataNurseForm from '../../../../../components/organisms/admin/data/nurse/form'
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
@@ -10,10 +11,11 @@ import LayoutsCms from '../../../../../layouts/cms';
 
 import './style.scss'
 import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
-import { get_data, put_admin_data, put_upload_data } from '../../../../../redux/actions/admin';
+import { delete_upload_data, get_data, put_admin_data, put_upload_data } from '../../../../../redux/actions/admin';
 import OrganismsWidgetUploadImage from '../../../../../components/organisms/widget/uploadImage';
 
 const AdminDataNurseEdit = () => {
+  const { confirm } = Modal;
   const { TabPane } = Tabs;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -76,6 +78,16 @@ const AdminDataNurseEdit = () => {
     }
     dispatch(put_upload_data(`nurses/image-profile`, dataUpload, history, '/admin/data/nurse'));
   };
+  const handleDeleteImage = () => {
+    confirm({
+      title: 'Are you sure delete this image profile?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'You can undo this change',
+      onOk() {
+        dispatch(delete_upload_data(`nurses/${id}/image-profile`, history, '/admin/data/nurse'));
+      },      
+    });
+  };
 
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
@@ -100,6 +112,7 @@ const AdminDataNurseEdit = () => {
             <OrganismsWidgetUploadImage
               initialUploadData={initialUploadData}
               handleSubmit={(values) => handleEditPic(values)} 
+              handleDelete={handleDeleteImage}
             />
           </TabPane>
         </Tabs>

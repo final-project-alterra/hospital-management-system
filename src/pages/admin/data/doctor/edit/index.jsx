@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import moment from 'moment';
-import { Tabs } from 'antd';
+import { Tabs, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
-import { get_data, put_admin_data, put_upload_data } from '../../../../../redux/actions/admin';
+import { delete_upload_data, get_data, put_admin_data, put_upload_data } from '../../../../../redux/actions/admin';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form';
 import OrganismsWidgetUploadImage from '../../../../../components/organisms/widget/uploadImage';
@@ -14,6 +15,7 @@ import LayoutsCms from '../../../../../layouts/cms';
 import './style.scss'
 
 const AdminDataDoctorEdit = () => {
+  const { confirm } = Modal;
   const { TabPane } = Tabs;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -77,12 +79,22 @@ const AdminDataDoctorEdit = () => {
     }
     dispatch(put_admin_data(`doctors/password`, dataEdit, history, '/admin/data/doctor'));
   };
-  const handleEditPic = (imageFile) => {    
-    const dataUpload = {      
+  const handleEditPic = (imageFile) => {
+    const dataUpload = {
       id: parseInt(id),
       imageFile
     }
     dispatch(put_upload_data(`doctors/image-profile`, dataUpload, history, '/admin/data/doctor'));
+  };
+  const handleDeleteImage = () => {
+    confirm({
+      title: 'Are you sure delete this image profile?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'You can undo this change',
+      onOk() {
+        dispatch(delete_upload_data(`doctors/${id}/image-profile`, history, '/admin/data/doctor'));
+      },      
+    });
   };
 
   return (    
@@ -110,6 +122,7 @@ const AdminDataDoctorEdit = () => {
             <OrganismsWidgetUploadImage
               initialUploadData={initialUploadData}
               handleSubmit={(values) => handleEditPic(values)} 
+              handleDelete={handleDeleteImage} 
             />
           </TabPane>
         </Tabs>  

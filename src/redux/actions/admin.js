@@ -107,6 +107,24 @@ export const put_admin_data = (url, payload, history, nextPage) => {
   }
 }
 
+export const delete_upload_data = (url, history, nextPage) => {
+  return (dispatch) => {
+    dispatch(main.toggle_loader(true));
+    axios
+      .delete(url)
+      .then((resp) => {
+        history.push(nextPage);
+        dispatch(main.modal_success(resp.data?.meta?.message));
+      })
+      .catch((err) => {      
+        dispatch(main.error(err?.response?.data?.message));
+      })
+      .then(() => {
+        dispatch(main.toggle_loader(false));
+      });
+  }
+}
+
 export const delete_admin_data = (url, id, state_key) => {
   return (dispatch) => {
     dispatch(main.toggle_loader(true));

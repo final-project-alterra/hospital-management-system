@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import moment from 'moment';
-import { Tabs } from 'antd';
+import { Tabs, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
-import { get_data, put_admin_data, put_upload_data } from '../../../../../redux/actions/admin';
+import { delete_upload_data, get_data, put_admin_data, put_upload_data } from '../../../../../redux/actions/admin';
 import OrganismsWidgetUploadImage from '../../../../../components/organisms/widget/uploadImage';
 import OrganismsAdminDataAdminForm from '../../../../../components/organisms/admin/data/admin/form'
 import LayoutsCms from '../../../../../layouts/cms';
@@ -14,6 +15,7 @@ import LayoutsCms from '../../../../../layouts/cms';
 import './style.scss'
 
 const AdminDataAdminEdit = () => {
+  const { confirm } = Modal;
   const { TabPane } = Tabs;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -80,6 +82,16 @@ const AdminDataAdminEdit = () => {
     }
     dispatch(put_upload_data(`admins/image-profile`, dataUpload, history, '/admin/data/admin'));
   };
+  const handleDeleteImage = () => {
+    confirm({
+      title: 'Are you sure delete this image profile?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'You can undo this change',
+      onOk() {
+        dispatch(delete_upload_data(`admins/${id}/image-profile`, history, '/admin/data/admin'));
+      },      
+    });
+  };
 
   return (    
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >
@@ -104,6 +116,7 @@ const AdminDataAdminEdit = () => {
             <OrganismsWidgetUploadImage
               initialUploadData={initialUploadData}
               handleSubmit={(values) => handleEditPic(values)} 
+              handleDelete={handleDeleteImage}
             />
           </TabPane>
         </Tabs>  

@@ -4,14 +4,13 @@ import { Tabs } from 'antd';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import imgEx from '../../../../../assets/images/dashboard-img.png';
 import OrganismsAdminDataNurseForm from '../../../../../components/organisms/admin/data/nurse/form'
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import LayoutsCms from '../../../../../layouts/cms';
 
 import './style.scss'
 import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
-import { get_data, put_admin_data } from '../../../../../redux/actions/admin';
+import { get_data, put_admin_data, put_upload_data } from '../../../../../redux/actions/admin';
 import OrganismsWidgetUploadImage from '../../../../../components/organisms/widget/uploadImage';
 
 const AdminDataNurseEdit = () => {
@@ -50,7 +49,7 @@ const AdminDataNurseEdit = () => {
     },
   }
   const initialUploadData= {
-    url: imgEx
+    url: nurse_data?.imageUrl
   }
   
   const goBack = () => {
@@ -70,8 +69,12 @@ const AdminDataNurseEdit = () => {
     }
     dispatch(put_admin_data(`nurses/password`, dataEdit, history, '/admin/data/nurse'));
   };
-  const handleEditPic = (dataEdit) => {    
-    console.log(dataEdit);
+  const handleEditPic = (imageFile) => {    
+    const dataUpload = {      
+      id: parseInt(id),
+      imageFile
+    }
+    dispatch(put_upload_data(`nurses/image-profile`, dataUpload, history, '/admin/data/nurse'));
   };
 
   return (

@@ -14,7 +14,7 @@ const AdminScheduleCreate = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const activeMenu = {
-    key: 'outpatient',
+    key: 'schedule',
     openKey: '',
   };
   const breadcrumb = [
@@ -67,7 +67,6 @@ const AdminScheduleCreate = () => {
       startTime: data.startTime.format('HH:mm:ss'),
       endTime: data.endTime.format('HH:mm:ss'),
     };
-    console.log(data)    
     dispatch(post_admin_data("work-schedules", data, history, '/admin/schedule'));
   }
   return (

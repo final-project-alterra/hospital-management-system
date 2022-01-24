@@ -85,6 +85,10 @@ const AdminDataDoctorDetail = () => {
       value: doctorData?.name,
     },
     {
+      label: 'Email',
+      value: doctorData?.email,
+    },
+    {
       label: 'Phone Number',
       value: doctorData?.phone,
     },
@@ -95,6 +99,10 @@ const AdminDataDoctorDetail = () => {
     {
       label: 'Gender',
       value: doctorData?.gender === 'L'? 'Laki-laki':'Perempuan',
+    },
+    {
+      label: 'Code Room',
+      value: doctorData?.room?.code,
     },
     {
       label: 'Spealicity',
@@ -200,6 +208,7 @@ const AdminDataDoctorDetail = () => {
           <TabPane tab="Informasi Pribadi" key="1">
             <OrganismsAdminDataDoctorDetailInfo 
               doctorData={initialDoctorData}
+              imageUrl={doctorData?.imageUrl}
             />
           </TabPane>
           <TabPane tab="Schedule" key="2">            

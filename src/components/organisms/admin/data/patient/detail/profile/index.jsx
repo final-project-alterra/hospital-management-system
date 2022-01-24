@@ -1,16 +1,20 @@
 import React from 'react';
-import { Avatar } from 'antd';
 import { format } from 'date-fns';
 
 import './style.scss'
 
-const OrganismsAdminDataPatientDetailProfile = ({ data }) => {
+const OrganismsAdminDataPatientDetailProfile = ({ data, totalOutpatient }) => {
   return (
     <div className="o-admin-data-doctor-detail-profile">
       <div className="o-admin-data-doctor-detail-profile__ava">
-        <Avatar size={100} >U</Avatar>
         <h3>{ data.name }</h3>
         <p>NIK: { data.nik }</p>
+        <div className="o-admin-data-doctor-detail-profile__ava-statistic">
+          <div className="o-admin-data-doctor-detail-profile__ava-statistic-outpatient">
+            <h2>{totalOutpatient}</h2>
+            <p>Total Outpatient</p>
+          </div>
+        </div>
       </div>
       <div className="o-admin-data-doctor-detail-profile__info">
         <div className="o-admin-data-doctor-detail-profile__info-item">

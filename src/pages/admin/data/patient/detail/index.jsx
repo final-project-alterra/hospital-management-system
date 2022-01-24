@@ -59,7 +59,10 @@ const AdminDataPatientDetail = () => {
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-data-patient-detail">
         <OrganismsAdminDataPatientDetailHeader goBack={goBack} />
-        <OrganismsAdminDataPatientDetailProfile data={initialPatientData} />
+        <OrganismsAdminDataPatientDetailProfile 
+          data={initialPatientData} 
+          totalOutpatient={outpatientHistoryList.length}
+        />
         <OrganismsAdminDataPatientDetailHistory 
           outpatientHistoryList={outpatientHistoryList} 
           goDetailOutpatient={goDetailOutpatient}

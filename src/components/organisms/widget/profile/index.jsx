@@ -8,7 +8,7 @@ const OrganismsWidgetProfile = ({ profileData }) => {
   return (
     <div className="o-widget-profile">
       <div className="o-widget-profile__ava">
-        <Avatar size={100} >U</Avatar>
+        <Avatar size={100} src={`https://${profileData.imageUrl}`} />
         <h3>{ profileData.name }</h3>
         <p>{ profileData.email }</p>
       </div>

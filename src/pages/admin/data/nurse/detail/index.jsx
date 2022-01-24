@@ -94,6 +94,10 @@ const AdminDataNurseDetail = () => {
       value: nurse_data?.name,
     },
     {
+      label: "Email",
+      value: nurse_data?.email,
+    },
+    {
       label: "Phone Number",
       value: nurse_data?.phone,
     },
@@ -193,6 +197,7 @@ const AdminDataNurseDetail = () => {
           <TabPane tab="Informasi Pribadi" key="1">
             <OrganismsAdminDataNurseDetailInfo 
               nurseData={initialNurseData}
+              imageUrl={nurse_data?.imageUrl}
             />
           </TabPane>
           <TabPane tab="Schedule" key="2">            

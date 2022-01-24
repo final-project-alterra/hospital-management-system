@@ -49,6 +49,10 @@ const AdminDataAdminDetail = () => {
       value: adminData?.name,
     },
     {
+      label: 'Email',
+      value: adminData?.email,
+    },
+    {
       label: "Phone Number",
       value: adminData?.phone,
     },
@@ -76,6 +80,7 @@ const AdminDataAdminDetail = () => {
         <MoleculesGoBack title="Detail Admin" goBack={goBack} />
         <OrganismsAdminDataAdminDetailInfo 
           adminData={initialAdminData}
+          imageUrl={adminData?.imageUrl}
         />        
       </div>
     </LayoutsCms>

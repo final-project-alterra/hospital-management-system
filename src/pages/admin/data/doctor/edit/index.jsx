@@ -4,8 +4,7 @@ import { Tabs } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
-import imgEx from '../../../../../assets/images/dashboard-img.png';
-import { get_data, put_admin_data } from '../../../../../redux/actions/admin';
+import { get_data, put_admin_data, put_upload_data } from '../../../../../redux/actions/admin';
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
 import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form';
 import OrganismsWidgetUploadImage from '../../../../../components/organisms/widget/uploadImage';
@@ -56,7 +55,7 @@ const AdminDataDoctorEdit = () => {
     },
   };
   const initialUploadData= {
-    url: imgEx
+    url: doctorData?.imageUrl
   }
 
   const goBack = () => {
@@ -78,8 +77,12 @@ const AdminDataDoctorEdit = () => {
     }
     dispatch(put_admin_data(`doctors/password`, dataEdit, history, '/admin/data/doctor'));
   };
-  const handleEditPic = (dataEdit) => {    
-    console.log(dataEdit);
+  const handleEditPic = (imageFile) => {    
+    const dataUpload = {      
+      id: parseInt(id),
+      imageFile
+    }
+    dispatch(put_upload_data(`doctors/image-profile`, dataUpload, history, '/admin/data/doctor'));
   };
 
   return (    

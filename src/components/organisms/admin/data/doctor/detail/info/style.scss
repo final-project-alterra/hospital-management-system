@@ -4,11 +4,12 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   font-size: 10px;
-  margin-top: 2em;
+  margin-top: 2em;  
+  gap: 3em;
   &__group {
-    width: 50%;
+    width: 60%;
     &-item {
       h5 {
         font-size: 1.6em;

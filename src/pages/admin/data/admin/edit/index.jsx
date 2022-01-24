@@ -5,9 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
-import imgEx from '../../../../../assets/images/dashboard-img.png';
 import OrganismsWidgetFormChangePassword from '../../../../../components/organisms/widget/form/changePassword';
-import { get_data, put_admin_data } from '../../../../../redux/actions/admin';
+import { get_data, put_admin_data, put_upload_data } from '../../../../../redux/actions/admin';
 import OrganismsWidgetUploadImage from '../../../../../components/organisms/widget/uploadImage';
 import OrganismsAdminDataAdminForm from '../../../../../components/organisms/admin/data/admin/form'
 import LayoutsCms from '../../../../../layouts/cms';
@@ -52,7 +51,7 @@ const AdminDataAdminEdit = () => {
     },
   };
   const initialUploadData= {
-    url: imgEx
+    url: adminData?.imageUrl
   };
 
   const goBack = () => {
@@ -67,7 +66,6 @@ const AdminDataAdminEdit = () => {
     }    
     dispatch(put_admin_data(`admins`, dataEdit, history, '/admin/data/admin'));
   };
-
   const handleEditPassword = (dataEdit) => {    
     dataEdit = {
       ...dataEdit,
@@ -75,8 +73,12 @@ const AdminDataAdminEdit = () => {
     }    
     dispatch(put_admin_data(`admins/password`, dataEdit, history, '/admin/data/admin'));
   };
-  const handleEditPic = (dataEdit) => {    
-    console.log(dataEdit);
+  const handleEditPic = (imageFile) => {
+    const dataUpload = {      
+      id: parseInt(id),
+      imageFile
+    }
+    dispatch(put_upload_data(`admins/image-profile`, dataUpload, history, '/admin/data/admin'));
   };
 
   return (    

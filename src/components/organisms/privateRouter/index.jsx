@@ -1,10 +1,10 @@
 import React from 'react'
-import { Redirect, Route, useHistory, useLocation } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Forbidden from '../../../pages/forbidden';
 
 const PrivateRoute = (props) => {
   const location = useLocation();
-  const history = useHistory();
   const auth = useSelector(state => state.auth); // get auth state  
   
   const { isAuthenticated, userJWTData } = auth;
@@ -20,9 +20,7 @@ const PrivateRoute = (props) => {
     isRightRole? (
       <Route {...props} />
   ) : (
-      <Redirect
-        to={history.goBack()}
-      />
+      <Forbidden />
   ) : (
     <Redirect
       to={{

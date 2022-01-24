@@ -14,8 +14,9 @@
       width: 14em;
       height: 14em;
     }
-    span {
+    & > span {
       &:nth-child(2) {
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;

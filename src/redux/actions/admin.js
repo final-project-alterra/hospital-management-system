@@ -57,6 +57,36 @@ export const post_admin_data = (url, payload, history, nextPage) => {
   }
 }
 
+export const put_upload_data = (url, payload, history, nextPage) => {
+  return (dispatch) => {
+    dispatch(main.toggle_loader(true));
+    const formData = new FormData();
+    let nameId = nextPage.split('/')
+    if(nameId[3] === 'admin') {
+      nameId = 'adminId'
+    } else if(nameId[3] === 'doctor') {
+      nameId = 'doctorId'
+    } else if(nameId[3] === 'nurse') {
+      nameId = 'nurseId'
+    }
+    formData.append(nameId, payload.id);
+    formData.append('image', payload.imageFile);
+    axios
+      .put(url, formData)
+      .then((resp) => {
+        history.push(nextPage);
+        dispatch(main.modal_success(resp.data?.meta?.message));
+      })
+      .catch((err) => {      
+        dispatch(main.error(err?.response?.data?.error?.message));
+        console.log(err);
+      })
+      .then(() => {
+        dispatch(main.toggle_loader(false));
+      });
+  }
+}
+
 export const put_admin_data = (url, payload, history, nextPage) => {
   return (dispatch) => {
     dispatch(main.toggle_loader(true));

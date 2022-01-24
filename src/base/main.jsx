@@ -51,6 +51,7 @@ import NurseSchedule from '../pages/nurse/schedule';
 import NurseScheduleOutpatient from '../pages/nurse/schedule/outpatient';
 import NurseScheduleOutpatientExamine from '../pages/nurse/schedule/outpatient/examine';
 import PrivateRoute from '../components/organisms/privateRouter';
+import NotFound from '../pages/notFound';
 
 const Main = () => { 
   const dispatch = useDispatch();  
@@ -63,10 +64,7 @@ const Main = () => {
       <Spin spinning={loader}>
         <Switch>
           <Route exact path="/" component={Login} />
-          
-          {/* <Route exact path="/admin/dashboard" component={AdminDashboard} /> */}          
           <PrivateRoute path="/admin/dashboard" component={AdminDashboard} />
-
           <PrivateRoute exact path="/admin/data/admin" component={AdminDataAdmin} />
           <PrivateRoute exact path="/admin/data/admin/create" component={AdminDataAdminCreate} />
           <PrivateRoute exact path="/admin/data/admin/detail/:id" component={AdminDataAdminDetail} />
@@ -108,6 +106,7 @@ const Main = () => {
           <PrivateRoute exact path="/nurse/schedule" component={NurseSchedule} />
           <PrivateRoute exact path="/nurse/schedule/:id/outpatient" component={NurseScheduleOutpatient} />
           <PrivateRoute exact path="/nurse/schedule/:id/outpatient/:idOutpatient" component={NurseScheduleOutpatientExamine} />
+          <Route component={NotFound} />
         </Switch>
       </Spin> 
     </Router>

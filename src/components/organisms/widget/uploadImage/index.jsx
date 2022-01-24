@@ -1,35 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { Form, message, Button, Upload, Avatar } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { message, Button, Upload, Avatar } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
 const OrganismsWidgetUploadImage = ({ initialUploadData, handleSubmit }) => {
-  const [form] = Form.useForm();
-  useEffect(() => form.resetFields(), [initialUploadData, form]);
-  const [fileList, setfileList] = useState(false);
+  const [fileList, setfileList] = useState({});
   const handleChange = (info) => {
     setfileList(info.file)
   };
   const handleType = (file) => {
-    if (file.type !== 'image/png') {
-      message.error(`${file.name} is not a pdf file`);
+    console.log(file.type);
+    if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
+      message.error(`${file.name} is not a image file`);
     }
-    return file.type === 'image/png' ? false : Upload.LIST_IGNORE;
+    return file.type === 'image/png' || file.type === 'image/jpeg'  ? false : Upload.LIST_IGNORE;
   };
   console.log("file: ", fileList)
   return (
     <div className="o-widget-upload-image">
       <div className="o-widget-upload-image__group">
-        <Avatar shape="square" src={initialUploadData.url} />
-        <Upload listType="picture-card" className="avatar-uploader" maxCount={1} onChange={handleChange} beforeUpload={(file) => handleType(file)} >
+        <Avatar shape="square" src={`https://${initialUploadData.url}`} />
+        <Upload
+          listType="picture"
+          maxCount={1}
+          onChange={handleChange} 
+          beforeUpload={(file) => handleType(file)} 
+        >
           {
-            fileList ? null:
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>Upload</div>
-            </div>
+            // fileList ? null:
+            // <div>
+            //   <PlusOutlined />
+            //   <div style={{ marginTop: 8 }}>Upload</div>
+            // </div>
           }
+          <Button icon={<UploadOutlined />}>Upload</Button>
         </Upload>
         <Button 
           type="primary" 

@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import { 
+  ExclamationCircleOutlined,   
+  EditOutlined, 
+  DeleteOutlined  
+} from '@ant-design/icons';
 
-import { get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
+import { delete_admin_data, get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
 import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
 import OrganismsAdminDataUtilsFormSpealization from '../../../../../components/organisms/admin/data/utils/form/spealization';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const AdminDataUtilsSpealization = () => {
+  const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
-  const { confirm } = Modal;
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('name');
+  const [initialData, setInitialData] = useState([])
 
   const askToDelete = (id) => {
     confirm({
@@ -19,8 +26,8 @@ const AdminDataUtilsSpealization = () => {
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
       onOk() {
-        console.log('Delete id', id);
-      },      
+        dispatch(delete_admin_data(`specialities`, id, 'speciality_list'));
+      },
     });
   };
 
@@ -28,14 +35,27 @@ const AdminDataUtilsSpealization = () => {
   const showModal = adminState?.modal_form_utils_spealization
 
   useEffect(() => {
-    if(!showModal) {
+    if(!showModal && !name) {
       dispatch(get_data('specialities', 'speciality_list'));
     }
-  }, [dispatch, showModal]);
+  }, [dispatch, showModal, name]);
 
-  const initialSpecialityList = adminState?.speciality_list
-  // const initialSpecialityData = adminState?.speciality_data
-  console.log(initialSpecialityList)
+  const data = adminState?.speciality_list    
+  
+  useEffect(() => {    
+    if(data.length === 0 && name) {
+      dispatch(get_data('specialities', 'speciality_list'));
+    }
+    else if(name) {
+      setInitialData(data?.filter((dt) => dt.name.includes(name)));
+    } else {
+      setInitialData(data);
+    }
+  }, [dispatch, data, name]);
+
+  const handleSearch = (key) => {        
+    history.push(`/admin/data/utils?tab=1&name=${key}`);
+  }
 
   const listSpealization = {
     title: "List Spealization",
@@ -52,39 +72,27 @@ const AdminDataUtilsSpealization = () => {
           return (
             <Space size="middle">              
               <p
-                className="text-link" 
+                className="text-link"
                 onClick={() => goToEdit(record)}
               >
-                Edit
+                <EditOutlined />
               </p>
-              <p 
-                className="text-danger" 
+              <p
+                className="text-danger"
                 onClick={() => askToDelete(record.key)}
               >
-                Delete
+                <DeleteOutlined />
               </p>
             </Space>
           )
         },
       },
     ],
-    data: initialSpecialityList
+    data: initialData
   };
+  const [initialFormDataSpealization, setInitialFormDataSpealization] = useState({});    
 
-  const [initialFormDataSpealization, setInitialFormDataSpealization] = useState({}) ;
-  
-  // useEffect(() => {    
-  //   if(initialSpecialityData) {
-  //     setInitialFormDataSpealization({
-  //       title: "Edit",
-  //       data: initialSpecialityData
-  //     })
-  //     dispatch(put_data_admin("modal_form_utils_spealization", true))
-  //   }
-  // }, [initialSpecialityData]);
-
-  const goToAdd = () => {
-    console.log("adsdahjnbds")
+  const goToAdd = () => {    
     setInitialFormDataSpealization({ ...initialFormDataSpealization,  
       title: "Create",
       data: { id: 0, name: "" }
@@ -103,10 +111,8 @@ const AdminDataUtilsSpealization = () => {
   const handleSubmit = (value) => {    
     if(value.id === 0) {
       value = { name: value.name }
-      dispatch(post_admin_data("specialities", value, history, '/admin/data/utils'));
-      console.log(value);
-    } else {
-      console.log(value);
+      dispatch(post_admin_data("specialities", value, history, '/admin/data/utils'));      
+    } else {      
       dispatch(put_admin_data("specialities", value, history, '/admin/data/utils'));
     }
   }
@@ -115,7 +121,8 @@ const AdminDataUtilsSpealization = () => {
     <div className="p-admin-data-utils-spealization">
       <OrganismsWidgetList 
         list={listSpealization}
-        goToAddPage={() => goToAdd()} 
+        goToAddPage={() => goToAdd()}
+        handleSearch={handleSearch}
       />
       <OrganismsAdminDataUtilsFormSpealization
         initialFormData={initialFormDataSpealization}        

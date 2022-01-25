@@ -1,26 +1,38 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Space, Modal } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import { format } from 'date-fns';
+import { 
+  ExclamationCircleOutlined, 
+  FolderOutlined, 
+  EditOutlined, 
+  DeleteOutlined  
+} from '@ant-design/icons';
+
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
-import { delete_admin_data, get_list_doctors } from '../../../../redux/actions/admin';
+import { delete_admin_data, get_data } from '../../../../redux/actions/admin';
+
 
 const AdminDataDoctor = () => {
+  const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
-  const { confirm } = Modal;  
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('name');
+  
+  const [initialDoctorList, setInitialDoctorList] = useState(false);
+
   const askToDelete = (id) => {
     confirm({
       title: 'Are you sure delete this doctor?',
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
-      onOk() {
-        console.log('Delete id', id);
+      onOk() {        
         dispatch(delete_admin_data(`doctors`, id, 'doctor_list'));
       },      
     });
@@ -45,10 +57,33 @@ const AdminDataDoctor = () => {
   ];
 
   useEffect(() => {
-    dispatch(get_list_doctors());
-  }, [dispatch]);
-  const initialPatientList = useSelector(state => state.admin?.doctor_list)
-  console.log(initialPatientList)
+    if(!name) {
+      dispatch(get_data('doctors', 'doctor_list'));
+    }
+  }, [dispatch, name]);
+
+  let doctorList = useSelector(state => state.admin?.doctor_list)
+  useEffect(() => {    
+    if(doctorList.length === 0 && name) {
+      dispatch(get_data('doctors', 'doctor_list'));
+    } else {
+      let modifyData = doctorList && doctorList.map((dt) => ({
+        ...dt,
+        speciality: dt.speciality.name,
+        birthDate: dt && format(new Date(dt.birthDate), 'dd MMMM yyyy'),
+      }))
+      if(name) {
+        setInitialDoctorList(modifyData?.filter((dt) => dt.name.includes(name)))
+      } else {      
+        setInitialDoctorList(modifyData)
+      }
+    }
+  }, [dispatch, doctorList, name]);
+
+  const handleSearch = (key) => {
+    history.push(`/admin/data/doctor?name=${key}`)    
+    setInitialDoctorList(doctorList?.filter((dt) => dt.name.includes(key)))    
+  }
 
   const listDoctor = {
     title: "List Doctor",
@@ -69,40 +104,47 @@ const AdminDataDoctor = () => {
         key: 'phone',
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Birth Date',
+        dataIndex: 'birthDate',
+        key: 'birthDate',
       },      
       {
         title: 'Action',
-        key: 'action',
+        key: 'action',        
         render: (text, record) => {
           return (
             <Space size="middle">
-              <Link to={`/admin/data/doctor/detail/${record.key}`}>Lihat Detail</Link>
-              <Link to={`/admin/data/doctor/edit/${record.key}`}>Edit</Link>
+              <Link to={`/admin/data/doctor/detail/${record.key}`}>
+                <FolderOutlined />
+              </Link>
+              <Link to={`/admin/data/doctor/edit/${record.key}`}>
+                <EditOutlined />
+              </Link>
               <p 
-                className="text-danger" 
+                className="text-danger"
                 onClick={() => askToDelete(record.key)}
               >
-                Delete
+                <DeleteOutlined />
               </p>
             </Space>
           )
         },
       },
     ],
-    data: initialPatientList,
+    data: initialDoctorList,
   };
+
   const goToAddDoctor = () => {
     history.push("/admin/data/doctor/create")
   }
+  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-data-doctor">
         <OrganismsWidgetList 
-          goToAddPage={() => goToAddDoctor()} 
           list={listDoctor}
+          goToAddPage={() => goToAddDoctor()} 
+          handleSearch={handleSearch}
         />
         
       </div>      

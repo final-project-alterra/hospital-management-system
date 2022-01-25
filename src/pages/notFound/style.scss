@@ -1,0 +1,29 @@
+@import '../../assets/scss/colors.scss';
+
+.p-not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  h1 {
+    font-size: 2em;
+    text-align: center;
+  }
+  img {
+    width: 500px;
+    @media screen and (max-width: 576px){
+      width: 400px;    
+    }
+    @media screen and (max-width: 420px){
+      width: 300px;    
+    }
+  }
+  .btn {
+    background-color: $blue-6;
+    color: white;
+    border-radius: 20px;
+    padding: 1em 2em;
+    font-size: 1.2em;
+  }  
+}

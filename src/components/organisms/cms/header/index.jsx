@@ -1,10 +1,12 @@
 import React from 'react'
 import { Breadcrumb } from 'antd';
+import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 
 import './style.scss'
 
 const OrganismsCmsHeader = ({ breadcrumb }) => {
+  const dateNow = format(new Date(Date.now()), 'EEEE, dd MMMM yyyy')
   return (
     <div className="o-cms-header">
       <Breadcrumb>
@@ -16,6 +18,7 @@ const OrganismsCmsHeader = ({ breadcrumb }) => {
           ))
         }        
       </Breadcrumb>
+      <p className="o-cms-header__date">Date: { dateNow }</p>
     </div>
   )
 }

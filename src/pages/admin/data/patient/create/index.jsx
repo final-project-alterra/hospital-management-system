@@ -1,5 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 import OrganismsAdminDataPatientForm from '../../../../../components/organisms/admin/data/patient/form';
 import LayoutsCms from '../../../../../layouts/cms';
@@ -40,7 +41,7 @@ const AdminDataPatientCreate = () => {
       nik: '',
       name: '',
       phone: '',
-      age: '',
+      birthDate: moment(),
       gender: 'L',      
       address: '',
     }
@@ -49,8 +50,12 @@ const AdminDataPatientCreate = () => {
     history.push('/admin/data/patient');
   }  
   const handleCreate = (data) => {
-    console.log(data)
-    dispatch(post_admin_data("patients", data, history, '/admin/data/patient'));    
+    data = {
+      ...data,
+      birthDate: data.birthDate.format('YYYY-MM-DD'),
+    };
+    console.log(data);
+    dispatch(post_admin_data("patients", data, history, '/admin/data/patient'));
   }  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb} >

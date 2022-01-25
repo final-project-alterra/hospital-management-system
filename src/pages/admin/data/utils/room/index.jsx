@@ -1,25 +1,33 @@
 import React, { useState, useEffect } from 'react'
 import { Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import {
+  ExclamationCircleOutlined,
+  EditOutlined,
+  DeleteOutlined
+} from '@ant-design/icons';
 
 import OrganismsWidgetList from '../../../../../components/organisms/widget/list';
-import { get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
+import { delete_admin_data, get_data, post_admin_data, put_admin_data, put_data_admin } from '../../../../../redux/actions/admin';
 import OrganismsAdminDataUtilsFormRoom from '../../../../../components/organisms/admin/data/utils/form/room';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const AdminDataUtilsRoom = () => {
+  const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
-  const { confirm } = Modal;
+  const search = useLocation().search;
+  const keyQuery = new URLSearchParams(search).get('key');
+  const [initialData, setInitialData] = useState([])
+
+
   const askToDelete = (id) => {
     confirm({
       title: 'Are you sure delete this room?',
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
-      onOk() {
-        console.log('Delete id', id);
+      onOk() {        
+        dispatch(delete_admin_data(`rooms`, id, 'room_list'));
       },      
     });
   };
@@ -28,10 +36,28 @@ const AdminDataUtilsRoom = () => {
   const showModal = adminState?.modal_form_utils_room
 
   useEffect(() => {
-    dispatch(get_data('rooms', 'room_list'));
-  }, [dispatch, showModal]);
+    if(!showModal && !keyQuery) {
+      dispatch(get_data('rooms', 'room_list'));
+    }
+  }, [dispatch, showModal, keyQuery]);
 
-  const initialRoomList = adminState?.room_list;  
+  const data = adminState?.room_list;    
+  
+  useEffect(() => {    
+    if(data.length === 0 && keyQuery) {
+      dispatch(get_data('rooms', 'room_list'));
+    }
+    else if(keyQuery) {
+      setInitialData(data?.filter((dt) => dt.code.includes(keyQuery) || dt.floor.includes(keyQuery)));
+    } else {
+      setInitialData(data);
+    }
+  }, [dispatch, data, keyQuery]);
+
+  const handleSearch = (key) => {
+    history.push(`/admin/data/utils?tab=2&key=${key}`);
+  }
+
   const listRoom = {
     title: "List Room",
     columns: [
@@ -52,23 +78,23 @@ const AdminDataUtilsRoom = () => {
           return (
             <Space size="middle">              
               <p
-                className="text-link" 
+                className="text-link"
                 onClick={() => goToEdit(record)}
               >
-                Edit
+                <EditOutlined />
               </p>
-              <p 
-                className="text-danger" 
+              <p
+                className="text-danger"
                 onClick={() => askToDelete(record.key)}
               >
-                Delete
+                <DeleteOutlined />
               </p>
             </Space>
           )
         },
       },
     ],
-    data: initialRoomList
+    data: initialData
   };
   const [initialFormDataRoom, setInitialFormDataRoom] = useState({})  
 
@@ -89,12 +115,10 @@ const AdminDataUtilsRoom = () => {
   }
   const handleSubmit = (value) => {    
     if(value.id === 0) {
-      value = { code: value.code, floor: value.floor }
-      console.log(value);
-      dispatch(post_admin_data("rooms", value, history, '/admin/data/utils'));
+      value = { code: value.code, floor: value.floor }      
+      dispatch(post_admin_data("rooms", value, history, '/admin/data/utils?tab=2'));
     } else {
-      console.log(value);
-      dispatch(put_admin_data("rooms", value, history, '/admin/data/utils'));
+      dispatch(put_admin_data("rooms", value, history, '/admin/data/utils?tab=2'));
     }
   }
 
@@ -102,7 +126,8 @@ const AdminDataUtilsRoom = () => {
     <div className="p-admin-data-utils-spealization">
       <OrganismsWidgetList 
         list={listRoom}
-        goToAddPage={() => goToAdd()} 
+        goToAddPage={() => goToAdd()}
+        handleSearch={handleSearch}
       />      
       <OrganismsAdminDataUtilsFormRoom
         initialFormData={initialFormDataRoom}   

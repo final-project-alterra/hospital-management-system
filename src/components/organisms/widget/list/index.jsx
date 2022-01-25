@@ -1,17 +1,15 @@
 import React from 'react'
-import { Table, Input, Select, Space, Button } from 'antd';
+import { Table, Input, Select, Space, Button, DatePicker } from 'antd';
 import { PlusOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 
 import './style.scss'
 import { useSelector } from 'react-redux';
 
 const OrganismsWidgetList = (props) => {
+  const { RangePicker } = DatePicker;
   const { Search } = Input;  
   const { Option } = Select;  
 
-  const onSearch = (dt) => {
-    console.log(dt)
-  }    
   const months = useSelector(state => state.main?.months)
   return (
     <div className='o-widget-list'>
@@ -31,19 +29,24 @@ const OrganismsWidgetList = (props) => {
         <div className="o-widget-list__header-action">
           <Space size={15}>
             {
-              props.list.filterType && props.list.filterType === "month" &&
+              props.list.filterType && props.list.filterType === "month"?
               <div className="o-widget-list__header-action-filter">
                 <p>Month:</p>
                 <Select defaultValue="Januari">
                   {
                     months.map((month, key) => (
-                      <Option value={key+1}>{ month }</Option>
+                      <Option key={key} value={key+1}>{ month }</Option>
                     ))
                   }
                 </Select>
               </div>
+              :
+              props.list.filterType === "rangeDate" &&
+              <div className="o-widget-list__header-action-filter">                
+                <RangePicker onChange={props.handleFilter} />
+              </div>
             }
-            <Search placeholder="input search text" onSearch={onSearch}/>
+            <Search placeholder="input search text" onSearch={props.handleSearch}/>
             {
               props.goToAddPage && 
               <Button 

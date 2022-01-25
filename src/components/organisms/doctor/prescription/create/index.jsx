@@ -1,25 +1,19 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Modal, Form, Input, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { put_data_doctor } from '../../../../../redux/actions/doctor';
 
-const OrganismsDoctorPrescriptionCreate = () => {
+const OrganismsDoctorPrescriptionCreate = ({ handleAdd }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const modal_create_prescription = useSelector(state => state.doctor?.modal_create_prescription);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const handleOk = (value) => {    
-    console.log("form: ", value);
-    setConfirmLoading(true);
-    setTimeout(() => {
-      dispatch(put_data_doctor("modal_create_prescription", false));
-      setConfirmLoading(false);
-      form.resetFields();
-    }, 2000);
+  const modal_create_prescription = useSelector(state => state.doctor?.modal_create_prescription);  
+  const handleOk = (value) => {
+    handleAdd(value);
+    dispatch(put_data_doctor("modal_create_prescription", false));    
+    form.resetFields();  
   };
-  const handleCancel = () => {
-    console.log('Clicked cancel button');
+  const handleCancel = () => {    
     dispatch(put_data_doctor("modal_create_prescription", false));
   };
 
@@ -29,7 +23,6 @@ const OrganismsDoctorPrescriptionCreate = () => {
         title="Add Prescription"
         visible={modal_create_prescription}
         onOk={form.submit}
-        confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
         <Form 
@@ -42,16 +35,6 @@ const OrganismsDoctorPrescriptionCreate = () => {
               <>
                 {fields.map(({ key, name, fieldKey, ...restField }) => (
                   <>
-                    <Form.Item
-                      label="Disease"                      
-                      required={false}                      
-                      {...restField}
-                      name={[name, 'disease']}
-                      fieldKey={[fieldKey, 'disease']}
-                      rules={[{ required: true, message: 'Please input your disease!' }]}
-                    >
-                      <Input block />
-                    </Form.Item>
                     <Form.Item
                       label="Medicine"                      
                       required={false}

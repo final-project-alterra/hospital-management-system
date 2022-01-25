@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Modal } from 'antd';
+import * as admin from './admin';
 
 export const put_data = (key, data) => ({
 	type: "PUT_DATA",
@@ -32,8 +33,7 @@ export const get_profile_data = (url) => {
     dispatch(toggle_loader(true));
     axios
       .get(url)
-      .then((resp) => {
-        console.log("coba: ", resp.data)
+      .then((resp) => {        
         let data = resp.data.data;        
         dispatch(put_data("user_data", data))
       })
@@ -43,6 +43,30 @@ export const get_profile_data = (url) => {
       })
       .then(() => {
         dispatch(toggle_loader(false));
+      });
+  }
+}
+
+export const put_update_data = (url, payload, history, nextPage) => {
+  return (dispatch) => {
+    dispatch(toggle_loader(true));
+    axios
+      .put(url, payload)
+      .then((resp) => {        
+        history.push(nextPage);
+        dispatch(modal_success(resp.data?.meta?.message));
+      })
+      .catch((err) => {     
+        let msgErr = err?.response?.data?.message || err?.response?.data?.error?.message;        
+        dispatch(error(msgErr));
+        console.log(err);
+      })
+      .then(() => {
+        dispatch(toggle_loader(false));
+        if(url === "outpatients/cancel") {
+          let arrString = nextPage.split("/");
+          dispatch(admin.get_schedule_detail(arrString[arrString.length-1]));
+        }
       });
   }
 }

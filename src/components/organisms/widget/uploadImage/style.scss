@@ -1,0 +1,38 @@
+.o-widget-upload-image {
+  margin-top: 2em;
+  display: flex;    
+  align-items: center;
+  justify-content: center;
+  &__group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    width: 30%;
+    .ant-avatar {
+      width: 14em;
+      height: 14em;
+    }
+    & > span {
+      &:nth-child(2) {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    &-btn {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      button {
+        width: 45%;
+      }
+    }
+  }
+  // .avatar-uploader > .ant-upload-list > .ant-upload {
+  //   width: 14em;
+  //   height: 14em;
+  // }
+}

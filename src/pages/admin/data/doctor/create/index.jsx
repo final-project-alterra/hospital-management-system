@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 import OrganismsAdminDataDoctorForm from '../../../../../components/organisms/admin/data/doctor/form'
 import MoleculesGoBack from '../../../../../components/molecules/goBack';
@@ -35,7 +36,7 @@ const AdminDataDoctorCreate = () => {
     data: {
       name: '',
       phone: '',
-      age: '',
+      birthDate: moment(),
       gender: 'L',
       specialityId: 1,
       roomId: 1,
@@ -50,14 +51,16 @@ const AdminDataDoctorCreate = () => {
     dispatch(get_data('rooms', 'room_list'));
   }, [dispatch]);
 
-  const { speciality_list, room_list } = useSelector(state => state.admin)
-  console.log(speciality_list, room_list);
+  const { speciality_list, room_list } = useSelector(state => state.admin)  
 
   const goBack = () => {
     history.push('/admin/data/doctor');
   }  
   const handleCreate = (data) => {
-    console.log(data);
+    data = {
+      ...data,
+      birthDate: data.birthDate.format('YYYY-MM-DD'),
+    };
     dispatch(post_admin_data("doctors", data, history, '/admin/data/doctor'));
   }  
   return (
@@ -66,7 +69,7 @@ const AdminDataDoctorCreate = () => {
         <MoleculesGoBack title={`${initialFormData.title} Doctor`} goBack={goBack} />
         <OrganismsAdminDataDoctorForm 
           goBack={goBack}
-          initialFormData={initialFormData.data}
+          initialFormData={initialFormData}
           initialSpecialityList={speciality_list}
           initialRoomList={room_list}
           handleSubmit={(values) => handleCreate(values)} 

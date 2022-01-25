@@ -7,12 +7,10 @@ const OrganismsAdminDataUtilsFormRoom = ({ initialFormData, handleSubmit }) => {
   const [form] = Form.useForm();
   useEffect(() => form.resetFields(), [initialFormData, form]);
   const dispatch = useDispatch();
-  const modal_form_utils_room = useSelector(state => state.admin?.modal_form_utils_room);
-  console.log(modal_form_utils_room)
+  const modal_form_utils_room = useSelector(state => state.admin?.modal_form_utils_room);  
 
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const handleOk = async (value) => {    
-    console.log("form: ", value);
+  const handleOk = async (value) => {        
     setConfirmLoading(true);
     await handleSubmit(value);
     setTimeout(() => {
@@ -21,8 +19,7 @@ const OrganismsAdminDataUtilsFormRoom = ({ initialFormData, handleSubmit }) => {
       form.resetFields();
     }, 2000);
   };
-  const handleCancel = () => {
-    console.log('Clicked cancel button');
+  const handleCancel = () => {    
     dispatch(put_data_admin("modal_form_utils_room", false));
   };
 

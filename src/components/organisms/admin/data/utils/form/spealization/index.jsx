@@ -10,8 +10,7 @@ const OrganismsAdminDataUtilsFormSpealization = ({ initialFormData, handleSubmit
   const modal_form_utils_spealization = useSelector(state => state.admin?.modal_form_utils_spealization);  
 
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const handleOk = async (value) => {    
-    console.log("form: ", value);
+  const handleOk = async (value) => {
     setConfirmLoading(true);
     await handleSubmit(value);
     setTimeout(() => {

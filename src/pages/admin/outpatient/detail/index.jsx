@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import MoleculesGoBack from '../../../../components/molecules/goBack'
 import OrganismsDoctorCardPrescription from '../../../../components/organisms/doctor/card/prescription';
 import OrganismsWidgetInfo from '../../../../components/organisms/widget/info';
@@ -12,6 +12,8 @@ import './style.scss'
 const AdminOutpatientDetail = () => {
   const history = useHistory(); 
   const dispatch = useDispatch();
+  const { id } = useParams();
+
   const activeMenu = {
     key: 'outpatient',
     openKey: '',
@@ -31,13 +33,36 @@ const AdminOutpatientDetail = () => {
     },
   ];
   useEffect(() => {
-    dispatch(get_detail_outpatient())
+    dispatch(get_detail_outpatient(id))
     // eslint-disable-next-line
   }, [])
   const admin = useSelector(state => state.admin);
-  const initialOutpatientData = admin?.outpatient_data;
-  const initialPrescriptionList = admin?.prescription_list;
-  console.log("haha: ", initialPrescriptionList)
+  const outpatientData = admin?.outpatient_detail_data;
+  const initialOutpatientData = [
+    {
+      label: "Patient Name",
+      value: outpatientData?.patient?.name,
+    },
+    {
+      label: "Doctor Name",
+      value: outpatientData?.doctor?.name,
+    },
+    {
+      label: "Keluhan",
+      value: outpatientData?.complaint,
+    },
+    {
+      label: "Diagnosis",
+      value: outpatientData?.diagnosis || 'Not Finished',
+    },
+    {
+      label: "Status",
+      value: outpatientData?.status === 1? "On-Progress" : outpatientData?.status === 2? "Waiting" : outpatientData?.status === 3? "Finished": 'Canceled',
+    },
+  ];
+
+  const initialPrescriptionList = outpatientData?.prescription;
+  
   const goBack = () => {
     history.goBack()
   }

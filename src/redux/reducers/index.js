@@ -6,6 +6,7 @@ import admin from './admin';
 import main from './main';
 import auth from './auth';
 import doctor from './doctor';
+import nurse from './nurse';
 
 const rootPersistConfig = { 
   key: 'root',
@@ -33,11 +34,17 @@ const doctorPersistConfig = {
   storage: storage,  
 };
 
+const nursePersistConfig = {
+  key: 'nurse',
+  storage: storage,  
+};
+
 const rootReducer = combineReducers({  
   main: persistReducer(mainPersistConfig, main),    
   admin: persistReducer(adminPersistConfig, admin),
   doctor: persistReducer(doctorPersistConfig, doctor),    
   auth: persistReducer(authPersistConfig, auth),    
+  nurse: persistReducer(nursePersistConfig, nurse),    
 });
 
 export default persistReducer(rootPersistConfig, rootReducer);

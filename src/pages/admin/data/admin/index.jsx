@@ -1,26 +1,36 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Space, Modal } from 'antd';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom'
-import { ExclamationCircleOutlined   } from '@ant-design/icons';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'date-fns';
+import { 
+  ExclamationCircleOutlined, 
+  FolderOutlined, 
+  EditOutlined, 
+  DeleteOutlined  
+} from '@ant-design/icons';
+
+import { delete_admin_data, get_data } from '../../../../redux/actions/admin';
 import OrganismsWidgetList from '../../../../components/organisms/widget/list';
 import LayoutsCms from '../../../../layouts/cms'
 
 import './style.scss'
-import { delete_admin_data, get_data } from '../../../../redux/actions/admin';
 
 const AdminDataAdmin = () => {
+  const { confirm } = Modal;
   const dispatch = useDispatch();
   const history = useHistory();
-  const { confirm } = Modal;  
+  const search = useLocation().search;
+  const name = new URLSearchParams(search).get('name');
+
+  const [initialData, setInitialData] = useState([])
+
   const askToDelete = (id) => {
     confirm({
       title: 'Are you sure delete this admin?',
       icon: <ExclamationCircleOutlined />,
       content: 'You can undo this change',
-      onOk() {
-        console.log('Delete id', id);
+      onOk() {        
         dispatch(delete_admin_data(`admins`, id, 'admin_list'));
       },      
     });
@@ -43,12 +53,33 @@ const AdminDataAdmin = () => {
       url: '/admin/data/admin',
     },
   ];
-
+  
   useEffect(() => {
-    dispatch(get_data('admins', 'admin_list'));
-  }, [dispatch]);
-  const data = useSelector(state => state.admin?.admin_list)
-  console.log(data)
+    if(!name) {
+      dispatch(get_data('admins', 'admin_list'));
+    } 
+  }, [dispatch, name]);
+
+  const data = useSelector(state => state.admin?.admin_list)  
+  useEffect(() => {    
+    if(data.length === 0 && name) {
+      dispatch(get_data('admins', 'admin_list'));
+    } else {
+      let modifyData = data.map((dt) => ({
+        ...dt,
+        birthDate: format(new Date(dt.birthDate), 'dd MMMM yyyy'),
+      }))
+      if(name) {
+        setInitialData(modifyData?.filter((dt) => dt.name.includes(name)))
+      } else {
+        setInitialData(modifyData)
+      }
+    }
+  }, [dispatch, data, name]);
+
+  const handleSearch = (key) => {
+    history.push(`/admin/data/admin?name=${key}`)
+  }
 
   const listAdmin = {
     title: "List Admin",
@@ -64,31 +95,34 @@ const AdminDataAdmin = () => {
         key: 'phone',        
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',        
+        title: 'Birth Date',
+        dataIndex: 'birthDate',
+        key: 'birthDate',        
       },
       {
         title: 'Action',
-        key: 'action',
-        align:'center',
+        key: 'action',        
         render: (text, record) => {
           return (
             <Space size="middle">
-              <Link to={`/admin/data/admin/detail/${record.key}`}>Lihat Detail</Link>
-              <Link to={`/admin/data/admin/edit/${record.key}`}>Edit</Link>
-              <p 
-                className="text-danger" 
+              <Link to={`/admin/data/admin/detail/${record.key}`}>                
+                <FolderOutlined />
+              </Link>
+              <Link to={`/admin/data/admin/edit/${record.key}`}>
+                <EditOutlined />
+              </Link>
+              <p
+                className="text-danger"                
                 onClick={() => askToDelete(record.key)}
               >
-                Delete
+                <DeleteOutlined />
               </p>
             </Space>
           )
         },
       },
     ],
-    data
+    data: initialData,
   };
   const goToAddAdmin = () => {
     history.push("/admin/data/admin/create")
@@ -97,8 +131,9 @@ const AdminDataAdmin = () => {
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-admin-data-admin">
         <OrganismsWidgetList 
-          goToAddPage={() => goToAddAdmin()} 
           list={listAdmin}
+          goToAddPage={() => goToAddAdmin()} 
+          handleSearch={handleSearch}
         />
         
       </div>      

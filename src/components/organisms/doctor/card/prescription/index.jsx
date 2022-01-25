@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'antd'
-import { PlusOutlined, CheckOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
@@ -24,21 +24,12 @@ const OrganismsDoctorCardPrescription = ({ prescriptionList, goToCreate, isReadO
         {
           prescriptionList && prescriptionList?.map((prescription) => (
             <div className="o-doctor-card-prescription__list-item">
-              <h4>{ prescription.name }</h4>
+              <h4>{ prescription.medicine }</h4>
               <p>{ prescription.instruction }</p>
             </div>
           ))
         }        
       </div>
-      {
-        !isReadOnly &&
-        <Button
-          type="primary" 
-          icon={<CheckOutlined />}        
-        >
-          Examined
-        </Button>
-      }
     </div>
   )
 }

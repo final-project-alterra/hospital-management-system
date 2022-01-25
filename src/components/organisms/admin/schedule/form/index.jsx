@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, Select, Row, Col, Space, DatePicker, TimePicker, Checkbox  } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import './style.scss'
 
-const OrganismsAdminScheduleForm = ({ initialFormData, handleSubmit }) => {  
-  console.log(initialFormData)
+const OrganismsAdminScheduleForm = ({ goBack, initialFormData, doctorData, nurseData, handleSubmit }) => {    
   const [form] = Form.useForm();
+  useEffect(() => form.resetFields(), [initialFormData, form]);
   const dateFormat = "YYYY/MM/DD";
+  const timeFormat = "HH:mm:ss";
   const [isRepeat, setIsRepeat] = useState(initialFormData.data.scheduleEnd? true:false)
-  const handleCheckbox = (e) => {
-    console.log("ch: ", e.target.checked)
+  const handleCheckbox = (e) => {    
     setIsRepeat(e.target.checked? true : false)
   }
 
@@ -24,60 +24,94 @@ const OrganismsAdminScheduleForm = ({ initialFormData, handleSubmit }) => {
       >
         <Row gutter={16}>
           <Col span={12}>
-            <Form.Item
-              label="Schedule Start"
-              name="scheduleStart"
-              style={{ marginBottom: '1em' }}
-            >
-              <DatePicker format={dateFormat} />
-            </Form.Item>
-            <Checkbox defaultChecked={isRepeat} onChange={handleCheckbox}>
-              Repeat Schedule
-            </Checkbox>
             {
-              isRepeat &&
-              <>                
-                <Form.Item label="Every" name="every">
-                  <Select placeholder="Select Repeat">
-                    <Select.Option value="1">Day</Select.Option>
-                    <Select.Option value="2">Week</Select.Option>
-                    <Select.Option value="3">Month</Select.Option>
-                  </Select>
-                </Form.Item>
+              initialFormData.title === "Edit" ?
+              <Form.Item
+              label="Schedule"
+              name="date"
+              style={{ marginBottom: '1em' }}
+              >
+                <DatePicker format={dateFormat} />
+              </Form.Item>
+              :
+              <>              
                 <Form.Item
                   label="Schedule Start"
-                  name="scheduleStart"
+                  name="startDate"
                   style={{ marginBottom: '1em' }}
                 >
                   <DatePicker format={dateFormat} />
                 </Form.Item>
+                <Form.Item label="Every" name="repeat">
+                  <Select placeholder="Select Repeat" disabled={!isRepeat}>
+                    <Select.Option value="no-repeat">No Repeat</Select.Option>
+                    <Select.Option value="daily">Daily</Select.Option>
+                    <Select.Option value="weekly">Weekly</Select.Option>
+                    <Select.Option value="monthly">Monthly</Select.Option>
+                  </Select>
+                </Form.Item>
+                <Checkbox defaultChecked={isRepeat} onChange={handleCheckbox}>
+                  Repeat Schedule
+                </Checkbox>
+                {
+                  isRepeat &&
+                  <>                    
+                    <Form.Item
+                      label="Schedule End"
+                      name="endDate"
+                      style={{ marginBottom: '1em' }}
+                    >
+                      <DatePicker format={dateFormat} />
+                    </Form.Item>
+                  </>
+                  
+                }
               </>
-              
             }
             <Form.Item
               label="Start Time"
-              name="timeStart"
+              name="startTime"
             >
-              <TimePicker />
+              <TimePicker format={timeFormat} />
             </Form.Item>
             <Form.Item
               label="End Time"
-              name="timeEnd"
+              name="endTime"
             >
-              <TimePicker />
+              <TimePicker format={timeFormat} />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label="Doctor Name" name="doctorName">
-              <Select placeholder="Select Doctor">
-                <Select.Option value="1">dr. Strange</Select.Option>
-                <Select.Option value="2">dr. Octavius</Select.Option>
+            <Form.Item label="Doctor Name" name="doctorId">
+              <Select 
+                showSearch
+                optionFilterProp="children"
+                placeholder="Select a doctor"
+                filterOption={(input, option) =>
+                  option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                {
+                  doctorData?.map((data) => 
+                    <Select.Option value={data.id}>{ data.name }</Select.Option>
+                  )
+                }
               </Select>
             </Form.Item>                      
-            <Form.Item label="Nurse Name" name="nurseName">
-              <Select placeholder="Select Nurse">
-                <Select.Option value="1">Wanda</Select.Option>
-                <Select.Option value="2">Natasha</Select.Option>
+            <Form.Item label="Nurse Name" name="nurseId">
+              <Select 
+                showSearch
+                optionFilterProp="children"
+                placeholder="Select a nurse"
+                filterOption={(input, option) =>
+                  option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                }
+              >
+                {
+                  nurseData?.map((data) => 
+                    <Select.Option value={data.id}>{ data.name }</Select.Option>
+                  )
+                }
               </Select>
             </Form.Item>                      
           </Col>
@@ -90,12 +124,16 @@ const OrganismsAdminScheduleForm = ({ initialFormData, handleSubmit }) => {
                 htmlType="submit"
                 icon={<PlusOutlined />}
               >
-                Add Patient
+                { initialFormData.title } Schedule
               </Button>
             )}
           </Form.Item>
           <Form.Item >
-            <Button type="text" className="text-danger">
+            <Button 
+              type="text" 
+              className="text-danger"
+              onClick={goBack}
+            >
               <span className="text-danger">Cancel</span>
             </Button>
           </Form.Item>

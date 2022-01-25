@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom';
+import { format } from 'date-fns';
+
 import OrganismsAdminDashboardHighlight from '../../../components/organisms/admin/dashboard/highlight'
 import OrganismsAdminDashboardCardGroup from '../../../components/organisms/admin/dashboard/cardGroup'
 import LayoutsCms from '../../../layouts/cms'
-import { put_data_admin } from '../../../redux/actions/admin'
+import { get_data } from '../../../redux/actions/admin'
 import './style.scss'
 
 const AdminDashboard = () => {
-  const history = useHistory();  
+  const history = useHistory();
+  const [highlightData, setHighlightData] = useState([])
   const breadcrumb = [
     {
       label: 'Admin',
@@ -22,25 +25,7 @@ const AdminDashboard = () => {
   const activeMenu = {
     key: 'dashboard',
     openKey: '',
-  };
-  const highlight_data = [
-    {
-      title: "Total Patient",
-      total: "22.000"
-    },
-    {
-      title: "Total Patient",
-      total: "22.000"
-    },
-    {
-      title: "Total Doctor",
-      total: "22.000"
-    },
-    {
-      title: "Total Outpatient",
-      total: "22.000"
-    },
-  ];
+  };  
   const card_data = [
     {
       title: "Admin Data",
@@ -63,19 +48,52 @@ const AdminDashboard = () => {
   ];
   
   const dispatch = useDispatch()  
-  useEffect(() => {
-    dispatch(put_data_admin("highlight_data", highlight_data))
+  useEffect(() => {    
+    dispatch(get_data("patients", "patient_list"))
+    dispatch(get_data("doctors", "doctor_list"))
+    dispatch(get_data("outpatients", "outpatient_list"))
+    dispatch(get_data("nurses", "nurses_list"))
+    dispatch(get_data("work-schedules", "schedule_list"))
     // eslint-disable-next-line
-  }, [])
-  const highlights = useSelector(state => state.admin?.highlight_data)  
-  console.log(highlights)
+  }, [])  
+  const { patient_list, doctor_list, outpatient_list, nurses_list, schedule_list } = useSelector(state => state.admin)  
+  
+  useEffect(() => {
+    let today = schedule_list.filter(dt => dt.date === format(new Date(Date.now()), 'yyyy-MM-dd'))
+    let outpatientToday = outpatient_list.filter(dt => dt.date === format(new Date(Date.now()), 'yyyy-MM-dd'))
+    let availDoctor = today.map(dt => dt.doctor.name).filter((value, index, self) => self.indexOf(value) === index);
+    let availNurse = today.map(dt => dt.nurse.name).filter((value, index, self) => self.indexOf(value) === index);
+    console.log(availDoctor);
+    setHighlightData([
+      {
+        title: "Total Patient",
+        total: patient_list?.length,
+      },
+      {
+        title: "Total Doctor",
+        total: doctor_list?.length,
+        available: availDoctor?.length? availDoctor?.length:'-',
+      },
+      {
+        title: "Total Nurse",
+        total: nurses_list?.length,
+        available: availNurse?.length > 0? availNurse?.length:'-',
+      },
+      {
+        title: "Total Outpatient",
+        total: outpatient_list?.length,
+        today: outpatientToday?.length > 0? outpatientToday?.length:'-',
+      },
+    ]);
+  }, [patient_list, doctor_list, outpatient_list, nurses_list, schedule_list]);
+
   const goToUrl = (url) => {
     history.push(url);
   }
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className='p-admin-dashboard'>        
-        <OrganismsAdminDashboardHighlight initialHighlightData={highlights} />
+        <OrganismsAdminDashboardHighlight initialHighlightData={highlightData} />
         <OrganismsAdminDashboardCardGroup 
           initialCardData={card_data} 
           goToUrl={goToUrl}

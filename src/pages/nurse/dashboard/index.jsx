@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react'
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import OrganismsWidgetCardGroup from '../../../components/organisms/widget/cardGroup';
 import OrganismsWidgetProfile from '../../../components/organisms/widget/profile'
 import LayoutsCms from '../../../layouts/cms';
-import { get_profile_doctor } from '../../../redux/actions/doctor';
 
-const NurseDashboard = () => {
-  const dispatch = useDispatch();
+const NurseDashboard = () => {  
   const history = useHistory(); 
   const activeMenu = {
     key: 'dashboard',
@@ -31,19 +29,16 @@ const NurseDashboard = () => {
       img_url: '',
     },    
   ];
-  useEffect(() => {
-    dispatch(get_profile_doctor())
-    // eslint-disable-next-line
-  }, [])
+
   const goToUrl = (url) => {
     history.push(url)
   }
-  const initialProfileData = useSelector(state => state.doctor?.profile_data)
-  console.log(initialProfileData)
+  const { user_data } = useSelector(state => state.main)  
+  
   return (
     <LayoutsCms activeMenu={activeMenu} breadcrumb={breadcrumb}>
       <div className="p-nurse-dashboard">
-        <OrganismsWidgetProfile profileData={initialProfileData} />
+        <OrganismsWidgetProfile profileData={user_data} />
         <OrganismsWidgetCardGroup 
           cardData={initialCardData}
           goToUrl={goToUrl}

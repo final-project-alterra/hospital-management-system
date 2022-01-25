@@ -21,11 +21,10 @@ const LayoutsCms = (props) => {
   const dispatch = useDispatch();
 
   const { userJWTData } = useSelector(state => state.auth); 
-  console.log("user jwt", userJWTData)
-  const { user_data } = useSelector(state => state.main);   
+  const { user_data } = useSelector(state => state.main);
   
   useEffect(() => {
-    if(userJWTData?.role && !user_data) {
+    if(userJWTData?.role && !user_data) {      
       dispatch(get_profile_data(`${userJWTData.role}s/${userJWTData.userId}`))
     }
   }, [dispatch, userJWTData, user_data]);
@@ -47,8 +46,7 @@ const LayoutsCms = (props) => {
       setList(doctorMenu)      
     } else if (menuMode === 'nurse') {
       setList(nurseMenu)
-    }
-    console.log(list)
+    }    
   }
   const checkMenu = async () => {
     setSelectedMenu([props.activeMenu.key || '']);
@@ -57,8 +55,7 @@ const LayoutsCms = (props) => {
   const goToMenu = (url) => {
     history.push(url)
   }
-  const handleOpenChange = (key) => {
-    console.log(key)
+  const handleOpenChange = (key) => {    
     setOpenMenu(key)
   }
   const handleLogout = () => {

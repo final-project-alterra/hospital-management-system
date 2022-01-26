@@ -63,7 +63,7 @@ const AdminDashboard = () => {
     let outpatientToday = outpatient_list.filter(dt => dt.date === format(new Date(Date.now()), 'yyyy-MM-dd'))
     let availDoctor = today.map(dt => dt.doctor.name).filter((value, index, self) => self.indexOf(value) === index);
     let availNurse = today.map(dt => dt.nurse.name).filter((value, index, self) => self.indexOf(value) === index);
-    console.log(availDoctor);
+    
     setHighlightData([
       {
         title: "Total Patient",

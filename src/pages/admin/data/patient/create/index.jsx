@@ -54,7 +54,6 @@ const AdminDataPatientCreate = () => {
       ...data,
       birthDate: data.birthDate.format('YYYY-MM-DD'),
     };
-    console.log(data);
     dispatch(post_admin_data("patients", data, history, '/admin/data/patient'));
   }  
   return (

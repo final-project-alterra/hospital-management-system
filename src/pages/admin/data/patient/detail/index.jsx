@@ -41,7 +41,6 @@ const AdminDataPatientDetail = () => {
   }, [dispatch, id]);
   const initialPatientData = useSelector(state => state.admin?.patient_data);
   const { outpatient_patient_list } = useSelector(state => state.admin);
-  console.log(outpatientHistoryList)
 
   useEffect(() => {
     setoutpatientHistoryList(outpatient_patient_list)

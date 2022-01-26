@@ -47,6 +47,7 @@ const OrganismsDoctorPrescriptionCreate = ({ handleAdd }) => {
                     </Form.Item>
                     <Form.Item                       
                       label="Instruction"
+                      required={false}
                       {...restField}
                       name={[name, 'instruction']}
                       fieldKey={[fieldKey, 'instruction']}

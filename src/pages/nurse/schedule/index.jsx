@@ -53,13 +53,12 @@ const NurseSchedule = () => {
         scheduleToday = scheduleToday.filter(dt => (dt.doctor.includes(name)))
       }
       if(filterData.rangeDate) {
-        scheduleToday = scheduleToday.filter(dt => dt.schedule >= filterData.rangeDate.dateStart && dt.schedule <= filterData.rangeDate.dateEnd)
-        setInitialData(scheduleToday)
+        scheduleToday = scheduleToday.filter(dt => dt.schedule >= filterData.rangeDate.dateStart && dt.schedule <= filterData.rangeDate.dateEnd);
+        setInitialData(scheduleToday);
       } else {
-        scheduleToday = scheduleToday.filter(dt => dt.schedule === format(new Date(Date.now()), 'dd MMM yyyy'))        
+        scheduleToday = scheduleToday.filter(dt => dt.schedule === format(new Date(Date.now()), 'dd MMM yyyy'));
       }
-      setInitialData(scheduleToday)
-      console.log("FIlter:" , filterData)
+      setInitialData(scheduleToday);      
     }  
   }, [dispatch, schedule_data, name, filterData, user_data]);
 

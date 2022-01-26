@@ -50,8 +50,8 @@ const DoctorScheduleOutpatientExamine = () => {
     dispatch(get_outpatient(idOutpatient))
     // eslint-disable-next-line
   }, [])
-  const outpatientData = useSelector(state => state.doctor?.outpatient_data)  
-  console.log("masuk:", outpatientData);
+  const outpatientData = useSelector(state => state.doctor?.outpatient_data);
+
   const initialOutpatientData = [
     {
       label: "Patient Name",
@@ -96,8 +96,7 @@ const DoctorScheduleOutpatientExamine = () => {
       id: parseInt(idOutpatient),
       diagnosis: data.diagnosis,
       prescriptions: initialPrescriptionList
-    };    
-    console.log(dataExamine);
+    };
     dispatch(put_update_data(`outpatients/finish`, dataExamine, history, `/doctor/schedule`));
   }
   return (

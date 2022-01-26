@@ -77,7 +77,6 @@ const AdminDataDoctorDetail = () => {
   }, [dispatch, id, name]);
   const doctorData = useSelector(state => state.admin?.doctor_data);
   const { schedule_data } = useSelector(state => state.doctor);
-  console.log("sc", schedule_data)
 
   const initialDoctorData = [
     {
@@ -131,7 +130,6 @@ const AdminDataDoctorDetail = () => {
         scheduleFilter = scheduleFilter.filter(dt => dt.schedule === format(new Date(Date.now()), 'dd MMM yyyy'));
       }
       setInitialScheduleData(scheduleFilter);
-      console.log("FIlter:" , filterData)
     }  
   }, [dispatch, schedule_data, name, filterData, id]);
 

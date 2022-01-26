@@ -66,7 +66,7 @@ const AdminOutpatient = () => {
     } else if(filterData) {
       let outpatientFilter = outpatient_list;
       if(filterData.name) {
-        outpatientFilter = outpatientFilter.filter((dt) => dt.patientName.includes(name) || dt.date.includes(name))
+        outpatientFilter = outpatientFilter.filter((dt) => dt.patientName.includes(name) || dt.status.includes(name))
       }
       if(filterData.rangeDate) {
         outpatientFilter = outpatientFilter.filter(dt => dt.date >= filterData.rangeDate.dateStart && dt.date <= filterData.rangeDate.dateEnd)        
@@ -74,7 +74,6 @@ const AdminOutpatient = () => {
         outpatientFilter = outpatientFilter.filter(dt => dt.date === format(new Date(Date.now()), 'dd MMMM yyyy'))        
       }
       setInitialOutpatientData(outpatientFilter)
-      console.log("FIlter:" , filterData)
     }
   }, [dispatch, outpatient_list, name, filterData]);
 
@@ -125,7 +124,7 @@ const AdminOutpatient = () => {
                 <FolderOutlined />
               </Link>
               {
-                record.status !== "Finished" &&
+                record.status === "Waiting" &&
                 <Link to={`/admin/outpatient/edit/${record.key}`}>
                   <EditOutlined />
                 </Link>

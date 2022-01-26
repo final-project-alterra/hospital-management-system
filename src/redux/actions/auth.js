@@ -25,7 +25,6 @@ export const auth_login = (payload, history) => {
       })
       .catch((err) => {      
         dispatch(main.error(err?.response?.data?.error?.message));
-        console.log(err?.response?.data?.error?.message);
       })
       .then(() => {
         dispatch(main.toggle_loader(false));

@@ -52,16 +52,15 @@ const DoctorSchedule = () => {
     else if(filterData) {     
       let scheduleToday = schedule_data       
       if(filterData.name) {
-        scheduleToday = scheduleToday.filter(dt => (dt.nurse.includes(name) || dt.schedule.includes(name)))                
+        scheduleToday = scheduleToday.filter(dt => (dt.nurse.includes(name) || dt.schedule.includes(name)));
       }
       if(filterData.rangeDate) {
-        scheduleToday = scheduleToday.filter(dt => dt.schedule >= filterData.rangeDate.dateStart && dt.schedule <= filterData.rangeDate.dateEnd)
-        setInitialScheduleData(scheduleToday)
+        scheduleToday = scheduleToday.filter(dt => dt.schedule >= filterData.rangeDate.dateStart && dt.schedule <= filterData.rangeDate.dateEnd);
+        setInitialScheduleData(scheduleToday);
       } else {
-        scheduleToday = scheduleToday.filter(dt => dt.schedule === format(new Date(Date.now()), 'dd MMM yyyy'))        
+        scheduleToday = scheduleToday.filter(dt => dt.schedule === format(new Date(Date.now()), 'dd MMM yyyy'));
       }
-      setInitialScheduleData(scheduleToday)
-      console.log("FIlter:" , filterData)
+      setInitialScheduleData(scheduleToday);
     }  
   }, [dispatch, schedule_data, name, filterData, user_data]);
 

@@ -10,13 +10,12 @@ const OrganismsWidgetUploadImage = ({ initialUploadData, handleSubmit, handleDel
     setfileList(info.file)
   };
   const handleType = (file) => {
-    console.log(file.type);
     if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
       message.error(`${file.name} is not a image file`);
     }
     return file.type === 'image/png' || file.type === 'image/jpeg'  ? false : Upload.LIST_IGNORE;
   };
-  console.log("file: ", fileList)
+  
   return (
     <div className="o-widget-upload-image">
       <div className="o-widget-upload-image__group">

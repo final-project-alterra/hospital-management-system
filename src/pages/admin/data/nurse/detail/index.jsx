@@ -66,7 +66,6 @@ const AdminDataNurseDetail = () => {
   }, [dispatch, id, name]);
   const { nurse_data } = useSelector(state => state.admin);
   const { schedule_data } = useSelector(state => state.nurse);
-  console.log(schedule_data);
 
   useEffect(() => {
     if(!schedule_data && name) {
@@ -84,7 +83,6 @@ const AdminDataNurseDetail = () => {
         scheduleFilter = scheduleFilter.filter(dt => dt.schedule === format(new Date(Date.now()), 'dd MMM yyyy'));
       }
       setInitialScheduleData(scheduleFilter);
-      console.log("FIlter:" , filterData)
     }  
   }, [dispatch, schedule_data, name, filterData, id]);
 

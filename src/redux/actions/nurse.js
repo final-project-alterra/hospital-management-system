@@ -50,9 +50,8 @@ export const get_schedule_nurse = (id) => {
     axios
       .get('work-schedules')
       .then((resp) => {        
-        let data = resp.data.data.sort((a, b) => new Date(a.date) - new Date(b.date))          
-        console.log("nurse: ", data, id)
-        let newData = data.filter(dt => dt.nurse.id === id)        
+        let data = resp.data.data.sort((a, b) => new Date(a.date) - new Date(b.date));
+        let newData = data.filter(dt => dt.nurse.id === id);
         newData = newData.map((dt) => {
           return {            
             key: dt.id,
@@ -78,14 +77,18 @@ export const get_schedule_outpatient_nurse = (id) => {
     dispatch(main.toggle_loader(true));
     axios
       .get(`work-schedules/${id}`)
-      .then((resp) => {        
-        let data = resp.data.data.outpatients;              
-        data = data.map((dt) => {          
-          return {              
+      .then((resp) => {
+        let data = resp.data.data.outpatients;
+        data = data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+        data = data.map((dt, key) => ({...dt, noQueue: key+1}));
+        data = data.sort((a, b) => a.status - b.status)
+        data = data.map((dt) => {
+          return {
             key: dt.id,
+            noQueue: dt.noQueue,
             complaint: dt.complaint,
             patient: dt.patient.name,
-            status: dt.status === 1? "Finished" : dt.status === 2? "On-Progress" : dt.status === 3? "Waiting": 'Canceled',
+            status: dt.status === 1? "On-Progress" : dt.status === 2? "Waiting" : dt.status === 3? "Finished": 'Canceled',
           }
         })
         dispatch(put_data_nurse("schedule_outpatient_data", data))

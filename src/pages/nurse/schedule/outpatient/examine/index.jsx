@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { format } from 'date-fns';
+
+import { get_outpatient } from '../../../../../redux/actions/doctor';
 import MoleculesGoBack from '../../../../../components/molecules/goBack'
 import OrganismsWidgetInfo from '../../../../../components/organisms/widget/info';
 import LayoutsCms from '../../../../../layouts/cms';
-import { get_outpatient } from '../../../../../redux/actions/doctor';
 
 import './style.scss'
 
@@ -45,8 +47,20 @@ const NurseScheduleOutpatientExamine = () => {
       value: outpatientData?.patient?.name,
     },
     {
+      label: "Gender",
+      value: outpatientData?.patient?.gender === 'L'? 'Laki-laki': 'Perempuan',
+    },
+    {
+      label: "Birth Date",
+      value: outpatientData && format(new Date(outpatientData?.patient?.birthDate), 'dd MMMM yyyy'),
+    },
+    {
       label: "Doctor Name",
       value: outpatientData?.doctor?.name,
+    },
+    {
+      label: "Speciality",
+      value: outpatientData?.doctor?.specialty,
     },
     {
       label: "Keluhan",

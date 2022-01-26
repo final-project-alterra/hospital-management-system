@@ -18,7 +18,6 @@ export const get_profile_doctor = (id) => {
       })
       .catch((err) => {      
         dispatch(main.error(err?.response?.data?.error?.message));
-        console.log(err);
       })
       .then(() => {
         dispatch(main.toggle_loader(false));
@@ -36,7 +35,6 @@ export const get_doctor_data = (url, state_key) => {
       })
       .catch((err) => {      
         dispatch(main.error(err?.response?.data?.error?.message));
-        console.log(err);
       })
       .then(() => {
         dispatch(main.toggle_loader(false));
@@ -50,9 +48,7 @@ export const get_schedule_doctor = (id) => {
     axios
       .get('work-schedules')
       .then((resp) => {
-        let newData = resp.data.data.filter(dt => dt.doctor.id === id)        
-        console.log("id", id)
-        console.log("new", newData)
+        let newData = resp.data.data.filter(dt => dt.doctor.id === id);
         newData = newData.map((dt) => {
           return {            
             key: dt.id,
@@ -64,8 +60,7 @@ export const get_schedule_doctor = (id) => {
         dispatch(put_data_doctor("schedule_data", newData))
       })
       .catch((err) => {      
-        // dispatch(error(err?.response?.data))
-        console.log(err);
+        dispatch(main.error(err?.response?.data?.error?.message));
       })
       .then(() => {
         dispatch(main.toggle_loader(false));
@@ -119,7 +114,6 @@ export const get_schedule_outpatient_doctor = (id) => {
       })
       .catch((err) => {      
         dispatch(main.error(err?.response?.data?.error?.message));
-        console.log(err);
       })
       .then(() => {
         dispatch(main.toggle_loader(false));
@@ -137,7 +131,6 @@ export const get_outpatient = (id) => {
       })
       .catch((err) => {      
         dispatch(main.error(err?.response?.data?.error?.message));
-        console.log(err);
       })
       .then(() => {
         dispatch(main.toggle_loader(false));

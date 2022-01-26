@@ -22,7 +22,7 @@ const AdminSchedule = () => {
   const dispatch = useDispatch();
   const history = useHistory();  
   const search = useLocation().search;
-  const name = new URLSearchParams(search).get('name');
+  const name = new URLSearchParams(search).get('key');
   const [initialScheduleData, setInitialScheduleData] = useState([]);  
   const [filterData, setFilterData] = useState({
     name,
@@ -70,7 +70,7 @@ const AdminSchedule = () => {
     else if(filterData) {
       let scheduleToday = schedule_list       
       if(filterData.name) {
-        scheduleToday = scheduleToday.filter(dt => (dt.doctorName.includes(name) || dt.jadwal.includes(name)))                
+        scheduleToday = scheduleToday.filter(dt => (dt.doctorName.includes(name) || dt.speciality.includes(name) || dt.nurseName.includes(name)))                
       }
       if(filterData.rangeDate) {
         scheduleToday = scheduleToday.filter(dt => dt.jadwal >= filterData.rangeDate.dateStart && dt.jadwal <= filterData.rangeDate.dateEnd)
@@ -79,7 +79,6 @@ const AdminSchedule = () => {
         scheduleToday = scheduleToday.filter(dt => dt.jadwal === format(new Date(Date.now()), 'dd MMMM yyyy'))        
       }
       setInitialScheduleData(scheduleToday)
-      console.log("FIlter:" , filterData)
     }  
   }, [dispatch, schedule_list, name, filterData]);
 
@@ -88,7 +87,7 @@ const AdminSchedule = () => {
       ...filterData,
       name: key,
     })
-    history.push(`/admin/schedule?name=${key}`)
+    history.push(`/admin/schedule?key=${key}`)
   };
   
   const initialListSchedule = {

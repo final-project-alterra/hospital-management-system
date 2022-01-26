@@ -20,8 +20,8 @@ const OrganismsCmsSidebar = (props) => {
   }
   const goToMenu = (url) => {
     history.push(url)
-  }  
-  console.log("profile: ", props.profileData)
+  }
+  
   return (
     <div className='o-cms-sidebar'>
       {

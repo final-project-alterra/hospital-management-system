@@ -54,7 +54,6 @@ const DoctorScheduleOutpatient = () => {
       }
     }
   }, [dispatch, key, data, id]);
-  console.log(data)
 
   const handleSearch = (key) => {
     history.push(`/doctor/schedule/${id}/outpatient?key=${key}`);

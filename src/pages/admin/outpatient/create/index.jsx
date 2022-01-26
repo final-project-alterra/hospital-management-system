@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from 'react-redux';
 const AdminOutpatientCreate = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  console.log("history:", history)
   const { id } = useParams();
   
   const activeMenu = {

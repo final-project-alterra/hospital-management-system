@@ -57,19 +57,20 @@ jobs:
         uses: appleboy/ssh-action@master
         env:
           DOCKER_IMAGE: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:latest
+          AWS_EC2_DOCKER_PULL_WAIT_SECONDS: ${{ secrets.AWS_EC2_DOCKER_PULL_WAIT_SECONDS }}
         with:
           host: ${{ secrets.AWS_EC2_SSH_HOST }}
           port: 22
           username: ${{ secrets.AWS_EC2_USER }}
           key: ${{ secrets.AWS_EC2_SSH_KEY }}
           timeout: '5m'
-          envs: DOCKER_IMAGE
+          envs: DOCKER_IMAGE, AWS_EC2_DOCKER_PULL_WAIT_SECONDS
           script: |
-            mkdir -p ~/app && cd ~/app
+            # Wait until Docker Push may have finished completely
+            sleeps $AWS_EC2_DOCKER_PULL_WAIT_SECONDS 
 
             docker stop hospital-react
             docker rm hospital-react
 
             docker pull $DOCKER_IMAGE
-
             docker run -d --name hospital-react -p 3000:80 $DOCKER_IMAGE

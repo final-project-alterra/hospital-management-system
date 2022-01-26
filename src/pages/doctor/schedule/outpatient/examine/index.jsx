@@ -137,7 +137,7 @@ const DoctorScheduleOutpatientExamine = () => {
                     htmlType="submit"
                     icon={<CheckOutlined />}
                   >
-                    Examine
+                    Finish
                   </Button>
                 )}
               </Form.Item>

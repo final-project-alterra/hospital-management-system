@@ -29,12 +29,15 @@
     justify-content: space-between;
     flex-wrap: wrap;
     &-item {
+      margin-bottom: 1em;
       flex-basis: 45%;
       h5 {
         font-size: 1.6em;
+        margin-bottom: 0.5em;
       }
       p {
         font-size: 1.4em;
+        margin-bottom: 0;
         color: $secondary-45-color;
         padding-bottom: 0.5em;
         border-bottom: 1px solid $neutral-5;

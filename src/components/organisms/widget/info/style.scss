@@ -7,11 +7,14 @@
   &__group {
     width: 100%;
     &-item {
+      margin-bottom: 1em;
       h5 {
         font-size: 1.6em;
+        margin-bottom: 0.5em;
       }
       p {
         font-size: 1.4em;
+        margin-bottom: 0;
         font-weight: 500;
         color: $secondary-45-color;
         padding-bottom: 0.5em;

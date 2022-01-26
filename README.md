@@ -1,34 +1,46 @@
-# Hospital Management System
+# HOSPITAL MANAGEMENT SYSTEM API 🏥
 
-## Deskripsi
+### API FOR MANAGING HOSPITAL BUSINESS
 
-Website made for Final Project Course in Alterra Academy as part of Studi Independen Kampus Merdeka
+<br>
 
-## Tech Stack
+## Tech stack
 
-#### Frontend
+### Frontend (current repo)
 
-1. [ReactJS](https://nextjs.org/) (React Framework)
-2. [Ant Design](https://tailwindcss.com/) (CSS Framework)
-3. [Redux](https://www.framer.com/motion/) (State Management)
+1. [ReactJS](https://reactjs.org/) (React Framework)
+2. [Ant Design](https://ant.design/) (CSS Framework)
+3. [Redux](https://redux.js.org/) (State Management)
 
-#### Backend
+### Backend [(repo is here)](https://github.com/final-project-alterra/hospital-management-system-api)
 
-1. [Golang](https://hub.docker.com/_/golang/) 
-2. [Echo](https://github.com/gin-gonic/gin) (Golang Framework)
-3. [MySQL](https://hub.docker.com/_/redis/) (Database)
-4. [AWS](https://hub.docker.com/_/postgres) (Server)
+1. [Echo](https://echo.labstack.com/) (Golang framework)
+2. [Mysql](https://www.mysql.com/) (Database)
+3. [GORM](https://gorm.io/) (ORM)
+4. [JWT](https://jwt.io/) (Authentication)
 5. [Docker](https://www.docker.com/) (Container)
+6. [AWS EC2](https://aws.amazon.com/ec2/) (Cloud computing service)
+7. [Github action](https://github.com/features/actions) (CI/CD pipeline)
 
-## Repository
+<br>
 
-1. [Frontend](https://github.com/milhamm/noggabut2021)
-2. [Backend](https://github.com/avtara/sthira-basic-blog)
+## Documentation and References
+
+- Figma: [Here](https://www.figma.com/file/Oqtti69OA6AkOna0RE4xrk/Final-Project---Alterra-team-library?node-id=428%3A2)
+
+- Structure Folder:
+
+  - [Atomic Design](https://bradfrost.com/blog/post/atomic-web-design/)
+
+- Endpoints:
+
+  - [Notion version](https://dented-neighbor-55b.notion.site/Endpoints-a872a8843a914264998422e1dccdd684)
+  - [Swagger version](https://app.swaggerhub.com/apis/alfi2811/API_Hospital_Management_System/1.0)
+
+<br>
 
 ## Contributors
 
-1. [Muhammad Alfi Syahri Nasution](https://github.com/alfi2811)
-2. [Riza Dwi](https://github.com/avtara)
-2. [Atikah](https://github.com/avtara)
-
-## Live Demo (Optional)
+- [Atikah](https://github.com/szatk)
+- [Muhammad Alfi Nasution](https://github.com/alfi2811)
+- [Riza Dwi Andhika](https://github.com/rizadwiandhika)

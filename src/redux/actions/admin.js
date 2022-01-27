@@ -139,9 +139,7 @@ export const delete_admin_data = (url, id, state_key) => {
       })
       .then(() => {
         dispatch(main.toggle_loader(false));
-        if(url === "doctors") {
-          dispatch(get_list_doctors())
-        } else if(url === "work-schedules") {          
+        if(url === "work-schedules") {          
           dispatch(get_schedule());
         } else if(url === "outpatients") {          
           dispatch(get_outpatient());

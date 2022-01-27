@@ -18,14 +18,14 @@ const NurseDashboard = () => {
     },
     {
       label: 'Dashboard',
-      url: '/doctor/dashboard',
+      url: '/nurse/dashboard',
     },    
   ];
   const initialCardData = [
     {
       title: "Nurse Schedule",
       desc: "See Doctor’s Work Schedule to know date and time schedule in Hospital",
-      url: '/doctor/schedule',
+      url: '/nurse/schedule',
       img_url: '',
     },    
   ];

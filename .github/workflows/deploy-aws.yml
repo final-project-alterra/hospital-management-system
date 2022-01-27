@@ -67,7 +67,7 @@ jobs:
           envs: DOCKER_IMAGE, AWS_EC2_DOCKER_PULL_WAIT_SECONDS
           script: |
             # Wait until Docker Push may have finished completely
-            sleeps $AWS_EC2_DOCKER_PULL_WAIT_SECONDS 
+            sleep $AWS_EC2_DOCKER_PULL_WAIT_SECONDS 
 
             docker stop hospital-react
             docker rm hospital-react

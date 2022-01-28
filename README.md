@@ -8,7 +8,7 @@
 
 ### Frontend (current repo)
 
-1. [ReactJS](https://reactjs.org/) (React Framework)
+1. [ReactJS](https://reactjs.org/) (Javascript Framework)
 2. [Ant Design](https://ant.design/) (CSS Framework)
 3. [Redux](https://redux.js.org/) (State Management)
 

@@ -23,7 +23,6 @@ export const get_data = (url, state_key) => {
             }
           })
         }
-        console.log(data)
         dispatch(put_data_admin(state_key, data))
       })
       .catch((err) => {      
